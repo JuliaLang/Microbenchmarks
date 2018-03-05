@@ -1,4 +1,4 @@
-// This file is a part of Julia. License is MIT: https://julialang.org/license
+// This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
 libraryDependencies ++= Seq(
     "org.scalanlp" %% "breeze" % "0.10",

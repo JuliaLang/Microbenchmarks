@@ -1,4 +1,6 @@
-JULIAHOME := $(abspath ../../..)
+ifndef JULIAHOME
+$(error JULIAHOME not defined. Set value to the root of the Julia source tree.)
+endif
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
 
