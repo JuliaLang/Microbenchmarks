@@ -5,7 +5,7 @@ using Test
 using Printf
 
 
-include("../perfutil.jl")
+include("./perfutil.jl")
 
 ## recursive fib ##
 

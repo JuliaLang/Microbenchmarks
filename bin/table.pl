@@ -24,7 +24,7 @@ our @benchmarks = qw(
 );
 
 chomp(our $c_ver = `gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "`);
-chomp(our $julia_ver = `../../../julia -v | cut -f3 -d" "`);
+chomp(our $julia_ver = `$ENV{'JULIAHOME'}/usr/bin/julia -v | cut -f3 -d" "`);
 chomp(our $fortran_ver = `gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "`);
 chomp(our $python_ver = `python3 -V 2>&1 | cut -f2 -d" "`);
 chomp(our $matlab_ver = `matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n 3 | head -n 1`);
