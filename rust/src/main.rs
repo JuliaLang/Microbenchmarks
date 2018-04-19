@@ -71,22 +71,15 @@ fn mandel(z: Complex64) -> u32 {
             Some(current)
         })
         .take(80)
-        .take_while(|z| z.norm() <= 2.0)
+        .take_while(|z| z.norm_sqr() <= 4.0)
         .count() as u32
 }
 
 fn mandelperf() -> Vec<u32> {
-    let mut m: Vec<u32> = vec![0; 21 * 26];
-
-    for ((i, j), mut v) in (0..21)
-        .flat_map(|i| (0..26).map(move |j| (i, j)))
-        .zip(&mut m)
-    {
-        *v = mandel(Complex64::new((j - 20) as f64 / 10.,
-            (i - 10) as f64 / 10.));
-    }
-
-    m
+    (-10..=10).flat_map(|i| (-20..=5).map(move |j| (i, j)))
+        .map(|(i, j)| (j as f64 / 10., i as f64 / 10.))
+        .map(|(re, im)| mandel(Complex64::new(re, im)))
+        .collect()
 }
 
 fn pisum() -> f64 {
