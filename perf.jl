@@ -5,7 +5,7 @@ using Test
 using Printf
 
 
-include("../perfutil.jl")
+include("./perfutil.jl")
 
 ## recursive fib ##
 
@@ -128,8 +128,8 @@ function randmatstat(t)
         d = randn(n,n)
         P = [a b c d]
         Q = [a b; c d]
-        v[i] = trace((P'*P)^4)
-        w[i] = trace((Q'*Q)^4)
+        v[i] = tr((P'*P)^4)
+        w[i] = tr((Q'*Q)^4)
     end
     return (std(v)/mean(v), std(w)/mean(w))
 end

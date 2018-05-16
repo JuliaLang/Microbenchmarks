@@ -93,7 +93,7 @@ benchmarks/go.csv: perf.go
 	for t in 1 2 3 4 5; do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
-	for t in 1 2 3 4 5; do ../../../julia $<; done >$@
+	for t in 1 2 3 4 5; do $(JULIAHOME)/usr/bin/julia $<; done >$@
 
 benchmarks/python.csv: perf.py
 	for t in 1 2 3 4 5; do $(PYTHON) $<; done >$@

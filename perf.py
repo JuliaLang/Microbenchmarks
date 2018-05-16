@@ -95,7 +95,8 @@ def pisum():
 def parse_int(t):
     for i in range(1,t):
         n = random.randint(0,2**32-1)
-        s = string(n, base = 16)
+        s = hex(n)
+        #s = string(n, base = 16)
         if s[-1]=='L':
             s = s[0:-1]
         m = int(s,16)
