@@ -148,8 +148,8 @@ BENCHMARKS = \
 #	benchmarks/scala.csv
 
 
-benchmarks.csv: bin/collect.pl $(BENCHMARKS)
-	@$(call PRINT_PERL, $^ >$@)
+benchmarks.csv: bin/collect.jl $(BENCHMARKS)
+	@$(call PRINT_JULIA, $^ >$@)
 
 benchmarks.html: bin/table.pl benchmarks.csv
 	@$(call PRINT_PERL, $^ >$@)
