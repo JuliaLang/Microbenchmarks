@@ -39,18 +39,26 @@
     }
     console.log("javascript,parse_integers," + tmin/100);
 
-    //    for (i=0; i < 5; i++) {
-    //        t = (new Date()).getTime();	
-    //	filename = "/dev/null";
-    //	fd : StreamWriter = new StreamWriter(filepathIncludingFileName);
-    //    	  for (j=0; j < 100000; j++) {
-    //            s = j.toString();
-    //            fd.WriteLine(s + " " + s);
-    //        }
-    //        t = (new Date()).getTime()-t;
-    //        if (t < tmin) { tmin = t; }
-    //    }
-    //   console.log("javascript,print_to_file," + 9999);
+
+    // print to file
+
+    const fs = require('fs');
+    function printfd(n) {
+	let f = fs.openSync("/dev/null", "w");
+	for (let i = 1; i <= n; i++) {
+	    fs.writeSync(f, `${i} ${i + 1}\n`);
+	}
+	fs.closeSync(f);
+    }
+  
+    tmin = Number.POSITIVE_INFINITY;
+    for (i=0; i < 5; i++) {
+        t = (new Date()).getTime();
+	printfd(100000)
+	t = (new Date()).getTime()-t;
+	if (t < tmin) { tmin = t; }
+    }
+    console.log("javascript,print_to_file," + tmin);
 
     // mandelbrot set //
 
