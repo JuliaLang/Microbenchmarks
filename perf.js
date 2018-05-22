@@ -1,3 +1,5 @@
+const fs = require('fs'); // for print to file benchmark
+
 (function () {
     'use strict';
 
@@ -42,7 +44,6 @@
 
     // print to file
 
-    const fs = require('fs');
     function printfd(n) {
 	let f = fs.openSync("/dev/null", "w");
 	for (let i = 1; i <= n; i++) {
