@@ -151,8 +151,8 @@ BENCHMARKS = \
 benchmarks.csv: bin/collect.jl $(BENCHMARKS)
 	@$(call PRINT_JULIA, $^ >$@)
 
-benchmarks.html: bin/table.pl benchmarks.csv
-	@$(call PRINT_PERL, $^ >$@)
+benchmarks.html: bin/table.jl benchmarks.csv
+	@$(call PRINT_JULIA, $^ >$@)
 
 clean:
 	@rm -rf perf.h bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
