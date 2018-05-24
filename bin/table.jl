@@ -60,7 +60,7 @@ print("""
 <table class="benchmarks">
     <colgroup>
         <col class="name">
-        <col class="relative" span="$(length(benchmark_order))">
+        <col class="relative" span="$(length(language_order))">
     </colgroup>
     <thead>
         <tr><th></th>
