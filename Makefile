@@ -128,31 +128,22 @@ benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust; for t in 1 2 3 4 5; do cargo run --release -q; done >../$@
 
-BENCHMARKS = \
-	benchmarks/c.csv \
-	benchmarks/fortran.csv \
-	benchmarks/go.csv \
-	benchmarks/java.csv \
-	benchmarks/javascript.csv \
-	benchmarks/julia.csv \
-	benchmarks/lua.csv \
-	benchmarks/mathematica.csv \
-	benchmarks/matlab.csv \
-	benchmarks/octave.csv \
-	benchmarks/python.csv \
-	benchmarks/r.csv \
-	benchmarks/rust.csv
+LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
 
-# These were formerly listed in BENCHMARKS, but I can't get them to run
+# These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
-#	benchmarks/scala.csv
+#	scala
 
+BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 
-benchmarks.csv: bin/collect.pl $(BENCHMARKS)
-	@$(call PRINT_PERL, $^ >$@)
+versions.csv: bin/versions.sh
+	$^ >$@
 
-benchmarks.html: bin/table.pl benchmarks.csv
-	@$(call PRINT_PERL, $^ >$@)
+benchmarks.csv: bin/collect.jl $(BENCHMARKS)
+	@$(call PRINT_JULIA, $^ >$@)
+
+benchmarks.html: bin/table.jl versions.csv benchmarks.csv
+	@$(call PRINT_JULIA, $^ >$@)
 
 clean:
 	@rm -rf perf.h bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
