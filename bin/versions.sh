@@ -26,7 +26,7 @@ echo -n "mathematica,"
 echo quit | math -version | head -n 1 | cut -f2 -d" "
 
 echo -n "matlab,R"
-matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1
+matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1 | cut -f5 -d" " | sed "s/'//g"
 
 echo -n "octave,"
 octave -v | grep version | cut -f4 -d" "
