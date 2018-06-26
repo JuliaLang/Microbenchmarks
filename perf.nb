@@ -38,9 +38,12 @@ On[Assert];
 (* recursive fib *)
 
 ClearAll[fib];
-fib = Compile[{{n, _Integer}},
-	If[n < 2, n, fib[n - 1] + fib[n - 2]],
-	CompilationTarget -> "WVM"
+fib[nn_] := Module[{recFib},
+  Clear[recFib];
+  recFib[n_] := recFib[n] = recFib[n - 1] + recFib[n - 2];
+  recFib[0] = 0;
+  recFib[1] = 1;
+  recFib[nn]
 ];
 
 test[fib[20] == 6765];
