@@ -137,48 +137,33 @@ timeit[mandelperf[], "userfunc_mandelbrot"];
 
 (* numeric vector sort *)
 
-ClearAll[qsort];
-(* qsort[ain_, loin_, hiin_] := Module[
-	{a = ain, i = loin, j = hiin, lo = loin, hi = hiin, pivot},
-	While[ i < hi,
-		pivot = a[[BitShiftRight[lo + hi] ]];
-		While[ i <= j,
-			While[a[[i]] < pivot, i++];
-			While[a[[j]] > pivot, j--];
-			If[ i <= j,
-				a[[{i,j}]] = a[[{j, i}]];
-				i++; j--;
-			];
-		];
-		If[ lo < j, a = qsort[a, lo, j] ];
-		{lo, j} = {i, hi};
-	];
-	a
-]; *)
-qsort = Compile[
-	{{ain, _Real, 1}, {loin, _Integer}, {hiin, _Integer}},
-	Module[
-		{a = ain, i = loin, j = hiin, lo = loin, hi = hiin, pivot},
-		While[ i < hi,
-			pivot = a[[ Floor[(lo + hi)/2] ]];
-			While[ i <= j,
-				While[a[[i]] < pivot, i++];
-				While[a[[j]] > pivot, j--];
-				If[ i <= j,
-					a[[{i,j}]] = a[[{j, i}]];
-					i++; j--;
-				];
-			];
-			If[ lo < j, a[[lo;;j]] = qsort[ a[[lo;;j]], 1, j - lo + 1] ];
-			{lo, j} = {i, hi};
-		];
-		a
-	]
-];
+ClearAll[quicksortiterative];
 
+quicksortiterative = 
+  Compile[{{ain, _Real, 1}}, 
+   Module[{iter, l, h, a, stack, top, x, i, j, ai, aj}, a = ain;
+    top = 0;
+    stack = Table[0, {Length[a] + 1}];
+    stack[[++top]] = 1;
+    stack[[++top]] = Length[a];
+    While[top >= 1, h = Compile`GetElement[stack, top--];
+     l = Compile`GetElement[stack, top--];
+     x = Compile`GetElement[a, l + Quotient[h - l, 2]];
+     i = l;
+     j = h;
+     While[i <= j, ai = Compile`GetElement[a, i];
+      While[ai < x, ai = Compile`GetElement[a, ++i]];
+      aj = Compile`GetElement[a, j];
+      While[aj > x, aj = Compile`GetElement[a, --j]];
+      If[i <= j, a[[i++]] = aj;
+       a[[j--]] = ai;];];
+     If[j > l, stack[[++top]] = l; stack[[++top]] = j];
+     If[i < h, stack[[++top]] = i; stack[[++top]] = h];];
+    a], RuntimeOptions -> "Speed"
+   ];
 
 ClearAll[sortperf];
-sortperf[n_] := Module[{vec = RandomReal[1, n]}, qsort[vec, 1, n]];
+sortperf[n_] :=  Module[{vec = RandomReal[1, n]}, quicksortiterative[vec]];
 
 test[OrderedQ[sortperf[5000]] ];
 timeit[sortperf[5000], "recursion_quicksort"];
