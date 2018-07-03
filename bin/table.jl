@@ -3,6 +3,8 @@
 # This script generates the table published at https://julialang.org/benchmarks/
 # (file _includes/benchmarks.html in the JuliaLang/julialang.github.com repository)
 
+using Statistics
+
 const benchmark_order = [
     "iteration_pi_sum",
     "recursion_fibonacci",

@@ -1,6 +1,6 @@
 # This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
-using Printf, Random
+using Printf, Random, Statistics
 
 const mintrials = 5
 const mintime = 2000.0

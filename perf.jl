@@ -4,7 +4,6 @@ using LinearAlgebra
 using Test
 using Printf
 
-
 include("./perfutil.jl")
 
 ## recursive fib ##
@@ -22,8 +21,8 @@ function parseintperf(t)
         n = rand(UInt32)
         s = string(n, base = 16)
         m = UInt32(parse(Int64,s, base = 16))
+        @assert m == n
     end
-    @test m == n
     return n
 end
 
