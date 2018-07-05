@@ -51,7 +51,7 @@ const fs = require('fs'); // for print to file benchmark
 	}
 	fs.closeSync(f);
     }
-  
+
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
         t = (new Date()).getTime();

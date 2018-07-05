@@ -36,7 +36,7 @@ local function timeit(f, name, check)
         k = k + 1
         local tx, val1, val2 = elapsed(f)
         t = min(t, tx)
-        if check then 
+        if check then
             check(val1, val2)
         end
         if k > 5 and (nowutc() - s):toseconds() >= 2 then break end
@@ -62,8 +62,8 @@ local function parseint()
         n = random(lmt) -- Between 0 and 2^32 - 1, i.e. uint32_t.
         local s = format('0x%x', tonumber(n))
         m = tonumber(s)
+        assert(n == m) -- Done here to be even with Julia benchmark.
     end
-    assert(n == m) -- Done here to be even with Julia benchmark.
     return n, m
 end
 
@@ -142,13 +142,13 @@ local function pisum()
     return s
 end
 
-timeit(pisum, 'iteration_pi_sum', function(x) 
+timeit(pisum, 'iteration_pi_sum', function(x)
     assert(abs(x - 1.644834071848065) < 1e-12)
 end)
 
 local function rand(r, c)
     local x = mat(r, c)
-    for i=1,#x do 
+    for i=1,#x do
         x[i] = rng:sample()
     end
     return x
@@ -156,8 +156,8 @@ end
 
 local function randn(r, c)
     local x = mat(r, c)
-    for i=1,#x do 
-        x[i] = dist.normal(0, 1):sample(rng) 
+    for i=1,#x do
+        x[i] = dist.normal(0, 1):sample(rng)
     end
     return x
 end
@@ -175,7 +175,7 @@ local function randmatstat(t)
     return sqrt(var(v))/mean(v), sqrt(var(w))/mean(w)
 end
 
-timeit(function() return randmatstat(1000) end, 'matrix_statistics', 
+timeit(function() return randmatstat(1000) end, 'matrix_statistics',
     function(s1, s2)
         assert( 0.5 < s1 and s1 < 1.0 and 0.5 < s2 and s2 < 1.0 )
     end)

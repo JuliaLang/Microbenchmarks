@@ -6,43 +6,43 @@
 function perf()
 
 	warning off;
-	
+
 	f = fib(20);
 	assert(f == 6765)
 	timeit('recursion_fibonacci', @fib, 20)
-	
+
 	timeit('parse_integers', @parseintperf, 1000)
-	
+
 	%% array constructors %%
 
 	%o = ones(200,200);
 	%assert(all(o) == 1)
 	%timeit('ones', @ones, 200, 200)
-	
+
 	%assert(all(matmul(o) == 200))
 	%timeit('AtA', @matmul, o)
-	
+
 	mandel(complex(-.53,.68));
 	assert(sum(sum(mandelperf(true))) == 14791)
 	timeit('userfunc_mandelbrot', @mandelperf, true)
-	
+
 	assert(issorted(sortperf(5000)))
 	timeit('recursion_quicksort', @sortperf, 5000)
-	
+
 	s = pisum(true);
 	assert(abs(s-1.644834071848065) < 1e-12);
 	timeit('iteration_pi_sum',@pisum, true)
-	
+
 	%s = pisumvec(true);
 	%assert(abs(s-1.644834071848065) < 1e-12);
 	%timeit('pi_sum_vec',@pisumvec, true)
-	
+
 	[s1, s2] = randmatstat(1000);
 	assert(round(10*s1) > 5 && round(10*s1) < 10);
 	timeit('matrix_statistics', @randmatstat, 1000)
-	
+
 	timeit('matrix_multiply', @randmatmul, 1000);
-	
+
 	printfd(1)
 	timeit('print_to_file', @printfd, 100000)
 
@@ -126,7 +126,7 @@ function M = mandelperf(ignore)
     x=-2.0:.1:0.5;
     y=-1:.1:1;
     M=zeros(length(y),length(x));
-    for r=1:size(M,1) 
+    for r=1:size(M,1)
         for c=1:size(M,2)
            M(r,c) = mandel(x(c)+y(r)*i);
         end

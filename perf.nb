@@ -55,10 +55,10 @@ parseintperf[t_] := Module[
 		n = RandomInteger[{0, 4294967295}];
 		s = IntegerString[n, 16];
 		m = FromDigits[s, 16];
+		test[ m == n];
 		,
 		{i, 1, t}
 	];
-	test[ m == n];
 	n
 ];
 

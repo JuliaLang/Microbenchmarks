@@ -46,7 +46,7 @@ printfdperf = function(t) {
     for (i in 1:t) {
         s = sprintf("%d %d", i, i+1)
 	writeLines(s, fd)
-    }	
+    }
 }
 
 timeit("print_to_file", printfdperf, 100000)

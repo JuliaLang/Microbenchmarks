@@ -4,10 +4,12 @@ endif
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
 
-NODEJSBIN = nodejs
+NODEJSBIN = node8
 
 #Use python2 for Python 2.x
 PYTHON = python3
+
+OCTAVE = octave-cli
 
 ifeq ($(OS), WINNT)
 MATHEMATICABIN = MathKernel
@@ -102,7 +104,7 @@ benchmarks/matlab.csv: perf.m
 	for t in 1 2 3 4 5; do matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8; done >$@
 
 benchmarks/octave.csv: perf.m
-	for t in 1 2 3 4 5; do octave -q --eval perf 2>/dev/null; done >$@
+	for t in 1 2 3 4 5; do $(OCTAVE) -q --eval perf 2>/dev/null; done >$@
 
 benchmarks/r.csv: perf.R
 	for t in 1 2 3 4 5; do cat $< | R --vanilla --slave 2>/dev/null; done >$@
@@ -132,7 +134,7 @@ LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave pyt
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
-#	scala
+#	scala, stata
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 

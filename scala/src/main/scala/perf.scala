@@ -52,9 +52,9 @@ object PerfBreeze {
         rand = generator.nextInt()
         rands = if(rand < 0) "-" + abs(rand).toHexString else rand.toHexString
         parsed = Integer.parseInt(rands, 16)
+        assert(rand == parsed)
       }
       val t = System.nanoTime() - t1
-      assert(rand == parsed)
       if(t < tmin) tmin = t
     }
     tmin / 1000.0
