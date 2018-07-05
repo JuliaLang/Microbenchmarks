@@ -16,41 +16,46 @@ const benchmark_order = [
     "userfunc_mandelbrot",
 ]
 
-const versions = Dict{String,String}()
-const benchmarks = Dict{String,Dict{String,Float64}}()
+const versions = Dict{String, String}()
+const benchmarks = Dict{String, Dict{String, Float64}}()
 
-# read versions.csv
+# Read versions.csv
 for line in eachline(ARGS[1])
     lang, version = split(line, ',')
     versions[lang] = version
 end
 
-# read benchmarks.csv
+# Read benchmarks.csv
 for line in eachline(ARGS[2])
     lang, bench, time_str = split(line, ',')
-    times = get!(benchmarks, lang, Dict{String,Float64}())
+    times = get!(benchmarks, lang, Dict{String, Float64}())
     times[bench] = parse(Float64, time_str)
 end
 
-const labels = Dict{String,String}(
-    "c"          => "C"                ,
-    "julia"      => "Julia"            ,
-    "lua"        => "LuaJIT"           ,
-    "fortran"    => "Fortran"          ,
-    "java"       => "Java"             ,
-    "javascript" => "JavaScript"       ,
-    "matlab"     => "Matlab"           ,
-    "python"     => "Python"           ,
-    "mathematica"=> "Mathe&shy;matica" ,
-    "r"          => "R"                ,
-    "octave"     => "Octave"           ,
-    "go"         => "Go"               ,
-    "rust"       => "Rust"             ,
+const labels = Dict{String, String}(
+    "c"           => "C"                ,
+    "julia"       => "Julia"            ,
+    "lua"         => "LuaJIT"           ,
+    "fortran"     => "Fortran"          ,
+    "java"        => "Java"             ,
+    "javascript"  => "JavaScript"       ,
+    "matlab"      => "Matlab"           ,
+    "python"      => "Python"           ,
+    "mathematica" => "Mathe&shy;matica" ,
+    "r"           => "R"                ,
+    "octave"      => "Octave"           ,
+    "go"          => "Go"               ,
+    "rust"        => "Rust"             ,
 )
 
+# Produce the sorting order for the list of languages
 function lang_by(lang::String)
+    # C is placed at the start of the list
     lang == "c" ? -Inf :
+    # Julia is sorted immediately after C
     lang == "julia" ? -realmax() :
+    # The rest of the languages are sorted by the geometric mean of their benchmark values
+    # See https://en.wikipedia.org/wiki/Geometric_mean#Relationship_with_logarithms for details
     exp(mean(log.(collect(values(benchmarks[lang])))))
 end
 
