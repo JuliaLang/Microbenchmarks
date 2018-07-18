@@ -19,8 +19,8 @@ function parseintperf(t)
     local n, m
     for i=1:t
         n = rand(UInt32)
-        s = string(n, base = 16)
-        m = UInt32(parse(Int64,s, base = 16))
+        s = hex(n)
+        m = UInt32(parse(Int64, s, 16))
         @assert m == n
     end
     return n
