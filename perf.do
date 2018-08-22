@@ -1,4 +1,4 @@
-version 12
+version 14
 clear all
 
 mata // start mata code
@@ -251,11 +251,10 @@ local quicksort 5000
 local rand_mat_stat 1000
 local rand_mat_mul 1000
 
-set processors 1
 set seed 200897813
 
 tempname results
-file open `results' using `1', write append
+file open res using stata.csv, write append
 
 // RUN MATA TESTS
 qui foreach test in fib parse_int quicksort mandel pi_sum rand_mat_stat rand_mat_mul {
@@ -264,7 +263,7 @@ qui foreach test in fib parse_int quicksort mandel pi_sum rand_mat_stat rand_mat
 	mata : `test'(``test'')
 	timer off 1
 	timer list 1
-	file write `results' "stata,`test',`=r(t1) * 1000'" _n
+	file write res "stata,`test',`=r(t1) * 1000'" _n
 }
 
 // RUN STATA TESTS
@@ -274,10 +273,10 @@ qui foreach test in fib parse_int quicksort mandel pi_sum {
 	`test' ``test''
 	timer off 1
 	timer list 1
-	file write `results' "stata,`test'_stata,`=r(t1) * 1000'" _n
+	file write res "stata,`test'_stata,`=r(t1) * 1000'" _n
 }
 
 
 
-file close `results'
+file close res 
 
