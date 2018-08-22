@@ -3,7 +3,9 @@
 # This script generates the table published at https://julialang.org/benchmarks/
 # (file _includes/benchmarks.html in the JuliaLang/julialang.github.com repository)
 
-using Statistics
+using Compat
+import Compat.Statistics
+import Compat.Printf
 
 const benchmark_order = [
     "iteration_pi_sum",
@@ -53,10 +55,10 @@ function lang_by(lang::String)
     # C is placed at the start of the list
     lang == "c" ? -Inf :
     # Julia is sorted immediately after C
-    lang == "julia" ? -realmax() :
+    @compat lang == "julia" ? -floatmax() :
     # The rest of the languages are sorted by the geometric mean of their benchmark values
     # See https://en.wikipedia.org/wiki/Geometric_mean#Relationship_with_logarithms for details
-    exp(mean(log.(collect(values(benchmarks[lang])))))
+    @compat exp(Statistics.mean(log.(collect(values(benchmarks[lang])))))
 end
 
 const language_order = sort!(collect(keys(benchmarks)), by=lang_by)
@@ -94,15 +96,13 @@ print("""
     <tbody>
 """)
 
-using Printf
-
 for benchmark in benchmark_order
     println("        <tr><th>$benchmark</th>")
     c_time = benchmarks["c"][benchmark]
     for lang in language_order
         rel_time = "n/a"
         if haskey(benchmarks[lang], benchmark)
-            rel_time = @sprintf "%.2f" benchmarks[lang][benchmark]/c_time
+            @compat rel_time = Printf.@sprintf "%.2f" benchmarks[lang][benchmark]/c_time
         end
         println("            <td class=\"data\">$rel_time</td>")
     end

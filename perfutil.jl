@@ -1,6 +1,10 @@
 # This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
-using Printf, Random, Statistics
+using Compat
+import Compat.Printf
+import Compat.Random
+import Compat.Statistics
+import Compat.Sys
 
 const mintrials = 5
 const mintime = 2000.0
@@ -34,15 +38,15 @@ function submit_to_codespeed(vals,name,desc,unit,test_group,lessisbetter=true)
 
     csdata["benchmark"] = name
     csdata["description"] = desc
-    csdata["result_value"] = mean(vals)
-    csdata["std_dev"] = std(vals)
+    @compat csdata["result_value"] = Statistics.mean(vals)
+    @compat csdata["std_dev"] = Statistics.std(vals)
     csdata["min"] = minimum(vals)
     csdata["max"] = maximum(vals)
     csdata["units"] = unit
     csdata["units_title"] = test_group
     csdata["lessisbetter"] = lessisbetter
 
-    println( "$name: $(mean(vals))" )
+    @compat println( "$name: $(Statistics.mean(vals))" )
     ret = post( "http://$codespeed_host/result/add/json/", Dict("json" => json([csdata])) )
     println( json([csdata]) )
     if ret.http_code != 200 && ret.http_code != 202
@@ -63,7 +67,7 @@ macro output_timings(t,name,desc,group)
         if codespeed
             submit_to_codespeed( $t, $name, $desc, "seconds", test_group )
         elseif print_output
-            @printf "julia,%s,%f,%f,%f,%f\n" $name minimum($t) maximum($t) mean($t) std($t)
+            @compat Printf.@printf "julia,%s,%f,%f,%f,%f\n" $name minimum($t) maximum($t) Statistics.mean($t) Statistics.std($t)
         end
         GC.gc()
     end
@@ -106,17 +110,23 @@ end
 
 function maxrss(name)
     # FIXME: call uv_getrusage instead here
-    @static if Sys.islinux()
+    @compat @static if (Sys.islinux())
         rus = Vector{Int64}(uninitialized, div(144,8))
         fill!(rus, 0x0)
         res = ccall(:getrusage, Int32, (Int32, Ptr{Cvoid}), 0, rus)
         if res == 0
             mx = rus[5]/1024
-            @printf "julia,%s.mem,%f,%f,%f,%f\n" name mx mx mx 0
+            @compat Printf.@printf "julia,%s.mem,%f,%f,%f,%f\n" name mx mx mx 0
         end
     end
 end
 
 
 # seed rng for more consistent timings
-srand(1776)
+if VERSION >= v"0.7.0"
+    Random.seed!(1776)
+else
+    srand(1776)
+end
+
+#@compat Random.seed!(1776)
