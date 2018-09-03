@@ -13,7 +13,7 @@ echo -n java,
 java -version 2>&1 |grep "version" | cut -f3 -d " " | cut -c 2-9
 
 echo -n "javascript,V8 "
-nodejs -e "console.log(process.versions.v8)"
+node8 -e "console.log(process.versions.v8)"
 
 echo -n "julia,"
 $JULIAHOME/usr/bin/julia -v | cut -f3 -d" "
@@ -29,7 +29,7 @@ echo -n "matlab,R"
 matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1 | cut -f5 -d" " | sed "s/'//g"
 
 echo -n "octave,"
-octave -v | grep version | cut -f4 -d" "
+octave-cli -v | grep version | cut -f4 -d" "
 
 echo -n "python,"
 python3 -V 2>&1 | cut -f2 -d" "
