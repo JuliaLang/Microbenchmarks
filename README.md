@@ -21,6 +21,7 @@ Note that this refers to GNU Make, so BSD users will need to run `gmake`.
 * C
 * Fortran
 * Go
+* Gretl
 * Java
 * JavaScript
 * Julia
