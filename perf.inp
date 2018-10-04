@@ -1,0 +1,226 @@
+function void assert(scalar s)
+    if !s
+        funcerr "Assertion failed"
+    endif
+end function
+
+function void timeit(string desc, string f, scalar par)
+    lang = "hansl"
+    nexpt = 5
+    times = zeros(nexpt, 1)
+    loop i=1..nexpt --quiet
+        set stopwatch
+        @f(par)
+        times[i] = $stopwatch
+    endloop
+    times = msortby(times,1)
+    printf "%s,%s,%.8f\n", lang, desc, times[1]*1000
+end function
+
+
+function scalar fib(scalar n)
+    if n < 2
+        return n
+    else
+        return fib(n-1) + fib(n-2)
+    endif
+end function
+
+function scalar parseintperf(scalar t)
+    scalar m = NA
+    loop i = 1..t --quiet
+        n = randgen1(i, 0,2^31-1)
+        s = sprintf("%08x",n)
+        sscanf(s,"%x",&m)
+        if m != n
+            funcerr "???"
+        endif
+    endloop
+    return n
+end function
+
+## mandelbrot set: complex arithmetic and comprehensions ##
+
+# include ghosts.gfn
+function scalar abs2(matrix z)
+    return z[1]*z[1] + z[2]*z[2]
+end function
+
+
+function scalar mandel(matrix z)
+    scalar n = 0
+    c = z
+    loop while n<80 --quiet
+        if abs2(z)>4
+            break
+        endif
+        z2 = cmult(z,z)
+        if cols(z2) == 1
+            z2 = z2 ~ 0
+        endif
+        z = z2 + c
+        n++
+    endloop
+    return n
+end function
+
+function matrix mandelperf(scalar dummy)
+    x = seq(-20,5) * 0.1
+    y = seq(-10,10) * 0.1
+    M = zeros(cols(y),cols(x))
+    loop r = 1 .. cols(y) --quiet
+        loop c = 1 .. cols(x) --quiet
+            z = x[c] ~ y[r]
+            M[r,c] = mandel(z)
+        endloop
+    endloop
+    return M
+end function
+
+# numeric vector quicksort #
+
+function void qsort_kernel(matrix *a, scalar lo, scalar hi)
+    i = lo
+    j = hi
+    loop while i < hi --quiet
+        pivot = a[floor((lo+hi)/2)]
+        loop while i <= j --quiet
+            loop while a[i] < pivot --quiet
+                i++ 
+            endloop
+            loop while a[j] > pivot --quiet
+                j--
+            endloop
+            if i <= j
+                t = a[i]
+                a[i] = a[j]
+                a[j] = t
+                i++
+                j--
+            endif
+        endloop
+        if lo < j
+            qsort_kernel(&a, lo, j)
+        endif
+        lo = i
+        j = hi
+    endloop
+end function
+
+function matrix qsort(const matrix a)
+    ret = a
+    qsort_kernel(&ret, 1, nelem(a))
+    return ret
+end function
+
+function void sortperf(scalar n)
+    v = muniform(n,1)
+    qsort(v)
+end function
+
+function scalar pisum(scalar dummy)
+    s = 0.0
+    loop j=1..500 --quiet
+        s = 0.0
+        loop k=1..10000 --quiet
+            s += 1.0/(k*k)
+        endloop
+    endloop
+    return s
+end function
+
+## slow pi series, vectorized ##
+
+function scalar pisumvec(scalar dummy)
+    a = seq(1,10000)
+    loop j=1..500 --quiet
+        s = sumr(1./(a.^2))
+    endloop
+    return s
+end function
+
+/*
+function void mytranspose(matrix x)		# not called anywhere
+    scalar m = rows(x)
+    scalar n = cols(x)
+    matrix t = zeros(n, m)
+    loop i=1..n --quiet
+        loop j=1..m --quiet
+            t[i,j] = x[j,i]
+        endloop
+    endloop
+end function
+*/
+
+## random matrix statistics ##
+
+function matrix randmatstat(int t)
+    scalar n=5
+    matrix v = zeros(t,1)
+    matrix w = zeros(t,1)
+    loop i=1..t --quiet
+        matrix a = muniform(n, n)
+        matrix b = muniform(n, n)
+        matrix c = muniform(n, n)
+        matrix d = muniform(n, n)
+        matrix P = a~b~c~d
+        matrix Q = (a~b)|(c~d)
+        v[i] = tr((P'P)^4)
+        w[i] = tr((Q'Q)^4)
+    endloop
+    s1 = sdc(v)/meanc(v)
+    s2 = sdc(w)/meanc(w)
+    return s1 ~ s2
+end function
+
+## largish random number gen & matmul ##
+
+function void randmatmul(int n)
+    matrix X = muniform(n,n)*muniform(n,n)
+end function
+
+function void printfd(scalar n)
+    outfile null --write
+    loop i=1..n --quiet
+	printf "%d %d\n", i, i + 1
+    endloop
+    outfile --close
+end function
+
+
+function void perf()
+    set warnings off
+    f = fib(20)
+    assert(f == 6765)
+    timeit("recursion_fibonacci", "fib", 20)
+    timeit("parse_integers", "parseintperf", 1000)
+
+    M = mandel({-.53,.68})
+    assert(sumc(sumr(mandelperf(0))) == 14791)
+    timeit("userfunc_mandelbrot", "mandelperf", 0)
+
+    # "assert(issorted(sortperf(5000)))"
+	timeit("recursion_quicksort", "sortperf", 5000)
+    
+    s = pisum(0)
+    assert(abs(s-1.644834071848065) < 1e-12)
+    timeit("iteration_pi_sum", "pisum", 0)
+
+    s = pisumvec(0)
+	assert(abs(s-1.644834071848065) < 1e-12)
+    timeit("pi_sum_vec", "pisumvec", 0)
+
+    S = randmatstat(1000)
+    assert((round(10*S[,1]) > 5 && round(10*S[,1])) < 10)
+    timeit("matrix_statistics", "randmatstat", 1000)
+
+    timeit("matrix_multiply", "randmatmul", 1000)
+
+    printfd(1)
+    timeit("print_to_file", "printfd", 100000)
+
+
+end function
+
+
+perf()
