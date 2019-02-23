@@ -170,8 +170,8 @@ public class PerfPure {
     }
 
     private double randmatmul(int i) {
-        SimpleMatrix a = SimpleMatrix.random(i, i,  -1d, +1d, rand);
-        SimpleMatrix b = SimpleMatrix.random(i, i,  -1d, +1d, rand);
+        SimpleMatrix a = SimpleMatrix.random_DDRM(i, i,  -1d, +1d, rand);
+        SimpleMatrix b = SimpleMatrix.random_DDRM(i, i,  -1d, +1d, rand);
         return a.mult(b).get(0);
     }
 
@@ -182,10 +182,10 @@ public class PerfPure {
         SimpleMatrix v = new SimpleMatrix(new double[t][1]); //zeros(t,1);
         SimpleMatrix w = new SimpleMatrix(new double[t][1]); //zeros(t,1);
         for (int i=0; i < t; i++) {
-            SimpleMatrix a = SimpleMatrix.random(n, n,  -1d, +1d, rand);
-            SimpleMatrix b = SimpleMatrix.random(n, n,  -1d, +1d, rand);
-            SimpleMatrix c = SimpleMatrix.random(n, n,  -1d, +1d, rand);
-            SimpleMatrix d = SimpleMatrix.random(n, n,  -1d, +1d, rand);
+            SimpleMatrix a = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
+            SimpleMatrix b = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
+            SimpleMatrix c = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
+            SimpleMatrix d = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
 
             p.combine(0, 0*n, a);
             p.combine(0, 1*n, b);
