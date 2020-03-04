@@ -43,6 +43,7 @@ timeit("parse_integers", parseintperf, 1000)
 
 printfdperf = function(t) {
     fd<-file("/dev/null")
+    on.exit(close(fd))
     for (i in 1:t) {
         s = sprintf("%d %d", i, i+1)
 	writeLines(s, fd)
