@@ -11,6 +11,8 @@ PYTHON = python3
 
 OCTAVE = octave-cli
 
+GRETL = gretlcli
+
 ifeq ($(OS), WINNT)
 MATHEMATICABIN = MathKernel
 else ifeq ($(OS), Darwin)
@@ -94,6 +96,9 @@ benchmarks/go.csv: perf.go
 	go get github.com/gonum/stat
 	for t in 1 2 3 4 5; do go run $<; done >$@
 
+benchmarks/gretl.csv: perf.inp
+        for t in 1 2 3 4 5; do $(GRETL) $<; done >$@
+
 benchmarks/julia.csv: perf.jl
 	for t in 1 2 3 4 5; do $(JULIAHOME)/usr/bin/julia $<; done >$@
 
@@ -130,7 +135,8 @@ benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust; for t in 1 2 3 4 5; do cargo run --release -q; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
+
+LANGUAGES = c fortran go gretl java javascript julia lua mathematica matlab octave python r rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson

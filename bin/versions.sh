@@ -9,6 +9,9 @@ gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
 echo -n go,
 go version | cut -f3 -d" "
 
+echo -n gretl,
+gretlcli -v | head -n 1 | cut -f2 -d" "
+
 echo -n java,
 java -version 2>&1 |grep "version" | cut -f3 -d " " | cut -c 2-9
 
