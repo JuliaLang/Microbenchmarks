@@ -9,6 +9,7 @@ If[ Length[CCompilers[]] > 0,
 	$CompilationTarget = "C"
 ];
 
+SetOptions[Compile, RuntimeOptions -> "Speed"];
 
 ClearAll[$printOutput];
 $printOutput = True;
