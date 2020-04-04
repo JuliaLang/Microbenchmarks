@@ -38,10 +38,14 @@ On[Assert];
 (* recursive fib *)
 
 ClearAll[fib];
-fib = Compile[{{n, _Integer}},
-	If[n < 2, n, fib[n - 1] + fib[n - 2]],
-	CompilationTarget -> "WVM"
-];
+fib = FunctionCompile[
+   Function[{Typed[n, "Integer64"]},
+    Module[{f},
+     f = Function[x, If[x < 2, x, f[x - 1] + f[x - 2]]];
+     f[n]
+     ]
+    ]
+   ];
 
 test[fib[20] == 6765];
 timeit[fib[20], "recursion_fibonacci"];
@@ -113,19 +117,21 @@ ClearAll[mandel];
 	];
 	maxiter
 ];*)
-mandel = Compile[{{zin, _Complex}},
-	Module[
-		{z = zin, c = zin, maxiter = 80, n = 0},
-		Do[
-			If[ Abs[z] > 2,
-				maxiter = n-1;
-				Break[]
+mandel = With[{ Abs2 = Re[#] Re[#] + Im[#] Im[#] & },
+		Compile[{{zin, _Complex}},
+		Module[
+			{z = zin, c = zin, maxiter = 80, n = 0},
+			Do[
+				If[ Abs2[z] > 4,
+					maxiter = n-1;
+					Break[]
+				];
+				z = z^2 + c;
+				,
+				{n, 1, maxiter}
 			];
-			z = z^2 + c;
-			,
-			{n, 1, maxiter}
-		];
-		maxiter
+			maxiter
+		]
 	]
 ];
 
