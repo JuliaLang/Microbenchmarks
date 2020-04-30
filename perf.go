@@ -3,45 +3,42 @@
 // Three gonum packages must be installed, and then an additional environment
 // variable must be set to use the BLAS installation.
 // To install the gonum packages, run:
-// 		go get github.com/gonum/blas
-//		go get github.com/gonum/matrix/mat64
-//		go get github.com/gonum/stat
+// 		go get gonum.org/v1/netlib/blas/netlib
+//		go get gonum.org/v1/gonum/mat
+//		go get gonum.org/v1/gonum/stat
 // The cgo ldflags must then be set to use the BLAS implementation. As an example,
 // download OpenBLAS to ~/software
 //		git clone https://github.com/xianyi/OpenBLAS
 // 		cd OpenBLAS
 //		make
-// Then edit the enivorment variable to have
+// Then edit the environment variable to have
 // 		export CGO_LDFLAGS="-L/$HOME/software/OpenBLAS -lopenblas"
 package main
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"log"
 	"math"
-//	"math/cmplx"
 	"math/rand"
+	"os"
 	"strconv"
 	"testing"
-	"os"
-	"bufio"
 
-	"github.com/gonum/blas/blas64"
-	"github.com/gonum/blas/cgo"
-	"github.com/gonum/matrix/mat64"
-	"github.com/gonum/stat"
+	"gonum.org/v1/gonum/mat"
+	"gonum.org/v1/gonum/stat"
+	"gonum.org/v1/netlib/blas/netlib"
 )
 
 func init() {
 	// Use the BLAS implementation specified in CGO_LDFLAGS. This line can be
 	// commented out to use the native Go BLAS implementation found in
-	// github.com/gonum/blas/native.
-	//blas64.Use(cgo.Implementation{})
+	// gonum.org/v1/gonum/blas/gonum.
+	//blas64.Use(gonum.Implementation{})
 
 	// These are here so that toggling the BLAS implementation does not make imports unused
-	_ = cgo.Implementation{}
-	_ = blas64.General{}
+	_ = netlib.Implementation{}
 }
 
 // fibonacci
@@ -111,10 +108,10 @@ func randmatstat(t int) (float64, float64) {
 	bd := make([]float64, n*n)
 	cd := make([]float64, n*n)
 	dd := make([]float64, n*n)
-	P := mat64.NewDense(n, 4*n, nil)
-	Q := mat64.NewDense(2*n, 2*n, nil)
-	pTmp := mat64.NewDense(4*n, 4*n, nil)
-	qTmp := mat64.NewDense(2*n, 2*n, nil)
+	P := mat.NewDense(n, 4*n, nil)
+	Q := mat.NewDense(2*n, 2*n, nil)
+	pTmp := mat.NewDense(4*n, 4*n, nil)
+	qTmp := mat.NewDense(2*n, 2*n, nil)
 	for i := 0; i < t; i++ {
 		for i := range ad {
 			ad[i] = rnd.NormFloat64()
@@ -122,19 +119,19 @@ func randmatstat(t int) (float64, float64) {
 			cd[i] = rnd.NormFloat64()
 			dd[i] = rnd.NormFloat64()
 		}
-		a := mat64.NewDense(n, n, ad)
-		b := mat64.NewDense(n, n, bd)
-		c := mat64.NewDense(n, n, cd)
-		d := mat64.NewDense(n, n, dd)
+		a := mat.NewDense(n, n, ad)
+		b := mat.NewDense(n, n, bd)
+		c := mat.NewDense(n, n, cd)
+		d := mat.NewDense(n, n, dd)
 		P.Copy(a)
-		P.View(0, n, n, n).(*mat64.Dense).Copy(b)
-		P.View(0, 2*n, n, n).(*mat64.Dense).Copy(c)
-		P.View(0, 3*n, n, n).(*mat64.Dense).Copy(d)
+		P.Slice(0, n, n, n+n).(*mat.Dense).Copy(b)
+		P.Slice(0, n, 2*n, 3*n).(*mat.Dense).Copy(c)
+		P.Slice(0, n, 3*n, 4*n).(*mat.Dense).Copy(d)
 
 		Q.Copy(a)
-		Q.View(0, n, n, n).(*mat64.Dense).Copy(b)
-		Q.View(n, 0, n, n).(*mat64.Dense).Copy(c)
-		Q.View(n, n, n, n).(*mat64.Dense).Copy(d)
+		Q.Slice(0, n, n, 2*n).(*mat.Dense).Copy(b)
+		Q.Slice(n, 2*n, 0, n).(*mat.Dense).Copy(c)
+		Q.Slice(n, 2*n, n, 2*n).(*mat.Dense).Copy(d)
 
 		pTmp.Mul(P.T(), P)
 		pTmp.Pow(pTmp, 4)
@@ -142,8 +139,8 @@ func randmatstat(t int) (float64, float64) {
 		qTmp.Mul(Q.T(), Q)
 		qTmp.Pow(qTmp, 4)
 
-		v[i] = mat64.Trace(pTmp)
-		w[i] = mat64.Trace(qTmp)
+		v[i] = mat.Trace(pTmp)
+		w[i] = mat.Trace(qTmp)
 	}
 	mv, stdv := stat.MeanStdDev(v, nil)
 	mw, stdw := stat.MeanStdDev(v, nil)
@@ -152,19 +149,19 @@ func randmatstat(t int) (float64, float64) {
 
 // randmatmul
 
-func randmatmul(n int) *mat64.Dense {
+func randmatmul(n int) *mat.Dense {
 	aData := make([]float64, n*n)
 	for i := range aData {
 		aData[i] = rnd.Float64()
 	}
-	a := mat64.NewDense(n, n, aData)
+	a := mat.NewDense(n, n, aData)
 
 	bData := make([]float64, n*n)
 	for i := range bData {
 		bData[i] = rnd.Float64()
 	}
-	b := mat64.NewDense(n, n, bData)
-	var c mat64.Dense
+	b := mat.NewDense(n, n, bData)
+	var c mat.Dense
 	c.Mul(a, b)
 	return &c
 }
