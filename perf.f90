@@ -13,7 +13,7 @@ use types, only: dp, i64
 implicit none
 private
 public trace, mean, std, init_random_seed, randn, assert, stop_error, &
-     sysclock2ms
+     sysclock2ms, hex_string
 
 contains
 
@@ -142,6 +142,44 @@ function sysclock2ms(t)
   r = 1000._dp / rate
   sysclock2ms = t * r
 end function sysclock2ms
+
+! Convert an integer to a hex string
+!
+subroutine hex_string(dec,hexchar)
+  integer, intent(in) :: dec
+  character(*) :: hexchar
+  character(len(hexchar)) :: tempchar
+
+  integer :: i
+  integer :: quotient, remainder
+
+  character(len=1), parameter :: table(0:15) = &
+  [(char(i),i=ichar('0'),ichar('9')),(char(i),i=ichar('A'),ichar('F'))]
+
+  quotient = dec
+  
+  hexchar(:) = ' '
+  tempchar(:) = ' '
+
+  i = 1
+  do while (quotient /= 0 .and. i <= len(hexchar))
+
+      remainder = modulo(quotient,16)
+
+      tempchar(i:i) = table(remainder)
+      i = i+1
+
+      quotient = quotient/16
+
+  end do
+
+  do i=1,len_trim(tempchar)
+
+      hexchar(i:i) = tempchar(len_trim(tempchar)-i+1:len_trim(tempchar)-i+1)
+
+  end do
+
+end subroutine hex_string
 
 end module
 
@@ -324,7 +362,7 @@ end module
 
 program perf
 use types, only: dp, i64
-use utils, only: assert, init_random_seed, sysclock2ms
+use utils, only: assert, init_random_seed, sysclock2ms, hex_string
 use bench, only: fib, parse_int, printfd, quicksort, mandelperf, pisum, randmatstat, &
     randmatmul
 implicit none
@@ -357,7 +395,7 @@ do i = 1, 5
         do k = 1, 1000
             call random_number(s1)
             n = int(s1*huge(n))
-            write(s, '(z0)') n
+            call hex_string(n,s)
             m = parse_int(s(:len_trim(s)), 16)
             call assert(m == n)
         end do
