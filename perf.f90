@@ -154,7 +154,7 @@ subroutine hex_string(dec,hexchar)
   integer :: quotient, remainder
 
   character(len=1), parameter :: table(0:16) = &
-  [(char(i),i=48,57),(char(i),i=65,71)]
+  [(char(i),i=ichar('0'),ichar('9')),(char(i),i=ichar('A'),ichar('G'))]
 
   quotient = dec
   
