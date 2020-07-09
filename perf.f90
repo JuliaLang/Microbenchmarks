@@ -153,8 +153,8 @@ subroutine hex_string(dec,hexchar)
   integer :: i
   integer :: quotient, remainder
 
-  character(len=1), parameter :: table(0:16) = &
-  [(char(i),i=ichar('0'),ichar('9')),(char(i),i=ichar('A'),ichar('G'))]
+  character(len=1), parameter :: table(0:15) = &
+  [(char(i),i=ichar('0'),ichar('9')),(char(i),i=ichar('A'),ichar('F'))]
 
   quotient = dec
   
