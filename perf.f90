@@ -207,23 +207,21 @@ integer function parse_int(s, base) result(n)
 character(len=*), intent(in) :: s
 integer, intent(in) :: base
 integer :: i, d
-
-integer, parameter :: table(0:127) = [integer::&
-[(-1,i=1,48)], &  
-[(i,i=0,9)], &     ! 0-9
-[(-1,i=1,7)], &
-[(10+i,i=0,25)], & ! A-Z
-[(-1,i=1,7)], &
-[(10+i,i=0,25)], & ! a-z
-[(-1,i=1,4)] &
-]
-
+character :: c
 n = 0
 do i = 1, len(s)
-    
-    d = table(iachar(s(i:i)))
+    c = s(i:i)
+    d = 0
+    if (ichar(c) >= ichar('0') .and. ichar(c) <= ichar('9')) then
+        d = ichar(c) - ichar('0')
+    else if (ichar(c) >= ichar('A') .and. ichar(c) <= ichar('Z')) then
+        d = ichar(c) - ichar('A') + 10
+    else if (ichar(c) >= ichar('a') .and. ichar(c) <= ichar('z')) then
+        d = ichar(c) - ichar('a') + 10
+    else
+        call stop_error("parse_int 1")
+    end if
 
-    if (d < 0 ) call stop_error("bench:parse_int - Illegal character in input")
     if (base <= d) call stop_error("parse_int 2")
     n = n*base + d
 end do
