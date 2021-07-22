@@ -17,11 +17,12 @@ timeit = function(name, f, ..., times=5) {
 ## fib ##
 
 fib = function(n) {
-    if (n < 2) {
-        return(n)
-    } else {
-        return(fib(n-1) + fib(n-2))
-    }
+    if (n < 2) return(n)
+    if (n == 2) return(1)
+    k = integer(n)
+    k[1:2] = c(1L, 1L)
+    for (i in 3:n) k[i] = k[i - 1] + k[i - 2]
+    return(k[n])
 }
 
 assert(fib(20) == 6765)
