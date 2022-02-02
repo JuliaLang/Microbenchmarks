@@ -70,7 +70,7 @@ public class PerfPure {
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
         }
-        assert(mandel_sum == 14720) : "value was "+mandel_sum;
+        assert(mandel_sum == 14791) : "value was "+mandel_sum;
         print_perf("userfunc_mandelbrot", tmin);
 
         // sort
@@ -293,13 +293,12 @@ public class PerfPure {
     }
 
     private int mandel(double zReal, double zImag) {
-        int n = 0;
         double cReal = zReal;
         double cImag = zImag;
-        for (n=0; n<=79; ++n) {
+        int maxIter = 80;
+        for (int n=0; n<maxIter; n++) {
             if (complexAbs2(zReal,zImag) > 4.0) {
-                n -= 1;
-                break;
+                return n;
             }
 
             // z^2
@@ -311,7 +310,7 @@ public class PerfPure {
             zImag = zSquaredImag+cImag;
 
         }
-        return n+1;
+        return maxIter;
     }
 
     private double complexAbs(double zReal, double zImag) {
@@ -324,9 +323,9 @@ public class PerfPure {
 
     protected int mandelperf() {
         int mandel_sum = 0;
-        for (double re=-2.0; re<=0.5; re+=0.1) {
-            for (double im=-1.0; im<=1.0; im+=0.1) {
-                int m = mandel(re,im);
+        for (double re=-20; re<=5; re+=1) {
+            for (double im=-10; im<=10; im+=1) {
+                int m = mandel(re/10,im/10);
                 mandel_sum += m;
             }
         }
