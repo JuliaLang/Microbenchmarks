@@ -1,41 +1,72 @@
 #!/usr/bin/env bash
 
-echo -n "c,gcc "
-gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+# User argument declaring what languages to query:
+DEFAULT_LANGUAGES=",c,fortran,go,java,javascript,julia,lua,mathematica,matlab,octave,python,r,rust,"
+LANGUAGES=${1:-DEFAULT_LANGUAGES}
 
-echo -n "fortran,gcc "
-gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+# Check if ",c," in languages:
+if [[ $LANGUAGES == *",c,"* ]]; then
+    echo -n "c,gcc "
+    gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+fi
 
-echo -n go,
-go version | cut -f3 -d" "
+if [[ $LANGUAGES == *",fortran,"* ]]; then
+    echo -n "fortran,gcc "
+    gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+fi
 
-echo -n java,
-java -version 2>&1 |grep "version" | cut -f3 -d " " | cut -c 2-9
+if [[ $LANGUAGES == *",go,"* ]]; then
+    echo -n go,
+    go version | cut -f3 -d" "
+fi
 
-echo -n "javascript,V8 "
-node8 -e "console.log(process.versions.v8)"
+if [[ $LANGUAGES == *",java,"* ]]; then
+    echo -n java,
+    java -version 2>&1 |grep "version" | cut -f3 -d " " | cut -c 2-9
+fi
 
-echo -n "julia,"
-$JULIAHOME/usr/bin/julia -v | cut -f3 -d" "
+if [[ $LANGUAGES == *",javascript,"* ]]; then
+    echo -n "javascript,V8 "
+    node8 -e "console.log(process.versions.v8)"
+fi
 
-echo -n "lua,"
-# scilua -v 2>&1 | grep Shell | cut -f3 -d" " | cut -f1 -d,
-echo scilua v1.0.0-b12
+if [[ $LANGUAGES == *",julia,"* ]]; then
+    echo -n "julia,"
+    $JULIAHOME/usr/bin/julia -v | cut -f3 -d" "
+fi
 
-echo -n "mathematica,"
-echo quit | math -version | head -n 1 | cut -f2 -d" "
+if [[ $LANGUAGES == *",lua,"* ]]; then
+    echo -n "lua,"
+    # scilua -v 2>&1 | grep Shell | cut -f3 -d" " | cut -f1 -d,
+    echo scilua v1.0.0-b12
+fi
 
-echo -n "matlab,R"
-matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1 | cut -f5 -d" " | sed "s/'//g"
+if [[ $LANGUAGES == *",mathematica,"* ]]; then
+    echo -n "mathematica,"
+    echo quit | math -version | head -n 1 | cut -f2 -d" "
+fi
 
-echo -n "octave,"
-octave-cli -v | grep version | cut -f4 -d" "
+if [[ $LANGUAGES == *",matlab,"* ]]; then
+    echo -n "matlab,R"
+    matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1 | cut -f5 -d" " | sed "s/'//g"
+fi
 
-echo -n "python,"
-python3 -V 2>&1 | cut -f2 -d" "
+if [[ $LANGUAGES == *",octave,"* ]]; then
+    echo -n "octave,"
+    octave-cli -v | grep version | cut -f4 -d" "
+fi
 
-echo -n "r,"
-R --version | grep "R version" | cut -f3 -d" "
+if [[ $LANGUAGES == *",python,"* ]]; then
+    echo -n "python,"
+    python3 -V 2>&1 | cut -f2 -d" "
+fi
 
-echo -n "rust,"
-(cd rust; rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g')
+if [[ $LANGUAGES == *",r,"* ]]; then
+    echo -n "r,"
+    R --version | grep "R version" | cut -f3 -d" "
+fi
+
+if [[ $LANGUAGES == *",rust,"* ]]; then
+    echo -n "rust,"
+    (cd rust; rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g')
+fi
