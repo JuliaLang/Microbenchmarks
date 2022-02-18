@@ -1,0 +1,55 @@
+name: Benchmarks
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+    branches:
+      - '*'
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        julia-version: ['1.7.1']
+        python-version: ['3.9']
+        # TODO: Add numpy version
+        gfortran-version: ['9']
+        rust-version: ['1.42.0']
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: "Update Ubuntu packages"
+        run: |
+          apt-get update
+          apt-get install -y aptitude
+          add-apt-repository ppa:ubuntu-toolchain-r/test
+          apt-get update
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v1.6.0
+        with:
+          version: ${{ matrix.julia-version }}
+      - name: "Install Julia source tree"
+        run: git clone https://github.com/JuliaLang/Julia $HOME/julia-src
+      - name: "Set up Python and NumPy"
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          pip-packages: numpy
+      - name: "Set up fortran"
+        run: apt-get install -y gfortran-${{ matrix.gfortran-version }}
+      - name: "Set up Rust"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust-version }}
+      - name: "Run benchmark"
+        run: JULIAHOME=$HOME/julia-src make gh_action_benchmarks.csv
