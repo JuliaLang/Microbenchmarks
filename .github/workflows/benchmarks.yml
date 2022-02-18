@@ -22,6 +22,7 @@ jobs:
         os: [ubuntu-latest]
         julia-version: ['1.7.1']
         python-version: ['3.9']
+        numpy-version: ['1.22']
         # TODO: Add numpy version
         gfortran-version: ['9']
         rust-version: ['1.42.0']
@@ -40,11 +41,12 @@ jobs:
           version: ${{ matrix.julia-version }}
       - name: "Install Julia source tree"
         run: git clone https://github.com/JuliaLang/Julia $HOME/julia-src
-      - name: "Set up Python and NumPy"
+      - name: "Set up Python"
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-          pip-packages: numpy
+      - name: "Set up NumPy"
+        run: pip install numpy==${{ matrix.numpy-version }}
       - name: "Set up fortran"
         run: sudo apt-get install -y gfortran-${{ matrix.gfortran-version }}
       - name: "Set up Rust"
