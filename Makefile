@@ -22,8 +22,8 @@ endif
 #Which BLAS library am I using?
 ifeq ($(USE_SYSTEM_BLAS), 0)
 BLASMANIFEST=$(shell cat $(JULIAHOME)/usr/manifest/openblas)
-BLASDIR=$(JULIAHOME)/deps/scratch/$(BLASMANIFEST)/
-LIBBLAS=$(BLASDIR)$(LIBBLASNAME).a
+BLASDIR=$(shell echo $(JULIAHOME)/deps/scratch/$(BLASMANIFEST)/ | sed 's! !\\ !g'))
+LIBBLAS=$(shell echo $(BLASDIR)$(LIBBLASNAME).a | sed 's! !\\ !g')
 endif
 
 FFLAGS=-fexternal-blas
