@@ -23,9 +23,10 @@ endif
 
 #Which BLAS library am I using?
 ifeq ($(USE_SYSTEM_BLAS), 0)
-BLASMANIFEST=$(shell cat $(JULIAHOME)/usr/manifest/openblas)
-BLASDIR=$(shell echo $(JULIAHOME)/deps/scratch/$(BLASMANIFEST)/ | sed 's! !\\ !g')
-LIBBLAS=$(shell echo $(BLASDIR)$(LIBBLASNAME).a | sed 's! !\\ !g')
+# manifest contains `blasmanifest bb-uninstaller`, so we need to cut the second part:
+BLASMANIFEST=$(shell cat $(JULIAHOME)/usr/manifest/openblas | cut -d' ' -f1)
+BLASDIR=$(JULIAHOME)/deps/scratch/$(BLASMANIFEST)/
+LIBBLAS=$(BLASDIR)$(LIBBLASNAME).a
 endif
 
 FFLAGS=-fexternal-blas
