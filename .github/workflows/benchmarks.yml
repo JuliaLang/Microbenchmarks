@@ -62,5 +62,4 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
-        # run: JULIAHOME=~/julia make gh_action_benchmarks.csv
-        run: echo "Empty."
+        run: JULIAHOME=~/julia make gh_action_benchmarks.csv
