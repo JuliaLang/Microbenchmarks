@@ -46,7 +46,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
           pip-packages: numpy
       - name: "Set up fortran"
-        run: apt-get install -y gfortran-${{ matrix.gfortran-version }}
+        run: sudo apt-get install -y gfortran-${{ matrix.gfortran-version }}
       - name: "Set up Rust"
         uses: actions-rs/toolchain@v1
         with:
