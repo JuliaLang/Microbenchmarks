@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/julia
-          key: ${{ runner.os }}-${{ matrix.julia-version }}
+          key: ${{ runner.os }}-v${{ matrix.julia-version }}
       - name: Build Julia
         if: steps.cache-julia.outputs.cache-hit != 'true'
         uses: julia-actions/build-julia@v1
