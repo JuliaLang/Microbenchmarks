@@ -25,6 +25,7 @@ jobs:
         numpy-version: ['1.22']
         gfortran-version: ['9']
         rust-version: ['1.42.0']
+        go-version: ['1.17.4']
     
     steps:
       - uses: actions/checkout@v2
@@ -57,5 +58,8 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           toolchain: ${{ matrix.rust-version }}
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: JULIAHOME=~/julia make gh_action_benchmarks.csv
