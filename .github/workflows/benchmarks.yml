@@ -23,7 +23,6 @@ jobs:
         julia-version: ['1.7.1']
         python-version: ['3.9']
         numpy-version: ['1.22']
-        # TODO: Add numpy version
         gfortran-version: ['9']
         rust-version: ['1.42.0']
     
@@ -33,7 +32,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y aptitude
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
           sudo apt-get update
       - name: "Set up Julia"
         uses: julia-actions/setup-julia@v1.6.0
@@ -52,6 +51,4 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
       - name: "Run benchmark"
-        run: |
-          find / -name 'openblas' 2>/dev/null
-          JULIAHOME=$HOME/usr make gh_action_benchmarks.csv
+        run: JULIAHOME=/ make gh_action_benchmarks.csv
