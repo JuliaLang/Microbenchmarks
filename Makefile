@@ -131,20 +131,31 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust; for t in 1 2 3 4 5; do cargo run --release -q; done >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
+GH_ACTION_LANGUAGES = c fortran julia python rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
 #	scala, stata
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
+GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
 
 versions.csv: bin/versions.sh
 	$^ >$@
 
+gh_action_versions.csv: bin/versions.sh
+	bin/versions.sh ",c,fortran,julia,python,rust," >$@
+
 benchmarks.csv: bin/collect.jl $(BENCHMARKS)
 	@$(call PRINT_JULIA, $^ >$@)
 
+gh_action_benchmarks.csv: bin/collect.jl $(GH_ACTION_BENCHMARKS)
+	@$(call PRINT_JULIA, $^ >$@)
+
 benchmarks.html: bin/table.jl versions.csv benchmarks.csv
+	@$(call PRINT_JULIA, $^ >$@)
+
+gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchmarks.csv
 	@$(call PRINT_JULIA, $^ >$@)
 
 clean:
