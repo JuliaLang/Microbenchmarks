@@ -39,8 +39,6 @@ jobs:
         uses: julia-actions/setup-julia@v1.6.0
         with:
           version: ${{ matrix.julia-version }}
-      - name: "Install Julia source tree"
-        run: git clone https://github.com/JuliaLang/Julia $HOME/julia-src
       - name: "Set up Python"
         uses: actions/setup-python@v1
         with:
@@ -54,4 +52,6 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
       - name: "Run benchmark"
-        run: JULIAHOME=$HOME/julia-src make gh_action_benchmarks.csv
+        run: |
+          find / -name 'openblas' 2>/dev/null
+          JULIAHOME=$HOME/usr make gh_action_benchmarks.csv
