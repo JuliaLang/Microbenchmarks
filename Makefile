@@ -6,6 +6,8 @@ include $(JULIAHOME)/deps/Versions.make
 
 NODEJSBIN = node8
 
+ITERATIONS=$(shell seq 1 5)
+
 #Use python2 for Python 2.x
 PYTHON = python3
 
@@ -80,10 +82,10 @@ benchmarks/fortran.csv: \
 
 
 benchmarks/c%.csv: bin/perf%
-	for t in 1 2 3 4 5; do $<; done >$@
+	$(foreach t,$(ITERATIONS), $<;) >$@
 
 benchmarks/fortran%.csv: bin/fperf%
-	for t in 1 2 3 4 5; do $<; done >$@
+	$(foreach t,$(ITERATIONS), $<;) >$@
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
@@ -92,43 +94,43 @@ benchmarks/go.csv: perf.go
 	go get github.com/gonum/blas/cgo
 	go get github.com/gonum/matrix/mat64
 	go get github.com/gonum/stat
-	for t in 1 2 3 4 5; do go run $<; done >$@
+	$(foreach t,$(ITERATIONS), go run $<;) >$@
 
 benchmarks/julia.csv: perf.jl
-	for t in 1 2 3 4 5; do $(JULIAHOME)/usr/bin/julia $<; done >$@
+	$(foreach t,$(ITERATIONS), $(JULIAHOME)/usr/bin/julia $<;) >$@
 
 benchmarks/python.csv: perf.py
-	for t in 1 2 3 4 5; do $(PYTHON) $<; done >$@
+	$(foreach t,$(ITERATIONS), $(PYTHON) $<;) >$@
 
 benchmarks/matlab.csv: perf.m
-	for t in 1 2 3 4 5; do matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8; done >$@
+	$(foreach t,$(ITERATIONS), matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8;) >$@
 
 benchmarks/octave.csv: perf.m
-	for t in 1 2 3 4 5; do $(OCTAVE) -q --eval perf 2>/dev/null; done >$@
+	$(foreach t,$(ITERATIONS), $(OCTAVE) -q --eval perf 2>/dev/null;) >$@
 
 benchmarks/r.csv: perf.R
-	for t in 1 2 3 4 5; do cat $< | R --vanilla --slave 2>/dev/null; done >$@
+	$(foreach t,$(ITERATIONS), cat $< | R --vanilla --slave 2>/dev/null;) >$@
 
 benchmarks/javascript.csv: perf.js
-	for t in 1 2 3 4 5; do $(NODEJSBIN) $<; done >$@
+	$(foreach t,$(ITERATIONS), $(NODEJSBIN) $<;) >$@
 
 benchmarks/mathematica.csv: perf.nb
-	for t in 1 2 3 4 5; do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
+	$(foreach t,$(ITERATIONS), $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]";) >$@
 
 benchmarks/stata.csv: perf.do
-	for t in 1 2 3 4 5; do stata -b do $^ $@; done
+	$(foreach t,$(ITERATIONS), stata -b do $^ $@;)
 
 benchmarks/lua.csv: perf.lua
-	for t in 1 2 3 4 5; do scilua $<; done >$@
+	$(foreach t,$(ITERATIONS), scilua $<;) >$@
 
 benchmarks/java.csv: java/src/main/java/PerfBLAS.java
-	cd java; sh setup.sh; for t in 1 2 3 4 5; do mvn -q exec:java; done >../$@
+	cd java; sh setup.sh; $(foreach t,$(ITERATIONS), mvn -q exec:java;) >../$@
 
 benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
-	cd scala; for t in 1 2 3 4 5; do sbt run; done >../$@
+	cd scala; $(foreach t,$(ITERATIONS), sbt run;) >../$@
 
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
-	cd rust; for t in 1 2 3 4 5; do cargo run --release -q; done >../$@
+	cd rust; $(foreach t,$(ITERATIONS), cargo run --release -q;) >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
 GH_ACTION_LANGUAGES = c fortran go julia python rust
