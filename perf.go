@@ -3,7 +3,9 @@
 // Three gonum packages must be installed, and then an additional environment
 // variable must be set to use the BLAS installation.
 // To install the gonum packages, run:
-// 		go get gonum.org/v1/gonum
+// 		go get github.com/gonum/blas
+//		go get github.com/gonum/matrix/mat64
+//		go get github.com/gonum/stat
 // The cgo ldflags must then be set to use the BLAS implementation. As an example,
 // download OpenBLAS to ~/software
 //		git clone https://github.com/xianyi/OpenBLAS
@@ -25,7 +27,10 @@ import (
 	"os"
 	"bufio"
 
-	"gonum.org/v1/gonum"
+	"github.com/gonum/blas/blas64"
+	"github.com/gonum/blas/cgo"
+	"github.com/gonum/matrix/mat64"
+	"github.com/gonum/stat"
 )
 
 func init() {
