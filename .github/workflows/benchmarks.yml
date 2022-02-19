@@ -46,6 +46,9 @@ jobs:
         uses: julia-actions/build-julia@v1
         with:
           ref: v${{ matrix.julia-version }}
+      - name: "Install Julia packages"
+        run: |
+          julia -e 'using Pkg; Pkg.add("Compat")'
       - name: "Setup dSFMT"
         run: |
           cd ~/
