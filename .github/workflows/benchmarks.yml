@@ -28,6 +28,7 @@ jobs:
         rust-version: ['1.42.0']
         js-version: ['16.14.10']
         r-version: ['4.1.2']
+        lua-version: ['2.0.5']
     
     steps:
       - uses: actions/checkout@v2
@@ -87,6 +88,10 @@ jobs:
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.r-version }}
+      - name: "Set up LuaJit"
+        uses: leafo/gh-actions-lua@v8.0.0
+        with:
+          luaVersion: luajit-${{ matrix.lua-version }}
       - name: "Run benchmark"
         run: |
           JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.csv
