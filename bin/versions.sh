@@ -27,7 +27,7 @@ fi
 
 if [[ $LANGUAGES == *",javascript,"* ]]; then
     echo -n "javascript,V8 "
-    node8 -e "console.log(process.versions.v8)"
+    node -e "console.log(process.versions.v8)"
 fi
 
 if [[ $LANGUAGES == *",julia,"* ]]; then
