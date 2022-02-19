@@ -4,9 +4,6 @@ endif
 ifndef DSFMTDIR
 $(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
 endif
-ifndef BLASDIR
-$(error BLASDIR not defined. Set value to the root of the OpenBLAS source tree.)
-endif
 
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
@@ -27,8 +24,6 @@ MATHEMATICABIN = MathKernel
 else
 MATHEMATICABIN = math
 endif
-
-LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).so
 
 FFLAGS=-fexternal-blas
 #gfortran cannot multiply matrices using 64-bit external BLAS.
@@ -54,15 +49,14 @@ export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
 perf.h: $(JULIAHOME)/deps/Versions.make
-	echo '#include "$(BLASDIR)/include/cblas.h"' > $@
+	echo '#include "cblas.h"' > $@
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
 bin/perf%: perf.c perf.h
-	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) $(LIBBLAS) -L$(LIBMDIR) $(LIBM) $(CFLAGS) -lpthread
+	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) -lopenblas -L$(LIBMDIR) $(LIBM) $(CFLAGS) -lpthread
 
 bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
-#	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ $(LIBBLAS) -L$(LIBMDIR) $(LIBM) -lpthread
 	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -L$(LIBMDIR) $(LIBM) -lpthread
 
 benchmarks/c.csv: \
@@ -88,7 +82,7 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	#CGO_LDFLAGS="$(LIBBLAS) $(LIBM)" go get github.com/gonum/blas/cgo
+	#CGO_LDFLAGS="-lopenblas $(LIBM)" go get github.com/gonum/blas/cgo
 	go get github.com/gonum/blas/blas64
 	go get github.com/gonum/blas/cgo
 	go get github.com/gonum/matrix/mat64

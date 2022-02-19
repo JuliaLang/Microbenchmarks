@@ -75,5 +75,4 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
-          find / -name 'libopenblas*'
-          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ BLASDIR=/usr/ make gh_action_benchmarks.csv
+          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.csv
