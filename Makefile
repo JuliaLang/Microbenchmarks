@@ -82,9 +82,9 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	#CGO_LDFLAGS="-lopenblas $(LIBM)" go get github.com/gonum/blas/cgo
+	CGO_LDFLAGS="-lopenblas $(LIBM)" go get github.com/gonum/blas/cgo
 	go get github.com/gonum/blas/blas64
-	go get github.com/gonum/blas/cgo
+	# go get github.com/gonum/blas/cgo
 	go get github.com/gonum/matrix/mat64
 	go get github.com/gonum/stat
 	$(foreach t,$(ITERATIONS), go run $<;) >$@
@@ -126,7 +126,8 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust; $(foreach t,$(ITERATIONS), cargo run --release -q;) >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go julia python rust
+# GH_ACTION_LANGUAGES = c fortran go julia python rust
+GH_ACTION_LANGUAGES = go julia python rust # Just for testing.
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
