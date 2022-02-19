@@ -5,6 +5,11 @@ ifndef DSFMTDIR
 $(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
 endif
 
+
+# Will make multi-line targets work
+# (so we can use @for on the second line)
+.ONESHELL:
+
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
 
@@ -75,10 +80,10 @@ benchmarks/fortran.csv: \
 
 
 benchmarks/c%.csv: bin/perf%
-	$(foreach t,$(ITERATIONS), $<;) >$@
+	@for t in $(ITERATIONS); do $<; done >$@
 
 benchmarks/fortran%.csv: bin/fperf%
-	$(foreach t,$(ITERATIONS), $<;) >$@
+	@for t in $(ITERATIONS); do $<; done >$@
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
@@ -87,43 +92,47 @@ benchmarks/go.csv: perf.go
 	go get github.com/gonum/blas/cgo
 	go get github.com/gonum/matrix/mat64
 	go get github.com/gonum/stat
-	$(foreach t,$(ITERATIONS), go run $<;) >$@
+	@for t in $(ITERATIONS); do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
-	$(foreach t,$(ITERATIONS), $(JULIAHOME)/usr/bin/julia $<;) >$@
+	@for t in $(ITERATIONS); do $(JULIAHOME)/usr/bin/julia $<; done >$@
 
 benchmarks/python.csv: perf.py
-	$(foreach t,$(ITERATIONS), $(PYTHON) $<;) >$@
+	@for t in $(ITERATIONS); do $(PYTHON) $<; done >$@
 
 benchmarks/matlab.csv: perf.m
-	$(foreach t,$(ITERATIONS), matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8;) >$@
+	@for t in $(ITERATIONS); do matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8; done >$@
 
 benchmarks/octave.csv: perf.m
-	$(foreach t,$(ITERATIONS), $(OCTAVE) -q --eval perf 2>/dev/null;) >$@
+	@for t in $(ITERATIONS); do $(OCTAVE) -q --eval perf 2>/dev/null; done >$@
 
 benchmarks/r.csv: perf.R
-	$(foreach t,$(ITERATIONS), cat $< | R --vanilla --slave 2>/dev/null;) >$@
+	@for t in $(ITERATIONS); do cat $< | R --vanilla --slave 2>/dev/null; done >$@
 
 benchmarks/javascript.csv: perf.js
-	$(foreach t,$(ITERATIONS), $(NODEJSBIN) $<;) >$@
+	@for t in $(ITERATIONS); do $(NODEJSBIN) $<; done >$@
 
 benchmarks/mathematica.csv: perf.nb
-	$(foreach t,$(ITERATIONS), $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]";) >$@
+	@for t in $(ITERATIONS); do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
 
 benchmarks/stata.csv: perf.do
-	$(foreach t,$(ITERATIONS), stata -b do $^ $@;)
+	@for t in $(ITERATIONS); do stata -b do $^ $@; done
 
 benchmarks/lua.csv: perf.lua
-	$(foreach t,$(ITERATIONS), luajit $<;) >$@
+	@for t in $(ITERATIONS); do luajit $<; done >$@
 
 benchmarks/java.csv: java/src/main/java/PerfBLAS.java
-	cd java; sh setup.sh; $(foreach t,$(ITERATIONS), mvn -q exec:java;) >../$@
+	cd java
+	sh setup.sh
+	@for t in $(ITERATIONS); do mvn -q exec:java; done >../$@
 
 benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
-	cd scala; $(foreach t,$(ITERATIONS), sbt run;) >../$@
+	cd scala
+	@for t in $(ITERATIONS); do sbt run; done >../$@
 
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
-	cd rust; $(foreach t,$(ITERATIONS), cargo run --release -q;) >../$@
+	cd rust
+	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
 GH_ACTION_LANGUAGES = c fortran java javascript julia python r rust
