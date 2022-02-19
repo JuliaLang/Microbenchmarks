@@ -4,6 +4,9 @@ endif
 ifndef DSFMTDIR
 $(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
 endif
+ifndef BLASDIR
+$(error BLASDIR not defined. Set value to the root of the OpenBLAS source tree.)
+endif
 
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
@@ -25,11 +28,7 @@ else
 MATHEMATICABIN = math
 endif
 
-#Which BLAS library am I using?
-ifeq ($(USE_SYSTEM_BLAS), 0)
-BLASDIR=$(JULIAHOME)/deps/srccache/
-LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).dylib
-endif
+LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).so
 
 FFLAGS=-fexternal-blas
 #gfortran cannot multiply matrices using 64-bit external BLAS.

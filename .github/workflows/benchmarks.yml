@@ -57,8 +57,7 @@ jobs:
           mv dSFMT-*/* ./
       - name: "Setup OpenBLAS"
         run: |
-          cd ~/julia/deps/srccache
-          tar -xzf OpenBLAS*
+          sudo apt-get install -y libopenblas-dev
       - name: "Set up Python"
         uses: actions/setup-python@v1
         with:
@@ -76,4 +75,5 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
-          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.csv
+          find / -name 'libopenblas*'
+          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ BLASDIR=/usr/ make gh_action_benchmarks.csv
