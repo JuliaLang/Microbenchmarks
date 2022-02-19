@@ -24,9 +24,8 @@ endif
 #Which BLAS library am I using?
 ifeq ($(USE_SYSTEM_BLAS), 0)
 # manifest contains `blasmanifest bb-uninstaller`, so we need to cut the second part:
-BLASMANIFEST=$(shell cat $(JULIAHOME)/usr/manifest/openblas | cut -d' ' -f1)
-BLASDIR=$(JULIAHOME)/deps/scratch/$(BLASMANIFEST)/
-LIBBLAS=$(BLASDIR)$(LIBBLASNAME).a
+BLASDIR=$(JULIAHOME)/deps/srccache/
+LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).dylib
 endif
 
 FFLAGS=-fexternal-blas
@@ -56,7 +55,7 @@ export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
 perf.h: $(JULIAHOME)/deps/Versions.make
-	echo '#include "$(BLASDIR)cblas.h"' > $@
+	echo '#include "$(BLASDIR)/include/cblas.h"' > $@
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
 bin/perf%: perf.c perf.h
