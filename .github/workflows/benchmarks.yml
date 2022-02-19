@@ -49,7 +49,7 @@ jobs:
       - name: "Install Julia packages"
         run: |
           julia -e 'using Pkg; Pkg.add("Compat")'
-      - name: "Setup dSFMT"
+      - name: "Set up dSFMT"
         run: |
           cd ~/
           mkdir -p dSFMT
@@ -58,7 +58,7 @@ jobs:
           echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
           tar -xzf v2.2.4.tar.gz
           mv dSFMT-*/* ./
-      - name: "Setup OpenBLAS"
+      - name: "Set up OpenBLAS"
         run: |
           sudo apt-get install -y libopenblas-dev
       - name: "Set up Python"
