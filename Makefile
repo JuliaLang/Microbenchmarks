@@ -114,7 +114,7 @@ benchmarks/stata.csv: perf.do
 	$(foreach t,$(ITERATIONS), stata -b do $^ $@;)
 
 benchmarks/lua.csv: perf.lua
-	$(foreach t,$(ITERATIONS), scilua $<;) >$@
+	$(foreach t,$(ITERATIONS), luajit $<;) >$@
 
 benchmarks/java.csv: java/src/main/java/PerfBLAS.java
 	cd java; sh setup.sh; $(foreach t,$(ITERATIONS), mvn -q exec:java;) >../$@
