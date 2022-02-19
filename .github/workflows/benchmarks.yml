@@ -24,7 +24,7 @@ jobs:
         julia-version: ['1.7.1']
         python-version: ['3.9']
         numpy-version: ['1.22']
-        gfortran-version: ['9']
+        gfortran-version: ['9'] # Note: unused since is built-in.
         rust-version: ['1.42.0']
     
     steps:
@@ -67,8 +67,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: "Set up NumPy"
         run: pip install numpy==${{ matrix.numpy-version }}
-      - name: "Set up fortran"
-        run: sudo apt-get install -y gfortran-${{ matrix.gfortran-version }}
       - name: "Set up Rust"
         uses: actions-rs/toolchain@v1
         with:
