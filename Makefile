@@ -27,8 +27,7 @@ endif
 
 #Which BLAS library am I using?
 ifeq ($(USE_SYSTEM_BLAS), 0)
-# manifest contains `blasmanifest bb-uninstaller`, so we need to cut the second part:
-BLASDIR=$(JULIAHOME)/deps/srccache/
+BLASDIR=$(JULIAHOME)/usr/
 LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).dylib
 endif
 
