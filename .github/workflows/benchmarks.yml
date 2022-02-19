@@ -26,7 +26,7 @@ jobs:
         numpy-version: ['1.22']
         gfortran-version: ['9'] # Note: unused since is built-in.
         rust-version: ['1.42.0']
-        js-version: ['16.14.10']
+        js-version: ['16']
         r-version: ['4.1.2']
         lua-version: ['2.0.5']
     
