@@ -27,7 +27,7 @@ endif
 
 #Which BLAS library am I using?
 ifeq ($(USE_SYSTEM_BLAS), 0)
-BLASDIR=$(JULIAHOME)/usr/
+BLASDIR=$(JULIAHOME)/deps/srccache/
 LIBBLAS=$(BLASDIR)/lib/$(LIBBLASNAME).dylib
 endif
 

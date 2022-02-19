@@ -46,7 +46,7 @@ jobs:
         uses: julia-actions/build-julia@v1
         with:
           ref: v${{ matrix.julia-version }}
-      - name: "Download dSFMT"
+      - name: "Setup dSFMT"
         run: |
           cd ~/
           mkdir -p dSFMT
@@ -55,6 +55,10 @@ jobs:
           echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
           tar -xzf v2.2.4.tar.gz
           mv dSFMT-*/* ./
+      - name: "Setup OpenBLAS"
+        run: |
+          cd ~/julia/deps/srccache
+          tar -xzf OpenBLAS*
       - name: "Set up Python"
         uses: actions/setup-python@v1
         with:
