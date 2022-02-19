@@ -26,6 +26,7 @@ jobs:
         numpy-version: ['1.22']
         gfortran-version: ['9'] # Note: unused since is built-in.
         rust-version: ['1.42.0']
+        js-version: ['16.14.10']
     
     steps:
       - uses: actions/checkout@v2
@@ -77,6 +78,10 @@ jobs:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
           cache: 'maven'
+      - name: "Set up JavaScript"
+        uses: actions/setup-node@v2
+        with:
+          nodejs-version: ${{ matrix.js-version }}
       - name: "Run benchmark"
         run: |
           JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.csv
