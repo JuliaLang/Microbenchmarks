@@ -33,12 +33,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - name: "Update Ubuntu packages"
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y aptitude
-          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
       - name: "Cache Julia"
         id: cache-julia
         uses: actions/cache@v2
