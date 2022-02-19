@@ -127,7 +127,7 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
 # GH_ACTION_LANGUAGES = c fortran java javascript julia python rust
-GH_ACTION_LANGUAGES = javascript
+GH_ACTION_LANGUAGES = javascript r
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
