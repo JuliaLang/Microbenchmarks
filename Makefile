@@ -82,11 +82,7 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	CGO_LDFLAGS="-lopenblas $(LIBM)" go get github.com/gonum/blas/cgo
-	go get github.com/gonum/blas/blas64
-	# go get github.com/gonum/blas/cgo
-	go get github.com/gonum/matrix/mat64
-	go get github.com/gonum/stat
+	go get gonum.org/v1/gonum@v0.9.3
 	$(foreach t,$(ITERATIONS), go run $<;) >$@
 
 benchmarks/julia.csv: perf.jl
