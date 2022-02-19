@@ -1,6 +1,10 @@
 ifndef JULIAHOME
 $(error JULIAHOME not defined. Set value to the root of the Julia source tree.)
 endif
+ifndef DSFMTDIR
+$(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
+endif
+
 include $(JULIAHOME)/Make.inc
 include $(JULIAHOME)/deps/Versions.make
 
@@ -44,9 +48,6 @@ ifeq ($(USE_SYSTEM_OPENLIBM), 0)
 LIBM = $(LIBMDIR)libopenlibm.a
 endif
 endif
-
-DSFMTDIR = $(JULIAHOME)/deps/scratch/dsfmt-$(DSFMT_VER)
-RMATHDIR = $(JULIAHOME)/deps/scratch/Rmath-julia-$(RMATH_JULIA_VER)
 
 default: benchmarks.html
 

@@ -46,6 +46,15 @@ jobs:
         uses: julia-actions/build-julia@v1
         with:
           ref: v${{ matrix.julia-version }}
+      - name: "Download dSFMT"
+        run: |
+          cd ~/
+          mkdir -p dSFMT
+          cd dSFMT
+          wget https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+          echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
+          tar -xzf v2.2.4.tar.gz
+          mv dSFMT-*/* ./
       - name: "Set up Python"
         uses: actions/setup-python@v1
         with:
@@ -64,4 +73,4 @@ jobs:
       - name: "Run benchmark"
         run: |
           find ~/julia -name 'libopenblas*'
-          JULIAHOME=~/julia make gh_action_benchmarks.csv
+          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.csv
