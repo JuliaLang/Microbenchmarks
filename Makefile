@@ -144,11 +144,13 @@ GH_ACTION_LANGUAGES = c fortran java javascript julia python r rust
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
 
+COLON_SEPARATED_GHA_LANGUAGES = $(shell echo $(GH_ACTION_LANGUAGES) | sed 's/ /:/g')
+
 versions.csv: bin/versions.sh
 	$^ >$@
 
 gh_action_versions.csv: bin/versions.sh
-	bin/versions.sh ",c,fortran,java,javascript,julia,python,r,rust," >$@
+	$^ $(COLON_SEPARATED_GHA_LANGUAGES) >$@
 
 benchmarks.csv: bin/collect.jl $(BENCHMARKS)
 	@$(call PRINT_JULIA, $^ >$@)
