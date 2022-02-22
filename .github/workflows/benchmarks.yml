@@ -25,7 +25,7 @@ jobs:
         python-version: ['3.9']
         numpy-version: ['1.22']
         gfortran-version: ['9']  # Note: unused since is built-in.
-        rust-version: ['1.42.0']
+        rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
         js-version: ['16']
         r-version: ['4.1.2']
         lua-version: ['2.0.5']  # Note: Not used as benchmark is broken.
