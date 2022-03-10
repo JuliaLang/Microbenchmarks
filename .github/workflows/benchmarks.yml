@@ -1,15 +1,21 @@
 name: Benchmarks
 
 on:
+  pull_request:
   push:
     branches:
-      - '*'
-  pull_request:
-    branches:
-      - '*'
+      - master
+    tags: '*'
   workflow_dispatch:
-    branches:
-      - '*'
+
+concurrency:
+  # Skip intermediate builds: all builds except for builds on the `master` or `release-*` branches
+  # Cancel intermediate builds: only pull request builds
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref != 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-') || github.run_number }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -33,6 +39,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
       - name: "Cache Julia"
         id: cache-julia
         uses: actions/cache@v2
