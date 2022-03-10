@@ -38,7 +38,7 @@ jobs:
         go-version: ['1.17.4']  # Note: Not used as benchmark is broken.
     
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
       - name: "Cache Julia"
