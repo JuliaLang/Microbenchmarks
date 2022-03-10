@@ -1,0 +1,106 @@
+name: Benchmarks
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+    tags: '*'
+  workflow_dispatch:
+
+concurrency:
+  # Skip intermediate builds: all builds except for builds on the `master` or `release-*` branches
+  # Cancel intermediate builds: only pull request builds
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref != 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-') || github.run_number }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        java-version: ['17']
+        julia-version: ['1.7.1']
+        python-version: ['3.9']
+        numpy-version: ['1.22']
+        gfortran-version: ['9']  # Note: unused since is built-in.
+        rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
+        js-version: ['16']
+        r-version: ['4.1.2']
+        lua-version: ['2.0.5']  # Note: Not used as benchmark is broken.
+        go-version: ['1.17.4']  # Note: Not used as benchmark is broken.
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: "Cache Julia"
+        id: cache-julia
+        uses: actions/cache@v2
+        with:
+          path: ~/julia
+          key: ${{ runner.os }}-v${{ matrix.julia-version }}
+      - name: "Build Julia"
+        if: steps.cache-julia.outputs.cache-hit != 'true'
+        uses: julia-actions/build-julia@v1
+        with:
+          ref: v${{ matrix.julia-version }}
+      - name: "Install Julia packages"
+        run: |
+          julia -e 'using Pkg; Pkg.add("Compat")'
+      - name: "Set up dSFMT"
+        run: |
+          cd ~/
+          mkdir -p dSFMT
+          cd dSFMT
+          wget https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+          echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
+          tar -xzf v2.2.4.tar.gz
+          mv dSFMT-*/* ./
+      - name: "Set up OpenBLAS"
+        run: |
+          sudo apt-get install -y libopenblas-dev
+      - name: "Set up Python"
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: "Set up NumPy"
+        run: pip install numpy==${{ matrix.numpy-version }}
+      - name: "Set up Rust"
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust-version }}
+      - name: "Set up Java"
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java-version }}
+          cache: 'maven'
+      - name: "Set up JavaScript"
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.js-version }}
+      - name: "Set up R"
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.r-version }}
+      - name: "Set up LuaJit"
+        uses: leafo/gh-actions-lua@v8.0.0
+        with:
+          luaVersion: luajit-${{ matrix.lua-version }}
+      - name: "Set up Go"
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: "Run benchmark"
+        run: |
+          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
+      - name: "Print benchmark data"
+        run: cat gh_action_benchmarks.csv
