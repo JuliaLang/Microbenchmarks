@@ -234,7 +234,7 @@ func main() {
 
 func runBenchmarkFor(fn func(*testing.B)) (seconds float64, err error) {
 	bm := testing.Benchmark(fn)
-	if (bm == testing.BenchmarkResult{}) {
+	if (bm.N == 0) {
 		return 0, errors.New("failed")
 	}
 	return bm.T.Seconds() / float64(bm.N), nil
