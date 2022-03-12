@@ -48,6 +48,7 @@ const labels = Dict{String, String}(
     "octave"      => "Octave"           ,
     "go"          => "Go"               ,
     "rust"        => "Rust"             ,
+    "swift"       => "Swift"            ,
 )
 
 # Produce the sorting order for the list of languages
