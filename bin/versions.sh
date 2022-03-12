@@ -39,8 +39,7 @@ fi
 
 if [[ $LANGUAGES == *":lua:"* ]]; then
     echo -n "lua,"
-    # scilua -v 2>&1 | grep Shell | cut -f3 -d" " | cut -f1 -d,
-    echo scilua v1.0.0-b12
+    (cd lua; ./ulua/luajit/*/Linux/x64/luajit -v | cut -f2 -d" ")
 fi
 
 if [[ $LANGUAGES == *":mathematica:"* ]]; then
