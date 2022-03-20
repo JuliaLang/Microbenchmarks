@@ -115,9 +115,6 @@ benchmarks/javascript.csv: perf.js
 benchmarks/mathematica.csv: perf.nb
 	@for t in $(ITERATIONS); do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
 
-benchmarks/stata.csv: perf.do
-	@for t in $(ITERATIONS); do stata -b do $^ $@; done
-
 benchmarks/lua.csv: perf.lua
 	@for t in $(ITERATIONS); do luajit $<; done >$@
 
@@ -139,7 +136,7 @@ GH_ACTION_LANGUAGES = c fortran java javascript julia python r rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
-#	scala, stata
+#	scala
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)

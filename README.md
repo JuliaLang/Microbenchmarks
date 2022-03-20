@@ -31,4 +31,3 @@ Note that this refers to GNU Make, so BSD users will need to run `gmake`.
 * R
 * Rust
 * Scala
-* Stata
