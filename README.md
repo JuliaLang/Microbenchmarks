@@ -4,8 +4,7 @@ This is a collection of micro-benchmarks used to compare Julia's performance aga
 that of other languages.
 It was formerly part of the Julia source tree.
 The results of these benchmarks are used to generate the performance graph on the
-[Julia homepage](https://julialang.org) and the table on the
-[benchmarks page](https://julialang.org/benchmarks).
+[Julia benchmarks page](https://julialang.org/benchmarks).
 
 ## Running benchmarks
 
