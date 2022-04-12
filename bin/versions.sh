@@ -24,7 +24,7 @@ fi
 
 if [[ $LANGUAGES == *":java:"* ]]; then
     echo -n java,
-    java -version 2>&1 |grep "version" | cut -f3 -d " " | cut -c 2-9
+    java -version 2>&1 | grep "version" | cut -f2 -d "\""
 fi
 
 if [[ $LANGUAGES == *":javascript:"* ]]; then
