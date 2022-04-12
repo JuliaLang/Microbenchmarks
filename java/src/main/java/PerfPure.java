@@ -70,7 +70,7 @@ public class PerfPure {
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
         }
-        assert(mandel_sum == 14720) : "value was "+mandel_sum;
+        assert(mandel_sum == 14791) : "value was "+mandel_sum;
         print_perf("userfunc_mandelbrot", tmin);
 
         // sort
