@@ -34,7 +34,7 @@ jobs:
         rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
         js-version: ['16']
         r-version: ['4.1.2']
-        lua-version: ['2.0.5']  # Note: Not used as benchmark is broken.
+        lua-version: ['latest']  # Note: unused since lua distribution manually downloaded
         go-version: ['1.17.4']
     
     steps:
@@ -92,9 +92,9 @@ jobs:
         with:
           r-version: ${{ matrix.r-version }}
       - name: "Set up LuaJit"
-        uses: leafo/gh-actions-lua@v8.0.0
-        with:
-          luaVersion: luajit-${{ matrix.lua-version }}
+        run: |
+          cd ~/work/Microbenchmarks/Microbenchmarks/lua
+          ./lua-install.sh
       - name: "Set up Go"
         uses: actions/setup-go@v2
         with:

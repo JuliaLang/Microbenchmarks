@@ -116,7 +116,8 @@ benchmarks/mathematica.csv: perf.nb
 	@for t in $(ITERATIONS); do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
 
 benchmarks/lua.csv: perf.lua
-	@for t in $(ITERATIONS); do luajit $<; done >$@
+	export BIT=64
+	@for t in $(ITERATIONS); do ./lua/ulua/bin/scilua $<; done >$@
 
 benchmarks/java.csv: java/src/main/java/PerfBLAS.java
 	cd java
@@ -132,7 +133,7 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go java javascript julia python r rust
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua python r rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
