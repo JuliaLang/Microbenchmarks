@@ -1,7 +1,6 @@
 #!/usr/bin/env julia
 
-# This script generates the table published at https://julialang.org/benchmarks/
-# (file _includes/benchmarks.html in the JuliaLang/julialang.github.com repository)
+# This script generates an HTML table with the benchmark values and language versions.
 
 using Compat
 import Compat.Statistics
