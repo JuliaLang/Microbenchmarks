@@ -27,8 +27,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: ['17']
-        julia-version: ['1.7.1']
-        python-version: ['3.9']
+        julia-version: ['1.7.3']
+        python-version: ['3.10']
         numpy-version: ['1.22']
         gfortran-version: ['9']  # Note: unused since is built-in.
         rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
@@ -36,7 +36,7 @@ jobs:
         r-version: ['4.1.2']
         lua-version: ['latest']  # Note: unused since lua distribution manually downloaded
         go-version: ['1.17.4']
-    
+
     steps:
       - uses: actions/checkout@v3
         with:
