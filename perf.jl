@@ -1,12 +1,10 @@
 # This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
-using Compat
-
-import Compat.LinearAlgebra
-import Compat.Test
-import Compat.Printf
-import Compat.Statistics
-import Compat.Sys
+import LinearAlgebra
+import Test
+import Printf
+import Statistics
+import Base.Sys
 
 include("./perfutil.jl")
 
@@ -14,7 +12,7 @@ include("./perfutil.jl")
 
 fib(n) = n < 2 ? n : fib(n-1) + fib(n-2)
 
-@compat Test.@test fib(20) == 6765
+Test.@test fib(20) == 6765
 @timeit fib(20) "recursion_fibonacci" "Recursive fibonacci"
 
 ## parse integer ##
@@ -39,12 +37,12 @@ end
 
 ## array constructors ##
 
-@compat Test.@test all(fill(1.,200,200) .== 1)
+Test.@test all(fill(1.,200,200) .== 1)
 
 ## matmul and transpose ##
 
 A = fill(1.,200,200)
-@compat Test.@test all(A*A' .== 200)
+Test.@test all(A*A' .== 200)
 # @timeit A*A' "AtA" "description"
 
 ## mandelbrot set: complex arithmetic and comprehensions ##
@@ -66,7 +64,7 @@ function mandel(z)
 end
 
 mandelperf() = [ mandel(complex(r,i)) for i=-1.:.1:1., r=-2.0:.1:0.5 ]
-@compat Test.@test sum(mandelperf()) == 14791
+Test.@test sum(mandelperf()) == 14791
 @timeit mandelperf() "userfunc_mandelbrot" "Calculation of mandelbrot set"
 
 ## numeric vector sort ##
@@ -90,7 +88,7 @@ function qsort!(a,lo,hi)
 end
 
 sortperf(n) = qsort!(rand(n), 1, n)
-@compat Test.@test issorted(sortperf(5000))
+Test.@test issorted(sortperf(5000))
 @timeit sortperf(5000) "recursion_quicksort" "Sorting of random numbers using quicksort"
 
 ## slow pi series ##
@@ -106,7 +104,7 @@ function pisum()
     sum
 end
 
-@compat Test.@test abs(pisum()-1.644834071848065) < 1e-12
+Test.@test abs(pisum()-1.644834071848065) < 1e-12
 @timeit pisum() "iteration_pi_sum" "Summation of a power series"
 
 ## slow pi series, vectorized ##
@@ -144,11 +142,11 @@ function randmatstat(t)
             w[i] = trace((Q'*Q)^4)
         end
     end
-    @compat return (Statistics.std(v)/Statistics.mean(v), Statistics.std(w)/Statistics.mean(w))
+    return (Statistics.std(v)/Statistics.mean(v), Statistics.std(w)/Statistics.mean(w))
 end
 
 (s1, s2) = randmatstat(1000)
-@compat Test.@test 0.5 < s1 < 1.0 && 0.5 < s2 < 1.0
+Test.@test 0.5 < s1 < 1.0 && 0.5 < s2 < 1.0
 @timeit randmatstat(1000) "matrix_statistics" "Statistics on a random matrix"
 
 ## largish random number gen & matmul ##
@@ -157,11 +155,11 @@ end
 
 ## printfd ##
 
-@compat if Sys.isunix()
+if Sys.isunix()
     function printfd(n)
         open("/dev/null", "w") do io
             for i = 1:n
-                @compat Printf.@printf(io, "%d %d\n", i, i + 1)
+                Printf.@printf(io, "%d %d\n", i, i + 1)
             end
         end
     end
