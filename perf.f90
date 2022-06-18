@@ -148,36 +148,25 @@ end function sysclock2ms
 subroutine hex_string(dec,hexchar)
   integer, intent(in) :: dec
   character(*) :: hexchar
-  character(len(hexchar)) :: tempchar
 
   integer :: i
-  integer :: quotient, remainder
+  integer :: quotient
 
   character(len=1), parameter :: table(0:15) = &
   [(char(i),i=ichar('0'),ichar('9')),(char(i),i=ichar('A'),ichar('F'))]
 
   quotient = dec
-  
-  hexchar(:) = ' '
-  tempchar(:) = ' '
 
-  i = 1
-  do while (quotient /= 0 .and. i <= len(hexchar))
+  hexchar = '00000000'
 
-      remainder = modulo(quotient,16)
+  i = 8
+  do while (quotient /= 0 .and. i > 0)
 
-      tempchar(i:i) = table(remainder)
-      i = i+1
+      hexchar(i:i) = table(iand(quotient,15))
+      i = i-1
 
-      quotient = quotient/16
-
-  end do
-
-  do i=1,len_trim(tempchar)
-
-      hexchar(i:i) = tempchar(len_trim(tempchar)-i+1:len_trim(tempchar)-i+1)
-
-  end do
+      quotient = ishft(quotient,-4)
+end do
 
 end subroutine hex_string
 
