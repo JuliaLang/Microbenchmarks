@@ -2,9 +2,8 @@
 
 # This script generates an HTML table with the benchmark values and language versions.
 
-using Compat
-import Compat.Statistics
-import Compat.Printf
+import Statistics
+import Printf
 
 const benchmark_order = [
     "iteration_pi_sum",
@@ -54,10 +53,10 @@ function lang_by(lang::String)
     # C is placed at the start of the list
     lang == "c" ? -Inf :
     # Julia is sorted immediately after C
-    @compat lang == "julia" ? -floatmax() :
+    lang == "julia" ? -floatmax() :
     # The rest of the languages are sorted by the geometric mean of their benchmark values
     # See https://en.wikipedia.org/wiki/Geometric_mean#Relationship_with_logarithms for details
-    @compat exp(Statistics.mean(log.(collect(values(benchmarks[lang])))))
+    exp(Statistics.mean(log.(collect(values(benchmarks[lang])))))
 end
 
 const language_order = sort!(collect(keys(benchmarks)), by=lang_by)
@@ -101,7 +100,7 @@ for benchmark in benchmark_order
     for lang in language_order
         rel_time = "n/a"
         if haskey(benchmarks[lang], benchmark)
-            @compat rel_time = Printf.@sprintf "%.2f" benchmarks[lang][benchmark]/c_time
+            rel_time = Printf.@sprintf "%.2f" benchmarks[lang][benchmark]/c_time
         end
         println("            <td class=\"data\">$rel_time</td>")
     end
