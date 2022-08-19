@@ -27,15 +27,15 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: ['17']
-        julia-version: ['1.7.3']
+        julia-version: ['1.8.0']
         python-version: ['3.10']
-        numpy-version: ['1.22']
+        numpy-version: ['1.23.2']
         gfortran-version: ['9']  # Note: unused since is built-in.
         rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
-        js-version: ['16']
-        r-version: ['4.1.2']
+        js-version: ['18']
+        r-version: ['4.2.1']
         lua-version: ['latest']  # Note: unused since lua distribution manually downloaded
-        go-version: ['1.17.4']
+        go-version: ['1.19']
 
     steps:
       - uses: actions/checkout@v3
@@ -93,7 +93,7 @@ jobs:
           cd ~/work/Microbenchmarks/Microbenchmarks/lua
           ./lua-install.sh
       - name: "Set up Go"
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
