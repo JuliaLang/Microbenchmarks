@@ -57,11 +57,11 @@ perf.h:
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
 bin/perf%: perf.c perf.h
-	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) -lopenblas -L$(LIBMDIR) $(LIBM) $(CFLAGS) -lpthread
+	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) $(LDFLAGS) -lopenblas -L$(LIBMDIR) $(LIBM) $(CFLAGS) -lpthread
 
 bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
-	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -L$(LIBMDIR) $(LIBM) -lpthread
+	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ $(LDFLAGS) -lopenblas -L$(LIBMDIR) $(LIBM) -lpthread
 
 benchmarks/c.csv: \
 	benchmarks/c0.csv \
