@@ -10,7 +10,7 @@ endif
 # (so we can use @for on the second line)
 .ONESHELL:
 
-include $(JULIAHOME)/Make.inc
+#include $(JULIAHOME)/Make.inc
 #include $(JULIAHOME)/deps/Versions.make
 
 NODEJSBIN = node
