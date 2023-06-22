@@ -49,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-v${{ matrix.julia-version }}
       - name: "Build Julia"
         if: steps.cache-julia.outputs.cache-hit != 'true'
-        uses: julia-actions/build-julia@v1
+        uses: julia-actions/setup-julia@v1
         with:
           ref: v${{ matrix.julia-version }}
       - name: "Set up dSFMT"
