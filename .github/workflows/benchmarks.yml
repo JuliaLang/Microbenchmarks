@@ -41,11 +41,17 @@ jobs:
       - uses: actions/checkout@v3
         with:
           persist-credentials: false
-      - name: "Set up Julia"
-        uses: julia-actions/setup-julia@v1
+      - name: "Cache Julia"
+        id: cache-julia
+        uses: actions/cache@v2
         with:
-          version: ${{ matrix.julia-version }}
-      - uses: julia-actions/cache@v1
+          path: ~/julia
+          key: ${{ runner.os }}-v${{ matrix.julia-version }}
+      - name: "Build Julia"
+        if: steps.cache-julia.outputs.cache-hit != 'true'
+        uses: julia-actions/build-julia@v1
+        with:
+          ref: v${{ matrix.julia-version }}
       - name: "Set up dSFMT"
         run: |
           cd ~/
