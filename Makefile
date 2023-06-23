@@ -11,7 +11,7 @@ endif
 .ONESHELL:
 
 include $(JULIAHOME)/Make.inc
-#include $(JULIAHOME)/deps/Versions.make
+include $(JULIAHOME)/deps/*.version
 
 NODEJSBIN = node
 
