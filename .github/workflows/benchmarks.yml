@@ -28,14 +28,14 @@ jobs:
         os: [ubuntu-latest]
         java-version: ['17']
         julia-version: ['1.9.1']
-        python-version: ['3.10']
-        numpy-version: ['1.23.2']
+        python-version: ['3.11.4']
+        numpy-version: ['1.25']
         gfortran-version: ['9']  # Note: unused since is built-in.
-        rust-version: ['1.42.0']  # Note: unused since controlled by `rust/rust-toolchain`
+        rust-version: ['1.70.0']  # Note: unused since controlled by `rust/rust-toolchain`
         js-version: ['18']
-        r-version: ['4.2.1']
+        r-version: ['4.3.1']
         lua-version: ['latest']  # Note: unused since lua distribution manually downloaded
-        go-version: ['1.19']
+        go-version: ['1.20.5']
 
     steps:
       - uses: actions/checkout@v3
