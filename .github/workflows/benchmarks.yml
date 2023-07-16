@@ -27,7 +27,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: ['17']
-        julia-version: ['1.9.1']
+        julia-version: ['1.9.2']
         python-version: ['3.11.4']
         numpy-version: ['1.25']
         gfortran-version: ['9']  # Note: unused since is built-in.
