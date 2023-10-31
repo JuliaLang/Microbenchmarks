@@ -66,7 +66,8 @@ end function
 
 real(dp) function std(x) result(t)
 real(dp), intent(in) :: x(:)
-t = sqrt(mean(abs(x - mean(x))**2))
+n=size(x)
+t = sqrt(sum(x**2)/n -(sum(x)/n)**2)
 end function
 
 subroutine init_random_seed()
