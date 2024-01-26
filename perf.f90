@@ -115,7 +115,7 @@ ELSE
     sum = u*u + v*v + vsmall         ! vsmall added to prevent LOG(zero) / zero
     IF(sum < one) EXIT
   END DO
-  sln = SQRT(- SCALE( LOG(sum), 1 ) / sum)
+  sln = SQRT(- 2*LOG(sum) / sum)
   fn_val = u*sln
 END IF
 
