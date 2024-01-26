@@ -32,7 +32,6 @@ Note that this refers to GNU Make, so BSD users will need to run `gmake`.
 * Scala
 
 ## Results:
-
 ![JuliaLang Benchmarks](https://raw.githubusercontent.com/JuliaLang/www.julialang.org/main/_assets/images/benchmarks.svg)
 
 
