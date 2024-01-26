@@ -33,6 +33,6 @@ Note that this refers to GNU Make, so BSD users will need to run `gmake`.
 
 ## Results:
 
-![Description of SVG image](https://raw.githubusercontent.com/JuliaLang/www.julialang.org/blob/main/_assets/images/benchmarks.svg)
+![JuliaLang Benchmarks](https://raw.githubusercontent.com/JuliaLang/www.julialang.org/main/_assets/images/benchmarks.svg)
 
 
