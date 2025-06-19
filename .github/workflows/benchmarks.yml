@@ -27,7 +27,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: ['17']
-        julia-version: ['1.9.3']
+        julia-version: ['1.11']
         python-version: ['3.10']
         numpy-version: ['1.23.2']
         gfortran-version: ['9']  # Note: unused since is built-in.
@@ -38,20 +38,13 @@ jobs:
         go-version: ['1.19']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: "Cache Julia"
-        id: cache-julia
-        uses: actions/cache@v2
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v2
         with:
-          path: ~/julia
-          key: ${{ runner.os }}-v${{ matrix.julia-version }}
-      - name: "Build Julia"
-        if: steps.cache-julia.outputs.cache-hit != 'true'
-        uses: julia-actions/build-julia@v1
-        with:
-          ref: v${{ matrix.julia-version }}
+          version: v${{ matrix.julia-version }}
       - name: "Set up dSFMT"
         run: |
           cd ~/
