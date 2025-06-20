@@ -21,13 +21,8 @@ function parseintperf(t)
     local n, m
     for i=1:t
         n = rand(UInt32)
-        @static if VERSION >= v"0.7.0-DEV.4446"
-            s = string(n, base = 16)
-            m = UInt32(parse(Int64, s, base = 16))
-        else
-            s = hex(n)
-            m = UInt32(parse(Int64, s, 16))
-        end
+        s = string(n, base = 16)
+        m = parse(UInt32, s, base = 16)
         @assert m == n
     end
     return n
