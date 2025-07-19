@@ -92,10 +92,10 @@ jobs:
         run: |
           cd ~/work/Microbenchmarks/Microbenchmarks/lua
           ./lua-install.sh
-      - name: "Set up Go"
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.go-version }}
+#       - name: "Set up Go"
+#         uses: actions/setup-go@v5
+#         with:
+#           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
           JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
