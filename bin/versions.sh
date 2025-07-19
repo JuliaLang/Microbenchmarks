@@ -17,10 +17,10 @@ if [[ $LANGUAGES == *":fortran:"* ]]; then
     gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
 fi
 
-if [[ $LANGUAGES == *":go:"* ]]; then
-    echo -n go,
-    go version | cut -f3 -d" "
-fi
+# if [[ $LANGUAGES == *":go:"* ]]; then
+#     echo -n go,
+#     go version | cut -f3 -d" "
+# fi
 
 if [[ $LANGUAGES == *":java:"* ]]; then
     echo -n java,
