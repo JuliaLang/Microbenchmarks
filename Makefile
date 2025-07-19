@@ -87,7 +87,6 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	go env -w GO111MODULE=off
 	export CGO_LDFLAGS="-L${LIBM} -lopenblas"
 	go get gonum.org/v1/netlib/blas/netlib
 	go get gonum.org/v1/gonum/mat64
