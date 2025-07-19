@@ -26,7 +26,7 @@ import (
 	"strconv"
 	"testing"
 
-	"gonum.org/v1/gonum/mat"
+	"gonum.org/v1/gonum/mat64"
 	"gonum.org/v1/gonum/stat"
 	"gonum.org/v1/netlib/blas/netlib"
 )
