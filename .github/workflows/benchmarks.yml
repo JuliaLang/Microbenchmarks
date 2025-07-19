@@ -43,7 +43,7 @@ jobs:
           persist-credentials: false
       - name: "Cache Julia"
         id: cache-julia
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/julia
           key: ${{ runner.os }}-v${{ matrix.julia-version }}
