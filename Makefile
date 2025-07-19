@@ -88,9 +88,9 @@ benchmarks/fortran%.csv: bin/fperf%
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
 	export CGO_LDFLAGS="-L${LIBM} -lopenblas"
-	go get gonum.org/v1/netlib/blas/netlib
-	go get gonum.org/v1/gonum/mat64
-	go get gonum.org/v1/gonum/stat
+	go install gonum.org/v1/netlib/blas/netlib@latest
+	go install gonum.org/v1/gonum/mat64@latest
+	go install gonum.org/v1/gonum/stat@latest
 	@for t in $(ITERATIONS); do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
