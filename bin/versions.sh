@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # User argument declaring what languages to query:
-DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
+DEFAULT_LANGUAGES="c:fortran:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
 LANGUAGES=${1:-DEFAULT_LANGUAGES}
 
 LANGUAGES=":${LANGUAGES}:"
