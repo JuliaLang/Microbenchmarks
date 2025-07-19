@@ -90,7 +90,7 @@ benchmarks/go.csv: perf.go
 	go env -w GO111MODULE=off
 	export CGO_LDFLAGS="-L${LIBM} -lopenblas"
 	go get gonum.org/v1/netlib/blas/netlib
-	go get gonum.org/v1/gonum/mat
+	go get gonum.org/v1/gonum/mat64
 	go get gonum.org/v1/gonum/stat
 	@for t in $(ITERATIONS); do go run $<; done >$@
 
