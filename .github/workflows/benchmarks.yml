@@ -38,12 +38,12 @@ jobs:
         go-version: ['1.24.5']
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: "Cache Julia"
         id: cache-julia
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/julia
           key: ${{ runner.os }}-v${{ matrix.julia-version }}
@@ -65,7 +65,7 @@ jobs:
         run: |
           sudo apt-get install -y libopenblas-dev
       - name: "Set up Python"
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: "Set up NumPy"
@@ -75,13 +75,13 @@ jobs:
         with:
           toolchain: ${{ matrix.rust-version }}
       - name: "Set up Java"
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: ${{ matrix.java-version }}
           cache: 'maven'
       - name: "Set up JavaScript"
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.js-version }}
       - name: "Set up R"
@@ -93,7 +93,7 @@ jobs:
           cd ~/work/Microbenchmarks/Microbenchmarks/lua
           ./lua-install.sh
       - name: "Set up Go"
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
