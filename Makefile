@@ -11,7 +11,7 @@ endif
 .ONESHELL:
 
 include $(JULIAHOME)/Make.inc
-#include $(JULIAHOME)/deps/Versions.make
+include $(JULIAHOME)/deps/*.version
 
 NODEJSBIN = node
 
@@ -53,7 +53,7 @@ export OMP_NUM_THREADS=1
 export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-perf.h: $(JULIAHOME)/deps/Versions.make
+perf.h: $(JULIAHOME)/deps/*.version
 	echo '#include "cblas.h"' > $@
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
