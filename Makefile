@@ -131,8 +131,8 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua python r rust
+LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
+GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson
