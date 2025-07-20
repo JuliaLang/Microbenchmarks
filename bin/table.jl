@@ -44,7 +44,7 @@ const labels = Dict{String, String}(
     "mathematica" => "Mathe&shy;matica" ,
     "r"           => "R"                ,
     "octave"      => "Octave"           ,
-    "go"          => "Go"               ,
+#     "go"          => "Go"               ,
     "rust"        => "Rust"             ,
 )
 

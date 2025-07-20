@@ -11,7 +11,7 @@ endif
 .ONESHELL:
 
 include $(JULIAHOME)/Make.inc
-include $(JULIAHOME)/deps/Versions.make
+include $(JULIAHOME)/deps/*.version
 
 NODEJSBIN = node
 
@@ -53,7 +53,7 @@ export OMP_NUM_THREADS=1
 export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-perf.h: $(JULIAHOME)/deps/Versions.make
+perf.h: $(JULIAHOME)/deps/*.version
 	echo '#include "cblas.h"' > $@
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
@@ -87,11 +87,10 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	go env -w GO111MODULE=off
 	export CGO_LDFLAGS="-L${LIBM} -lopenblas"
-	go get gonum.org/v1/netlib/blas/netlib
-	go get gonum.org/v1/gonum/mat
-	go get gonum.org/v1/gonum/stat
+	go install gonum.org/v1/netlib/blas/netlib@latest
+	go install gonum.org/v1/gonum/mat64@latest
+	go install gonum.org/v1/gonum/stat@latest
 	@for t in $(ITERATIONS); do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
@@ -132,8 +131,8 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua python r rust
+LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
+GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
 
 # These were formerly listed in LANGUAGES, but I can't get them to run
 # 2017-09-27 johnfgibson

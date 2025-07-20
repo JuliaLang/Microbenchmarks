@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # User argument declaring what languages to query:
-DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
+DEFAULT_LANGUAGES="c:fortran:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
 LANGUAGES=${1:-DEFAULT_LANGUAGES}
 
 LANGUAGES=":${LANGUAGES}:"
@@ -17,10 +17,10 @@ if [[ $LANGUAGES == *":fortran:"* ]]; then
     gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
 fi
 
-if [[ $LANGUAGES == *":go:"* ]]; then
-    echo -n go,
-    go version | cut -f3 -d" "
-fi
+# if [[ $LANGUAGES == *":go:"* ]]; then
+#     echo -n go,
+#     go version | cut -f3 -d" "
+# fi
 
 if [[ $LANGUAGES == *":java:"* ]]; then
     echo -n java,
