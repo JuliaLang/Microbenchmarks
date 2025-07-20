@@ -96,6 +96,6 @@ jobs:
 #           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
-          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
+          DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
