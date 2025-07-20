@@ -10,14 +10,10 @@ endif
 # (so we can use @for on the second line)
 .ONESHELL:
 
-include $(JULIAHOME)/Make.inc
-include $(JULIAHOME)/deps/*.version
-
 NODEJSBIN = node
 
 ITERATIONS=$(shell seq 1 5)
 
-#Use python2 for Python 2.x
 PYTHON = python3
 
 OCTAVE = octave-cli
@@ -39,13 +35,7 @@ endif
 FFLAGS+= -static-libgfortran
 endif
 
-#Which libm library am I using?
-LIBMDIR = $(JULIAHOME)/usr/lib/
-ifeq ($(USE_SYSTEM_LIBM), 0)
-ifeq ($(USE_SYSTEM_OPENLIBM), 0)
-LIBM = $(LIBMDIR)libopenlibm.a
-endif
-endif
+LIBM = -lm
 
 default: benchmarks.html
 
@@ -53,16 +43,16 @@ export OMP_NUM_THREADS=1
 export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-perf.h: $(JULIAHOME)/deps/*.version
+perf.h:
 	echo '#include "cblas.h"' > $@
 	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
 
 bin/perf%: perf.c perf.h
-	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) -lopenblas -L$(LIBMDIR) $(LIBM) $(CFLAGS) -lpthread
+	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) -lopenblas $(LIBM) $(CFLAGS) -lpthread
 
 bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
-	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -L$(LIBMDIR) $(LIBM) -lpthread
+	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas $(LIBM) -lpthread
 
 benchmarks/c.csv: \
 	benchmarks/c0.csv \
