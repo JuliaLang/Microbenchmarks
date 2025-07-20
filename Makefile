@@ -1,6 +1,3 @@
-ifndef JULIAHOME
-$(error JULIAHOME not defined. Set value to the root of the Julia source tree.)
-endif
 ifndef DSFMTDIR
 $(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
 endif
@@ -84,7 +81,7 @@ benchmarks/go.csv: perf.go
 	@for t in $(ITERATIONS); do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
-	@for t in $(ITERATIONS); do $(JULIAHOME)/usr/bin/julia $<; done >$@
+	@for t in $(ITERATIONS); do julia $<; done >$@
 
 benchmarks/python.csv: perf.py
 	@for t in $(ITERATIONS); do $(PYTHON) $<; done >$@

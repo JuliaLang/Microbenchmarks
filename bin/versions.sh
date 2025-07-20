@@ -34,7 +34,7 @@ fi
 
 if [[ $LANGUAGES == *":julia:"* ]]; then
     echo -n "julia,"
-    $JULIAHOME/usr/bin/julia -v | cut -f3 -d" "
+    julia -v | cut -f3 -d" "
 fi
 
 if [[ $LANGUAGES == *":lua:"* ]]; then
