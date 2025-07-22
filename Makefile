@@ -33,14 +33,13 @@ export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
 dsfmt:
-	cd ~/
 	mkdir -p dSFMT
 	cd dSFMT
 	wget -q https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
 	echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
 	tar -xzf v2.2.4.tar.gz
 	mv dSFMT-*/* ./
-	cd ~
+	cd ..
 
 bin/perf%: perf.c
 	$(CC) -std=c99 -O$* $< -o $@  -IdSFMT -lopenblas -lm $(CFLAGS) -lpthread
