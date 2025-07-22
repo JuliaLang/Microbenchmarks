@@ -137,16 +137,16 @@ gh_action_versions.csv: bin/versions.sh
 	$^ $(COLON_SEPARATED_GHA_LANGUAGES) >$@
 
 benchmarks.csv: bin/collect.jl $(BENCHMARKS)
-	@$(call PRINT_JULIA, $^ >$@)
+	julia $^ >$@
 
 gh_action_benchmarks.csv: bin/collect.jl $(GH_ACTION_BENCHMARKS)
-	@$(call PRINT_JULIA, $^ >$@)
+	julia $^ >$@
 
 benchmarks.html: bin/table.jl versions.csv benchmarks.csv
-	@$(call PRINT_JULIA, $^ >$@)
+	julia $^ >$@
 
 gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchmarks.csv
-	@$(call PRINT_JULIA, $^ >$@)
+	julia $^ >$@
 
 clean:
 	@rm -rf perf.h bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
