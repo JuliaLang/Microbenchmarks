@@ -27,7 +27,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: ['24']
-        julia-version: ['1.11.6']
+        julia-version: ['1'] # Note: use the latest Julia version
         python-version: ['3.13']
         numpy-version: ['2.3']
         gfortran-version: ['14.2']  # Note: unused since is built-in.
@@ -41,26 +41,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - name: "Cache Julia"
-        id: cache-julia
-        uses: actions/cache@v4
-        with:
-          path: ~/julia
-          key: ${{ runner.os }}-v${{ matrix.julia-version }}
-      - name: "Build Julia"
-        if: steps.cache-julia.outputs.cache-hit != 'true'
-        uses: julia-actions/build-julia@v1
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v2
         with:
           ref: v${{ matrix.julia-version }}
+      - name: "Cache Julia"
+        id: cache-julia
+        uses: julia-actions/cache@v2
+        with:
+          key: ${{ runner.os }}-v${{ matrix.julia-version }}
       - name: "Set up dSFMT"
         run: |
-          cd ~/
           mkdir -p dSFMT
           cd dSFMT
-          wget https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+          wget -q https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
           echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
           tar -xzf v2.2.4.tar.gz
           mv dSFMT-*/* ./
+          cd ..
       - name: "Set up OpenBLAS"
         run: |
           sudo apt-get install -y libopenblas-dev
@@ -98,6 +96,6 @@ jobs:
 #           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
-          JULIAHOME=~/julia DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
+          make gh_action_benchmarks.html
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
