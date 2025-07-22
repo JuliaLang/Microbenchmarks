@@ -146,7 +146,7 @@ gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchma
 	julia $^ >$@
 
 clean:
-	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
+	@rm -rf dSFMT bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
 
 .PHONY: all perf clean
 
