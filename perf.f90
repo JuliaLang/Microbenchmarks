@@ -66,6 +66,7 @@ end function
 
 real(dp) function std(x) result(t)
 real(dp), intent(in) :: x(:)
+integer :: n
 n=size(x)
 t = sqrt(sum(x**2)/n -(sum(x)/n)**2)
 end function
