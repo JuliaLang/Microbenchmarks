@@ -55,10 +55,11 @@ jobs:
           cd ~/
           mkdir -p dSFMT
           cd dSFMT
-          wget https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+          wget -q https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
           echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
           tar -xzf v2.2.4.tar.gz
           mv dSFMT-*/* ./
+	  cd ~
       - name: "Set up OpenBLAS"
         run: |
           sudo apt-get install -y libopenblas-dev
@@ -96,6 +97,6 @@ jobs:
 #           go-version: ${{ matrix.go-version }}
       - name: "Run benchmark"
         run: |
-          DSFMTDIR=~/dSFMT/ make gh_action_benchmarks.html
+          make gh_action_benchmarks.html
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
