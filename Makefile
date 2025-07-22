@@ -1,8 +1,3 @@
-ifndef DSFMTDIR
-$(error DSFMTDIR not defined. Set value to the root of the dSFMT source tree.)
-endif
-
-
 # Will make multi-line targets work
 # (so we can use @for on the second line)
 .ONESHELL:
@@ -32,24 +27,27 @@ endif
 FFLAGS+= -static-libgfortran
 endif
 
-LIBM = -lm
-
 default: benchmarks.html
 
 export OMP_NUM_THREADS=1
-export GOTO_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
 
-perf.h:
-	echo '#include "cblas.h"' > $@
-	echo '#include "$(DSFMTDIR)/dSFMT.c"' >> $@
+dsfmt:
+	cd ~/
+	mkdir -p dSFMT
+	cd dSFMT
+	wget -q https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+	echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
+	tar -xzf v2.2.4.tar.gz
+	mv dSFMT-*/* ./
+	cd ~
 
-bin/perf%: perf.c perf.h
-	$(CC) -std=c99 -O$* $< -o $@  -I$(DSFMTDIR) -lopenblas $(LIBM) $(CFLAGS) -lpthread
+bin/perf%: perf.c
+	$(CC) -std=c99 -O$* $< -o $@  -IdSFMT -lopenblas -lm $(CFLAGS) -lpthread
 
 bin/fperf%: perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
-	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas $(LIBM) -lpthread
+	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -lm -lpthread
 
 benchmarks/c.csv: \
 	benchmarks/c0.csv \
@@ -65,7 +63,6 @@ benchmarks/fortran.csv: \
 	benchmarks/fortran3.csv
 	cat $^ > $@
 
-
 benchmarks/c%.csv: bin/perf%
 	@for t in $(ITERATIONS); do $<; done >$@
 
@@ -74,7 +71,7 @@ benchmarks/fortran%.csv: bin/fperf%
 
 benchmarks/go.csv: export GOPATH=$(abspath gopath)
 benchmarks/go.csv: perf.go
-	export CGO_LDFLAGS="-L${LIBM} -lopenblas"
+	export CGO_LDFLAGS="-lopenblas"
 	go install gonum.org/v1/netlib/blas/netlib@latest
 	go install gonum.org/v1/gonum/mat64@latest
 	go install gonum.org/v1/gonum/stat@latest
@@ -149,7 +146,7 @@ gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchma
 	julia $^ >$@
 
 clean:
-	@rm -rf perf.h bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
+	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
 
 .PHONY: all perf clean
 
