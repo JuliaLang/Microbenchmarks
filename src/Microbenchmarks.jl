@@ -13,7 +13,7 @@ function read_bench(benchfile::String)
     benchmarks[!,:language] = [dict[lang] for lang in benchmarks[!,:language]]
 
     # Normalize benchmark times by C times
-    ctime = benchmarks[benchmarks[!,:language].== "C", :]
+    ctime = benchmarks[benchmarks[!,:language] .== "C", :]
     benchmarks = innerjoin(benchmarks, ctime, on=:benchmark, makeunique=true)
     select!(benchmarks, Not([:language_1]))
     rename!(benchmarks, :time_1 =>:ctime)
