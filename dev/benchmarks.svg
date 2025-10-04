@@ -147,13 +147,13 @@
         </g>
       </g>
       <g class="guide ygridlines xfixed" stroke-dasharray="0.5,0.5" stroke-width="0.2" stroke="#D0D0E0" id="img-ac1d5fb8-28">
-        <g transform="translate(115.71,123.53)" id="img-ac1d5fb8-29">
+        <g transform="translate(115.71,123.5)" id="img-ac1d5fb8-29">
           <path fill="none" d="M-104.01,0 L104.01,0 " class="primitive"/>
         </g>
-        <g transform="translate(115.71,79.9)" id="img-ac1d5fb8-30">
+        <g transform="translate(115.71,79.81)" id="img-ac1d5fb8-30">
           <path fill="none" d="M-104.01,0 L104.01,0 " class="primitive"/>
         </g>
-        <g transform="translate(115.71,36.27)" id="img-ac1d5fb8-31">
+        <g transform="translate(115.71,36.11)" id="img-ac1d5fb8-31">
           <path fill="none" d="M-104.01,0 L104.01,0 " class="primitive"/>
         </g>
       </g>
@@ -186,33 +186,33 @@
       <g class="plotpanel" id="img-ac1d5fb8-41">
         <metadata>
           <boundingbox value="11.699999999999989mm 5.0mm 208.02666666666667mm 142.34729980913997mm"/>
-          <unitbox value="0.5 2.716678339612077 9.0 -3.2625171743311845"/>
+          <unitbox value="0.5 2.712091137659897 9.0 -3.2578646030849967"/>
         </metadata>
         <g class="geometry" stroke-width="0.3" id="img-ac1d5fb8-42">
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-43">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-44">
-              <g transform="translate(208.17,18.1)" id="img-ac1d5fb8-45">
+              <g transform="translate(208.17,17.9)" id="img-ac1d5fb8-45">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="72userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-46">
-              <g transform="translate(208.17,18.1)" id="img-ac1d5fb8-47">
+              <g transform="translate(208.17,17.9)" id="img-ac1d5fb8-47">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.4164350344407524</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.4168971843983464</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-48">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-49">
-              <g transform="translate(208.17,47.92)" id="img-ac1d5fb8-50">
+              <g transform="translate(208.17,47.85)" id="img-ac1d5fb8-50">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="71recursion_quicksort" class="datatip" id="img-ac1d5fb8-51">
-              <g transform="translate(208.17,47.92)" id="img-ac1d5fb8-52">
+              <g transform="translate(208.17,47.85)" id="img-ac1d5fb8-52">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.7330474304073409</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.7314948326237711</tspan></text>
                 </g>
               </g>
             </g>
@@ -226,873 +226,873 @@
             <g fill-opacity="0" ilabel="70recursion_fibonacci" class="datatip" id="img-ac1d5fb8-56">
               <g transform="translate(208.17,7)" id="img-ac1d5fb8-57">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.67083950489297</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.666317672234797</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-58">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-59">
-              <g transform="translate(208.17,34.66)" id="img-ac1d5fb8-60">
+              <g transform="translate(208.17,34.73)" id="img-ac1d5fb8-60">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="69print_to_file" class="datatip" id="img-ac1d5fb8-61">
-              <g transform="translate(208.17,34.66)" id="img-ac1d5fb8-62">
+              <g transform="translate(208.17,34.73)" id="img-ac1d5fb8-62">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.0369788610396045</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">2.0316429304305488</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-63">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-64">
-              <g transform="translate(208.17,61.66)" id="img-ac1d5fb8-65">
+              <g transform="translate(208.17,61.51)" id="img-ac1d5fb8-65">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="68parse_integers" class="datatip" id="img-ac1d5fb8-66">
-              <g transform="translate(208.17,61.66)" id="img-ac1d5fb8-67">
+              <g transform="translate(208.17,61.51)" id="img-ac1d5fb8-67">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.418050341626682</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.418852804483477</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-68">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-69">
-              <g transform="translate(208.17,74.34)" id="img-ac1d5fb8-70">
+              <g transform="translate(208.17,74.67)" id="img-ac1d5fb8-70">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="67matrix_statistics" class="datatip" id="img-ac1d5fb8-71">
-              <g transform="translate(208.17,74.34)" id="img-ac1d5fb8-72">
+              <g transform="translate(208.17,74.67)" id="img-ac1d5fb8-72">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.1275166236629477</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.117509873730155</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-73">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-74">
-              <g transform="translate(208.17,116.63)" id="img-ac1d5fb8-75">
+              <g transform="translate(208.17,116.74)" id="img-ac1d5fb8-75">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="66matrix_multiply" class="datatip" id="img-ac1d5fb8-76">
-              <g transform="translate(208.17,116.63)" id="img-ac1d5fb8-77">
+              <g transform="translate(208.17,116.74)" id="img-ac1d5fb8-77">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">0.15824488268198786</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">0.15473638484794183</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-78">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-79">
-              <g transform="translate(208.17,62.18)" id="img-ac1d5fb8-80">
+              <g transform="translate(208.17,62.07)" id="img-ac1d5fb8-80">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="65iteration_pi_sum" class="datatip" id="img-ac1d5fb8-81">
-              <g transform="translate(208.17,62.18)" id="img-ac1d5fb8-82">
+              <g transform="translate(208.17,62.07)" id="img-ac1d5fb8-82">
                 <g class="primitive">
-                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.4060640607268209</tspan></text>
+                  <text dy="-1.2em">9<tspan x="0" dy="1.1000em">1.4058715062300975</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-83">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-84">
-              <g transform="translate(185.06,41.01)" id="img-ac1d5fb8-85">
+              <g transform="translate(185.06,40.53)" id="img-ac1d5fb8-85">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="64userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-86">
-              <g transform="translate(185.06,41.01)" id="img-ac1d5fb8-87">
+              <g transform="translate(185.06,40.53)" id="img-ac1d5fb8-87">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.8913527747665586</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.898855689130549</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-88">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-89">
-              <g transform="translate(185.06,53.07)" id="img-ac1d5fb8-90">
+              <g transform="translate(185.06,53.08)" id="img-ac1d5fb8-90">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="63recursion_quicksort" class="datatip" id="img-ac1d5fb8-91">
-              <g transform="translate(185.06,53.07)" id="img-ac1d5fb8-92">
+              <g transform="translate(185.06,53.08)" id="img-ac1d5fb8-92">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.614896144823813</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.6117322032363863</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-93">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-94">
-              <g transform="translate(185.06,43.82)" id="img-ac1d5fb8-95">
+              <g transform="translate(185.06,43.65)" id="img-ac1d5fb8-95">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="62recursion_fibonacci" class="datatip" id="img-ac1d5fb8-96">
-              <g transform="translate(185.06,43.82)" id="img-ac1d5fb8-97">
+              <g transform="translate(185.06,43.65)" id="img-ac1d5fb8-97">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.8269336189571879</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.8274422805573483</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-98">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-99">
-              <g transform="translate(185.06,93.55)" id="img-ac1d5fb8-100">
+              <g transform="translate(185.06,93.53)" id="img-ac1d5fb8-100">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="61print_to_file" class="datatip" id="img-ac1d5fb8-101">
-              <g transform="translate(185.06,93.55)" id="img-ac1d5fb8-102">
+              <g transform="translate(185.06,93.53)" id="img-ac1d5fb8-102">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.6872578543763466</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.6858746968846161</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-103">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-104">
-              <g transform="translate(185.06,76.12)" id="img-ac1d5fb8-105">
+              <g transform="translate(185.06,75.64)" id="img-ac1d5fb8-105">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="60parse_integers" class="datatip" id="img-ac1d5fb8-106">
-              <g transform="translate(185.06,76.12)" id="img-ac1d5fb8-107">
+              <g transform="translate(185.06,75.64)" id="img-ac1d5fb8-107">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.0866482573072453</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.0953732106212373</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-108">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-109">
-              <g transform="translate(185.06,80.67)" id="img-ac1d5fb8-110">
+              <g transform="translate(185.06,80.33)" id="img-ac1d5fb8-110">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="59matrix_statistics" class="datatip" id="img-ac1d5fb8-111">
-              <g transform="translate(185.06,80.67)" id="img-ac1d5fb8-112">
+              <g transform="translate(185.06,80.33)" id="img-ac1d5fb8-112">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.9823252704603875</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.9880132361120373</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-113">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-114">
-              <g transform="translate(185.06,120.98)" id="img-ac1d5fb8-115">
+              <g transform="translate(185.06,121.11)" id="img-ac1d5fb8-115">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="58matrix_multiply" class="datatip" id="img-ac1d5fb8-116">
-              <g transform="translate(185.06,120.98)" id="img-ac1d5fb8-117">
+              <g transform="translate(185.06,121.11)" id="img-ac1d5fb8-117">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.058391547833437724</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">0.05480255695284363</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-118">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-119">
-              <g transform="translate(185.06,48.02)" id="img-ac1d5fb8-120">
+              <g transform="translate(185.06,47.65)" id="img-ac1d5fb8-120">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="57iteration_pi_sum" class="datatip" id="img-ac1d5fb8-121">
-              <g transform="translate(185.06,48.02)" id="img-ac1d5fb8-122">
+              <g transform="translate(185.06,47.65)" id="img-ac1d5fb8-122">
                 <g class="primitive">
-                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.7307593879407759</tspan></text>
+                  <text dy="-1.2em">8<tspan x="0" dy="1.1000em">1.7360823741366742</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-123">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-124">
-              <g transform="translate(161.94,110.52)" id="img-ac1d5fb8-125">
+              <g transform="translate(161.94,110.45)" id="img-ac1d5fb8-125">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="56userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-126">
-              <g transform="translate(161.94,110.52)" id="img-ac1d5fb8-127">
+              <g transform="translate(161.94,110.45)" id="img-ac1d5fb8-127">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.2981268767314653</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.2985890266890595</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-128">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-129">
-              <g transform="translate(161.94,106.45)" id="img-ac1d5fb8-130">
+              <g transform="translate(161.94,106.46)" id="img-ac1d5fb8-130">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="55recursion_quicksort" class="datatip" id="img-ac1d5fb8-131">
-              <g transform="translate(161.94,106.45)" id="img-ac1d5fb8-132">
+              <g transform="translate(161.94,106.46)" id="img-ac1d5fb8-132">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.3915887776877516</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.39003617990418166</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-133">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-134">
-              <g transform="translate(161.94,89.54)" id="img-ac1d5fb8-135">
+              <g transform="translate(161.94,89.65)" id="img-ac1d5fb8-135">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="54recursion_fibonacci" class="datatip" id="img-ac1d5fb8-136">
-              <g transform="translate(161.94,89.54)" id="img-ac1d5fb8-137">
+              <g transform="translate(161.94,89.65)" id="img-ac1d5fb8-137">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.7791789796818082</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.7746571470236351</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-138">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-139">
-              <g transform="translate(161.94,84.01)" id="img-ac1d5fb8-140">
+              <g transform="translate(161.94,83.65)" id="img-ac1d5fb8-140">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="53print_to_file" class="datatip" id="img-ac1d5fb8-141">
-              <g transform="translate(161.94,84.01)" id="img-ac1d5fb8-142">
+              <g transform="translate(161.94,83.65)" id="img-ac1d5fb8-142">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.9057269220505878</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.9120896682771061</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-143">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-144">
-              <g transform="translate(161.94,107.29)" id="img-ac1d5fb8-145">
+              <g transform="translate(161.94,107.2)" id="img-ac1d5fb8-145">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="52parse_integers" class="datatip" id="img-ac1d5fb8-146">
-              <g transform="translate(161.94,107.29)" id="img-ac1d5fb8-147">
+              <g transform="translate(161.94,107.2)" id="img-ac1d5fb8-147">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.37229285106600696</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.3730953139228017</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-148">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-149">
-              <g transform="translate(161.94,75.07)" id="img-ac1d5fb8-150">
+              <g transform="translate(161.94,75.02)" id="img-ac1d5fb8-150">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="51matrix_statistics" class="datatip" id="img-ac1d5fb8-151">
-              <g transform="translate(161.94,75.07)" id="img-ac1d5fb8-152">
+              <g transform="translate(161.94,75.02)" id="img-ac1d5fb8-152">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">1.1107920062409695</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">1.1095409440588797</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-153">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-154">
-              <g transform="translate(161.94,63.14)" id="img-ac1d5fb8-155">
+              <g transform="translate(161.94,63.18)" id="img-ac1d5fb8-155">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="50matrix_multiply" class="datatip" id="img-ac1d5fb8-156">
-              <g transform="translate(161.94,63.14)" id="img-ac1d5fb8-157">
+              <g transform="translate(161.94,63.18)" id="img-ac1d5fb8-157">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">1.384161994432757</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">1.380653496598711</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-158">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-159">
-              <g transform="translate(161.94,122.97)" id="img-ac1d5fb8-160">
+              <g transform="translate(161.94,122.94)" id="img-ac1d5fb8-160">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="49iteration_pi_sum" class="datatip" id="img-ac1d5fb8-161">
-              <g transform="translate(161.94,122.97)" id="img-ac1d5fb8-162">
+              <g transform="translate(161.94,122.94)" id="img-ac1d5fb8-162">
                 <g class="primitive">
-                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.0129765548491954</tspan></text>
+                  <text dy="-1.2em">7<tspan x="0" dy="1.1000em">0.01278400035247198</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-163">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-164">
-              <g transform="translate(138.83,97.97)" id="img-ac1d5fb8-165">
+              <g transform="translate(138.83,97.67)" id="img-ac1d5fb8-165">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="48userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-166">
-              <g transform="translate(138.83,97.97)" id="img-ac1d5fb8-167">
+              <g transform="translate(138.83,97.67)" id="img-ac1d5fb8-167">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.5858177915794346</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.5912298927447213</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-168">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-169">
-              <g transform="translate(138.83,111.49)" id="img-ac1d5fb8-170">
+              <g transform="translate(138.83,111.2)" id="img-ac1d5fb8-170">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="47recursion_quicksort" class="datatip" id="img-ac1d5fb8-171">
-              <g transform="translate(138.83,111.49)" id="img-ac1d5fb8-172">
+              <g transform="translate(138.83,111.2)" id="img-ac1d5fb8-172">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.2761016278461763</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.281533522736209</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-173">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-174">
-              <g transform="translate(138.83,79.53)" id="img-ac1d5fb8-175">
+              <g transform="translate(138.83,112.07)" id="img-ac1d5fb8-175">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="46recursion_fibonacci" class="datatip" id="img-ac1d5fb8-176">
-              <g transform="translate(138.83,79.53)" id="img-ac1d5fb8-177">
+              <g transform="translate(138.83,112.07)" id="img-ac1d5fb8-177">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">1.008448497087334</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.2617036530439386</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-178">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-179">
-              <g transform="translate(138.83,90.99)" id="img-ac1d5fb8-180">
+              <g transform="translate(138.83,90.95)" id="img-ac1d5fb8-180">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="45print_to_file" class="datatip" id="img-ac1d5fb8-181">
-              <g transform="translate(138.83,90.99)" id="img-ac1d5fb8-182">
+              <g transform="translate(138.83,90.95)" id="img-ac1d5fb8-182">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.7458063071133398</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.7450268622329977</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-183">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-184">
-              <g transform="translate(138.83,88.86)" id="img-ac1d5fb8-185">
+              <g transform="translate(138.83,86.36)" id="img-ac1d5fb8-185">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="44parse_integers" class="datatip" id="img-ac1d5fb8-186">
-              <g transform="translate(138.83,88.86)" id="img-ac1d5fb8-187">
+              <g transform="translate(138.83,86.36)" id="img-ac1d5fb8-187">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.7945488266246987</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.8500049996196384</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-188">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-189">
-              <g transform="translate(138.83,93.75)" id="img-ac1d5fb8-190">
+              <g transform="translate(138.83,93.84)" id="img-ac1d5fb8-190">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="43matrix_statistics" class="datatip" id="img-ac1d5fb8-191">
-              <g transform="translate(138.83,93.75)" id="img-ac1d5fb8-192">
+              <g transform="translate(138.83,93.84)" id="img-ac1d5fb8-192">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.6826301318532191</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.6788388118820986</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-193">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-194">
-              <g transform="translate(138.83,83.45)" id="img-ac1d5fb8-195">
+              <g transform="translate(138.83,83.48)" id="img-ac1d5fb8-195">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="42matrix_multiply" class="datatip" id="img-ac1d5fb8-196">
-              <g transform="translate(138.83,83.45)" id="img-ac1d5fb8-197">
+              <g transform="translate(138.83,83.48)" id="img-ac1d5fb8-197">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.9185528253473115</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.9158360968244305</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-198">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-199">
-              <g transform="translate(138.83,123.52)" id="img-ac1d5fb8-200">
+              <g transform="translate(138.83,123.45)" id="img-ac1d5fb8-200">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="41iteration_pi_sum" class="datatip" id="img-ac1d5fb8-201">
-              <g transform="translate(138.83,123.52)" id="img-ac1d5fb8-202">
+              <g transform="translate(138.83,123.45)" id="img-ac1d5fb8-202">
                 <g class="primitive">
-                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.00037185972098321073</tspan></text>
+                  <text dy="-1.2em">6<tspan x="0" dy="1.1000em">0.001238594618289575</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-203">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-204">
-              <g transform="translate(115.71,117.92)" id="img-ac1d5fb8-205">
+              <g transform="translate(115.71,117.86)" id="img-ac1d5fb8-205">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="40userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-206">
-              <g transform="translate(115.71,117.92)" id="img-ac1d5fb8-207">
+              <g transform="translate(115.71,117.86)" id="img-ac1d5fb8-207">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.1285664848347419</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.12902863479233606</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-208">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-209">
-              <g transform="translate(115.71,112.3)" id="img-ac1d5fb8-210">
+              <g transform="translate(115.71,112.39)" id="img-ac1d5fb8-210">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="39recursion_quicksort" class="datatip" id="img-ac1d5fb8-211">
-              <g transform="translate(115.71,112.3)" id="img-ac1d5fb8-212">
+              <g transform="translate(115.71,112.39)" id="img-ac1d5fb8-212">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.2573714165618594</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.25437357790410864</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-213">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-214">
-              <g transform="translate(115.71,115.08)" id="img-ac1d5fb8-215">
+              <g transform="translate(115.71,102.08)" id="img-ac1d5fb8-215">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="38recursion_fibonacci" class="datatip" id="img-ac1d5fb8-216">
-              <g transform="translate(115.71,115.08)" id="img-ac1d5fb8-217">
+              <g transform="translate(115.71,102.08)" id="img-ac1d5fb8-217">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.1937182501733075</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.4902264131791156</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-218">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-219">
-              <g transform="translate(115.71,131.08)" id="img-ac1d5fb8-220">
+              <g transform="translate(115.71,130.98)" id="img-ac1d5fb8-220">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="37print_to_file" class="datatip" id="img-ac1d5fb8-221">
-              <g transform="translate(115.71,131.08)" id="img-ac1d5fb8-222">
+              <g transform="translate(115.71,130.98)" id="img-ac1d5fb8-222">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">-0.1731070273116735</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">-0.17127106442387846</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-223">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-224">
-              <g transform="translate(115.71,121.73)" id="img-ac1d5fb8-225">
+              <g transform="translate(115.71,121.44)" id="img-ac1d5fb8-225">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="36parse_integers" class="datatip" id="img-ac1d5fb8-226">
-              <g transform="translate(115.71,121.73)" id="img-ac1d5fb8-227">
+              <g transform="translate(115.71,121.44)" id="img-ac1d5fb8-227">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.0412996320245826</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.04724173453378843</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-228">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-229">
-              <g transform="translate(115.71,111.67)" id="img-ac1d5fb8-230">
+              <g transform="translate(115.71,111.79)" id="img-ac1d5fb8-230">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="35matrix_statistics" class="datatip" id="img-ac1d5fb8-231">
-              <g transform="translate(115.71,111.67)" id="img-ac1d5fb8-232">
+              <g transform="translate(115.71,111.79)" id="img-ac1d5fb8-232">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.2717793974249384</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.26805699822843804</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-233">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-234">
-              <g transform="translate(115.71,105.68)" id="img-ac1d5fb8-235">
+              <g transform="translate(115.71,105.83)" id="img-ac1d5fb8-235">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="34matrix_multiply" class="datatip" id="img-ac1d5fb8-236">
-              <g transform="translate(115.71,105.68)" id="img-ac1d5fb8-237">
+              <g transform="translate(115.71,105.83)" id="img-ac1d5fb8-237">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.40919917185137406</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">0.40453162172825313</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-238">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-239">
-              <g transform="translate(115.71,123.54)" id="img-ac1d5fb8-240">
+              <g transform="translate(115.71,123.52)" id="img-ac1d5fb8-240">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="33iteration_pi_sum" class="datatip" id="img-ac1d5fb8-241">
-              <g transform="translate(115.71,123.54)" id="img-ac1d5fb8-242">
+              <g transform="translate(115.71,123.52)" id="img-ac1d5fb8-242">
                 <g class="primitive">
-                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">-0.0001273602804451614</tspan></text>
+                  <text dy="-1.2em">5<tspan x="0" dy="1.1000em">-0.00038208562859571384</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-243">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-244">
-              <g transform="translate(92.6,124.58)" id="img-ac1d5fb8-245">
+              <g transform="translate(92.6,124.54)" id="img-ac1d5fb8-245">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="32userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-246">
-              <g transform="translate(92.6,124.58)" id="img-ac1d5fb8-247">
+              <g transform="translate(92.6,124.54)" id="img-ac1d5fb8-247">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-0.02413716579975798</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-0.02383166945131314</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-248">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-249">
-              <g transform="translate(92.6,123.22)" id="img-ac1d5fb8-250">
+              <g transform="translate(92.6,123.12)" id="img-ac1d5fb8-250">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="31recursion_quicksort" class="datatip" id="img-ac1d5fb8-251">
-              <g transform="translate(92.6,123.22)" id="img-ac1d5fb8-252">
+              <g transform="translate(92.6,123.12)" id="img-ac1d5fb8-252">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.007225813203655203</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.008755045146304334</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-253">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-254">
-              <g transform="translate(92.6,104.45)" id="img-ac1d5fb8-255">
+              <g transform="translate(92.6,104.58)" id="img-ac1d5fb8-255">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="30recursion_fibonacci" class="datatip" id="img-ac1d5fb8-256">
-              <g transform="translate(92.6,104.45)" id="img-ac1d5fb8-257">
+              <g transform="translate(92.6,104.58)" id="img-ac1d5fb8-257">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.43741344735952686</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.43304026508595456</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-258">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-259">
-              <g transform="translate(92.6,126.98)" id="img-ac1d5fb8-260">
+              <g transform="translate(92.6,127.16)" id="img-ac1d5fb8-260">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="29print_to_file" class="datatip" id="img-ac1d5fb8-261">
-              <g transform="translate(92.6,126.98)" id="img-ac1d5fb8-262">
+              <g transform="translate(92.6,127.16)" id="img-ac1d5fb8-262">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-0.07899824942801718</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-0.08376844203924548</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-263">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-264">
-              <g transform="translate(92.6,118.94)" id="img-ac1d5fb8-265">
+              <g transform="translate(92.6,118.73)" id="img-ac1d5fb8-265">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="28parse_integers" class="datatip" id="img-ac1d5fb8-266">
-              <g transform="translate(92.6,118.94)" id="img-ac1d5fb8-267">
+              <g transform="translate(92.6,118.73)" id="img-ac1d5fb8-267">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.10517335549701608</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.1092394005010472</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-268">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-269">
-              <g transform="translate(92.6,118.73)" id="img-ac1d5fb8-270">
+              <g transform="translate(92.6,118.59)" id="img-ac1d5fb8-270">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="27matrix_statistics" class="datatip" id="img-ac1d5fb8-271">
-              <g transform="translate(92.6,118.73)" id="img-ac1d5fb8-272">
+              <g transform="translate(92.6,118.59)" id="img-ac1d5fb8-272">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.11002112679667993</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.11244121239432964</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-273">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-274">
-              <g transform="translate(92.6,122.81)" id="img-ac1d5fb8-275">
+              <g transform="translate(92.6,123.07)" id="img-ac1d5fb8-275">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="26matrix_multiply" class="datatip" id="img-ac1d5fb8-276">
-              <g transform="translate(92.6,122.81)" id="img-ac1d5fb8-277">
+              <g transform="translate(92.6,123.07)" id="img-ac1d5fb8-277">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.016582631938830448</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">0.009794983083675836</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-278">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-279">
-              <g transform="translate(92.6,123.54)" id="img-ac1d5fb8-280">
+              <g transform="translate(92.6,123.51)" id="img-ac1d5fb8-280">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="25iteration_pi_sum" class="datatip" id="img-ac1d5fb8-281">
-              <g transform="translate(92.6,123.54)" id="img-ac1d5fb8-282">
+              <g transform="translate(92.6,123.51)" id="img-ac1d5fb8-282">
                 <g class="primitive">
-                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-8.403245989085004e-5</tspan></text>
+                  <text dy="-1.2em">4<tspan x="0" dy="1.1000em">-0.00014134742073010234</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-283">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-284">
-              <g transform="translate(69.49,255.94)" id="img-ac1d5fb8-285">
+              <g transform="translate(69.49,256.08)" id="img-ac1d5fb8-285">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="24userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-286">
-              <g transform="translate(69.49,255.94)" id="img-ac1d5fb8-287">
+              <g transform="translate(69.49,256.08)" id="img-ac1d5fb8-287">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-3.0347504861845107</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-3.034288336226916</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-288">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-289">
-              <g transform="translate(69.49,120.5)" id="img-ac1d5fb8-290">
+              <g transform="translate(69.49,120.54)" id="img-ac1d5fb8-290">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="23recursion_quicksort" class="datatip" id="img-ac1d5fb8-291">
-              <g transform="translate(69.49,120.5)" id="img-ac1d5fb8-292">
+              <g transform="translate(69.49,120.54)" id="img-ac1d5fb8-292">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.06953495999218533</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.06784114142856495</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-293">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-294">
-              <g transform="translate(69.49,131.3)" id="img-ac1d5fb8-295">
+              <g transform="translate(69.49,131.46)" id="img-ac1d5fb8-295">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="22recursion_fibonacci" class="datatip" id="img-ac1d5fb8-296">
-              <g transform="translate(69.49,131.3)" id="img-ac1d5fb8-297">
+              <g transform="translate(69.49,131.46)" id="img-ac1d5fb8-297">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-0.17804612723760824</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-0.18210819977084228</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-298">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-299">
-              <g transform="translate(69.49,90.26)" id="img-ac1d5fb8-300">
+              <g transform="translate(69.49,90.06)" id="img-ac1d5fb8-300">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="21print_to_file" class="datatip" id="img-ac1d5fb8-301">
-              <g transform="translate(69.49,90.26)" id="img-ac1d5fb8-302">
+              <g transform="translate(69.49,90.06)" id="img-ac1d5fb8-302">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.7626406394800312</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.7653062601980136</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-303">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-304">
-              <g transform="translate(69.49,128.33)" id="img-ac1d5fb8-305">
+              <g transform="translate(69.49,128.15)" id="img-ac1d5fb8-305">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="20parse_integers" class="datatip" id="img-ac1d5fb8-306">
-              <g transform="translate(69.49,128.33)" id="img-ac1d5fb8-307">
+              <g transform="translate(69.49,128.15)" id="img-ac1d5fb8-307">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-0.10991763705043776</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-0.10651578117900823</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-308">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-309">
-              <g transform="translate(69.49,115.66)" id="img-ac1d5fb8-310">
+              <g transform="translate(69.49,115.58)" id="img-ac1d5fb8-310">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="19matrix_statistics" class="datatip" id="img-ac1d5fb8-311">
-              <g transform="translate(69.49,115.66)" id="img-ac1d5fb8-312">
+              <g transform="translate(69.49,115.58)" id="img-ac1d5fb8-312">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.18048043585517884</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.18127852034670255</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-313">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-314">
-              <g transform="translate(69.49,120.68)" id="img-ac1d5fb8-315">
+              <g transform="translate(69.49,120.69)" id="img-ac1d5fb8-315">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="18matrix_multiply" class="datatip" id="img-ac1d5fb8-316">
-              <g transform="translate(69.49,120.68)" id="img-ac1d5fb8-317">
+              <g transform="translate(69.49,120.69)" id="img-ac1d5fb8-317">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.06542603261917328</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">0.06427201869585414</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-318">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-319">
-              <g transform="translate(69.49,365.39)" id="img-ac1d5fb8-320">
+              <g transform="translate(69.49,365.72)" id="img-ac1d5fb8-320">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="17iteration_pi_sum" class="datatip" id="img-ac1d5fb8-321">
-              <g transform="translate(69.49,365.39)" id="img-ac1d5fb8-322">
+              <g transform="translate(69.49,365.72)" id="img-ac1d5fb8-322">
                 <g class="primitive">
-                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-5.543325945918092</tspan></text>
+                  <text dy="-1.2em">3<tspan x="0" dy="1.1000em">-5.543518500414815</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-323">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-324">
-              <g transform="translate(46.37,124.91)" id="img-ac1d5fb8-325">
+              <g transform="translate(46.37,124.86)" id="img-ac1d5fb8-325">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="16userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-326">
-              <g transform="translate(46.37,124.91)" id="img-ac1d5fb8-327">
+              <g transform="translate(46.37,124.86)" id="img-ac1d5fb8-327">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.0316741403832023</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.03112762772745633</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-328">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-329">
-              <g transform="translate(46.37,124.26)" id="img-ac1d5fb8-330">
+              <g transform="translate(46.37,124.35)" id="img-ac1d5fb8-330">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="15recursion_quicksort" class="datatip" id="img-ac1d5fb8-331">
-              <g transform="translate(46.37,124.26)" id="img-ac1d5fb8-332">
+              <g transform="translate(46.37,124.35)" id="img-ac1d5fb8-332">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.01669525486083264</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.019434602435315074</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-333">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-334">
-              <g transform="translate(46.37,245.97)" id="img-ac1d5fb8-335">
+              <g transform="translate(46.37,246.31)" id="img-ac1d5fb8-335">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="14recursion_fibonacci" class="datatip" id="img-ac1d5fb8-336">
-              <g transform="translate(46.37,245.97)" id="img-ac1d5fb8-337">
+              <g transform="translate(46.37,246.31)" id="img-ac1d5fb8-337">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-2.8062817498266925</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-2.8108035824848656</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-338">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-339">
-              <g transform="translate(46.37,122.19)" id="img-ac1d5fb8-340">
+              <g transform="translate(46.37,122.16)" id="img-ac1d5fb8-340">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="13print_to_file" class="datatip" id="img-ac1d5fb8-341">
-              <g transform="translate(46.37,122.19)" id="img-ac1d5fb8-342">
+              <g transform="translate(46.37,122.16)" id="img-ac1d5fb8-342">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.03065726738801079</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.030770074161181694</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-343">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-344">
-              <g transform="translate(46.37,121.18)" id="img-ac1d5fb8-345">
+              <g transform="translate(46.37,121.1)" id="img-ac1d5fb8-345">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="12parse_integers" class="datatip" id="img-ac1d5fb8-346">
-              <g transform="translate(46.37,121.18)" id="img-ac1d5fb8-347">
+              <g transform="translate(46.37,121.1)" id="img-ac1d5fb8-347">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.05379539075502128</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.054999550428044434</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-348">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-349">
-              <g transform="translate(46.37,114.63)" id="img-ac1d5fb8-350">
+              <g transform="translate(46.37,114.33)" id="img-ac1d5fb8-350">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="11matrix_statistics" class="datatip" id="img-ac1d5fb8-351">
-              <g transform="translate(46.37,114.63)" id="img-ac1d5fb8-352">
+              <g transform="translate(46.37,114.33)" id="img-ac1d5fb8-352">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.2039112332840818</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">0.2098125425077873</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-353">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-354">
-              <g transform="translate(46.37,124.82)" id="img-ac1d5fb8-355">
+              <g transform="translate(46.37,124.9)" id="img-ac1d5fb8-355">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="10matrix_multiply" class="datatip" id="img-ac1d5fb8-356">
-              <g transform="translate(46.37,124.82)" id="img-ac1d5fb8-357">
+              <g transform="translate(46.37,124.9)" id="img-ac1d5fb8-357">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.029639039223471223</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-0.031982060203452685</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-358">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-359">
-              <g transform="translate(46.37,365.39)" id="img-ac1d5fb8-360">
+              <g transform="translate(46.37,365.72)" id="img-ac1d5fb8-360">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="9iteration_pi_sum" class="datatip" id="img-ac1d5fb8-361">
-              <g transform="translate(46.37,365.39)" id="img-ac1d5fb8-362">
+              <g transform="translate(46.37,365.72)" id="img-ac1d5fb8-362">
                 <g class="primitive">
-                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-5.543325945918092</tspan></text>
+                  <text dy="-1.2em">2<tspan x="0" dy="1.1000em">-5.543518500414815</tspan></text>
                 </g>
               </g>
             </g>
           </g>
           <g class="color_userfunc_mandelbrot" id="img-ac1d5fb8-363">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#63DF75" class="marker" id="img-ac1d5fb8-364">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-365">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-365">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="8userfunc_mandelbrot" class="datatip" id="img-ac1d5fb8-366">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-367">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-367">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1101,12 +1101,12 @@
           </g>
           <g class="color_recursion_quicksort" id="img-ac1d5fb8-368">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#C6C6C6" class="marker" id="img-ac1d5fb8-369">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-370">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-370">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="7recursion_quicksort" class="datatip" id="img-ac1d5fb8-371">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-372">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-372">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1115,12 +1115,12 @@
           </g>
           <g class="color_recursion_fibonacci" id="img-ac1d5fb8-373">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6765" class="marker" id="img-ac1d5fb8-374">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-375">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-375">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="6recursion_fibonacci" class="datatip" id="img-ac1d5fb8-376">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-377">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-377">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1129,12 +1129,12 @@
           </g>
           <g class="color_print_to_file" id="img-ac1d5fb8-378">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#BEA9FF" class="marker" id="img-ac1d5fb8-379">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-380">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-380">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="5print_to_file" class="datatip" id="img-ac1d5fb8-381">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-382">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-382">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1143,12 +1143,12 @@
           </g>
           <g class="color_parse_integers" id="img-ac1d5fb8-383">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00B78D" class="marker" id="img-ac1d5fb8-384">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-385">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-385">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="4parse_integers" class="datatip" id="img-ac1d5fb8-386">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-387">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-387">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1157,12 +1157,12 @@
           </g>
           <g class="color_matrix_statistics" id="img-ac1d5fb8-388">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#FF6DAE" class="marker" id="img-ac1d5fb8-389">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-390">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-390">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="3matrix_statistics" class="datatip" id="img-ac1d5fb8-391">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-392">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-392">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1171,12 +1171,12 @@
           </g>
           <g class="color_matrix_multiply" id="img-ac1d5fb8-393">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#D4CA3A" class="marker" id="img-ac1d5fb8-394">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-395">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-395">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="2matrix_multiply" class="datatip" id="img-ac1d5fb8-396">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-397">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-397">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1185,12 +1185,12 @@
           </g>
           <g class="color_iteration_pi_sum" id="img-ac1d5fb8-398">
             <g fill-opacity="1" stroke="#FFFFFF" fill="#00BFFF" class="marker" id="img-ac1d5fb8-399">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-400">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-400">
                 <circle cx="0" cy="0" r="0.9" class="primitive"/>
               </g>
             </g>
             <g fill-opacity="0" ilabel="1iteration_pi_sum" class="datatip" id="img-ac1d5fb8-401">
-              <g transform="translate(23.26,123.53)" id="img-ac1d5fb8-402">
+              <g transform="translate(23.26,123.5)" id="img-ac1d5fb8-402">
                 <g class="primitive">
                   <text dy="-0em">1,0.0</text>
                 </g>
@@ -1202,17 +1202,17 @@
     </g>
   </g>
   <g class="guide ylabels" font-size="2.82" font-family="Georgia" fill="#6C606B" id="img-ac1d5fb8-403">
-    <g transform="translate(10.7,123.53)" id="img-ac1d5fb8-404">
+    <g transform="translate(10.7,123.5)" id="img-ac1d5fb8-404">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">10<tspan dy="-0.4em" font-size="83%">0</tspan></text>
       </g>
     </g>
-    <g transform="translate(10.7,79.9)" id="img-ac1d5fb8-405">
+    <g transform="translate(10.7,79.81)" id="img-ac1d5fb8-405">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">10<tspan dy="-0.4em" font-size="83%">1</tspan></text>
       </g>
     </g>
-    <g transform="translate(10.7,36.27)" id="img-ac1d5fb8-406">
+    <g transform="translate(10.7,36.11)" id="img-ac1d5fb8-406">
       <g class="primitive">
         <text text-anchor="end" dy="0.35em">10<tspan dy="-0.4em" font-size="83%">2</tspan></text>
       </g>
