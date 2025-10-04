@@ -1,6 +1,6 @@
-using Documenter, DataFrames, CSV, StatsBase, Gadfly
+using Documenter, DataFrames, CSV, StatsBase, Gadfly, PrettyTables
 
-function makeplot(benchfile::String)
+function make_plot(benchfile::String)
     # Load benchmark data from file
     benchmarks = CSV.read(benchfile, DataFrame; header=["language", "benchmark", "time"])
 
@@ -63,7 +63,16 @@ function makeplot(benchfile::String)
     draw(SVG("docs/src/benchmarks.svg", 10inch, 10inch/golden), p)
 end
 
-makeplot("gh_action_benchmarks.csv")
+function make_versions_tbl(versions_file::String)
+    df = DataFrame(CSV.File(versions_file))
+    markdown_output = sprint(io -> pretty_table(io, df, backend = :markdown))
+    open("docs/src/versions.md", "w") do io
+        println(io, markdown_output)
+    end
+end
+
+make_plot("gh_action_benchmarks.csv")
+make_versions_tbl("gh_action_versions.csv")
 
 makedocs(
     format = Documenter.HTML(),
@@ -71,6 +80,7 @@ makedocs(
     pages = [
         "Microbenchmarks" => "index.md",
         "Notes" => "notes.md",
+        "Versions" => "versions.md",
     ],
 )
 

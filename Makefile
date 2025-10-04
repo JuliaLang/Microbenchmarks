@@ -4,7 +4,7 @@
 
 NODEJSBIN = node
 
-ITERATIONS=$(shell seq 1 5)
+ITERATIONS=$(shell seq 1 3)
 
 PYTHON = python3
 
