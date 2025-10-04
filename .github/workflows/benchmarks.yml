@@ -95,6 +95,8 @@ jobs:
       - name: "Run benchmark"
         run: |
           make gh_action_benchmarks.html
+      - name: "Print versions"
+        run: cat gh_action_versions.csv
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
       - uses: julia-actions/cache@v2
