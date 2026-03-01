@@ -5,43 +5,43 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>javaBenchmarks</name>
   <description>micro benchmarks for Julia done in Java</description>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>17</maven.compiler.release>
+  </properties>
   <dependencies>
-      <dependency>
-		  <groupId>org.jblas</groupId>
-		  <artifactId>jblas</artifactId>
-		  <version>1.2.4</version>
-	  </dependency>
-	  <dependency>
-		<groupId>org.ejml</groupId>
-		<artifactId>ejml-simple</artifactId>
-		<version>0.37.1</version>
-	  </dependency>
+    <dependency>
+      <groupId>org.jblas</groupId>
+      <artifactId>jblas</artifactId>
+      <version>1.2.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ejml</groupId>
+      <artifactId>ejml-simple</artifactId>
+      <version>0.43.1</version>
+    </dependency>
   </dependencies>
   <build>
-  <plugins>
-	   <plugin>
-	        <artifactId>maven-compiler-plugin</artifactId>
-	        <version>3.0</version>
-	        <configuration>
-	            <source>1.8</source>
-	            <target>1.8</target>
-	        </configuration>
-	    </plugin>
-	    <plugin>
-		  <groupId>org.codehaus.mojo</groupId>
-		  <artifactId>exec-maven-plugin</artifactId>
-		  <version>1.2.1</version>
-		  <executions>
-		    <execution>
-		      <goals>
-		        <goal>java</goal>
-		      </goals>
-		    </execution>
-		  </executions>
-		  <configuration>
-		    <mainClass>PerfBLAS</mainClass>
-		  </configuration>
-		</plugin>
-	  </plugins>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>PerfBLAS</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
