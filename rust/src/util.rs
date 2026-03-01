@@ -1,17 +1,18 @@
-use rand::{Rand, Rng, SeedableRng};
+use rand::Rng;
+use rand::SeedableRng;
+use rand_mt::Mt19937GenRand64;
 
-use mersenne_twister::MT19937_64;
-pub type MTRng = MT19937_64;
+pub type MTRng = Mt19937GenRand64;
 
 #[inline]
 pub fn gen_rng(seed: u64) -> MTRng {
-    MTRng::from_seed(seed)
+    Mt19937GenRand64::seed_from_u64(seed)
 }
 
 pub fn fill_rand<'a, I, T: 'a, R>(a: I, rng: &mut R)
 where
     I: IntoIterator<Item=&'a mut T>,
-    T: Rand,
+    rand::distributions::Standard: rand::distributions::Distribution<T>,
     R: Rng,
 {
     for v in a.into_iter() {

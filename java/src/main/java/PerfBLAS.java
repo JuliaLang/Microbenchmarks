@@ -1,13 +1,10 @@
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
 
 import org.jblas.DoubleMatrix;
 
 /**
- * Benchmark tests that call BLAS. 
+ * Benchmark tests that call BLAS.
  */
 public class PerfBLAS extends PerfPure {
 
@@ -55,21 +52,4 @@ public class PerfBLAS extends PerfPure {
         return new double[]{stdev(vElements)/mean(vElements),stdev(wElements)/mean(wElements)};
     }
 
-    private static int mandel(double re, double im) {
-        int n = 0;
-        Complex z = new Complex(re, im);
-        Complex c = new Complex(re, im);
-        for (n=0; n<=79; ++n) {
-            if (Complex.abs(z) > 2.0) {
-                n -= 1;
-                break;
-            }
-
-            // z = z*z + c
-            z = Complex.add(Complex.mul(z, z), c);
-        }
-        return n+1;
-    }
-
 }
-

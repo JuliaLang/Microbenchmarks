@@ -9,8 +9,6 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # Skip intermediate builds: all builds except for builds on the `master` or `release-*` branches
-  # Cancel intermediate builds: only pull request builds
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref != 'refs/heads/master' || startsWith(github.ref, 'refs/heads/release-') || github.run_number }}
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
@@ -20,28 +18,19 @@ permissions:
   pull-requests: read
   statuses: write
 
+# ---------------------------------------------------------------------------
+# Per-language benchmark jobs
+# ---------------------------------------------------------------------------
+
 jobs:
-  test:
-    runs-on: ${{ matrix.os }}
+
+  bench-c:
+    runs-on: ubuntu-latest
     defaults:
       run:
         shell: bash
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        java-version: ['24']
-        julia-version: ['1'] # Note: use the latest Julia version
-        python-version: ['3.13']
-        numpy-version: ['2.3']
-        gfortran-version: ['14.2']  # Note: unused since is built-in.
-        rust-version: ['1.88.0']  # Note: unused since controlled by `rust/rust-toolchain`
-        js-version: ['24']
-        r-version: ['4.5.1']
-        lua-version: ['latest']  # Note: unused since lua distribution manually downloaded
-        go-version: ['1.24.5']
-
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           persist-credentials: false
       - name: "Set up dSFMT"
@@ -54,51 +43,382 @@ jobs:
           mv dSFMT-*/* ./
           cd ..
       - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Run benchmark"
+        run: make benchmarks/c.csv
+      - name: "Capture version"
         run: |
-          sudo apt-get install -y libopenblas-dev
-      - name: "Set up Julia"
-        uses: julia-actions/setup-julia@v2
+          (
+            echo -n "c,gcc "
+            gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
         with:
-          version: v${{ matrix.julia-version }}
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
+          name: bench-c
+          path: |
+            benchmarks/c.csv
+            version.csv
+
+  bench-fortran:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
         with:
-          python-version: ${{ matrix.python-version }}
-      - name: "Set up NumPy"
-        run: pip install numpy==${{ matrix.numpy-version }}
-      - name: "Set up Rust"
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ matrix.rust-version }}
-      - name: "Set up Java"
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java-version }}
-          cache: 'maven'
-      - name: "Set up JavaScript"
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.js-version }}
-      - name: "Set up R"
-        uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: ${{ matrix.r-version }}
-      - name: "Set up LuaJit"
+          persist-credentials: false
+      - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Run benchmark"
+        run: make benchmarks/fortran.csv
+      - name: "Capture version"
         run: |
-          cd ~/work/Microbenchmarks.jl/Microbenchmarks.jl/lua
-          ./lua-install.sh
+          (
+            echo -n "fortran,gcc "
+            gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-fortran
+          path: |
+            benchmarks/fortran.csv
+            version.csv
+
+  bench-go:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: "Set up Go"
         uses: actions/setup-go@v5
         with:
-          go-version: ${{ matrix.go-version }}
+          go-version: '1.24'
+      - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Download Go modules"
+        run: cd go && go mod download
       - name: "Run benchmark"
+        run: make benchmarks/go.csv
+      - name: "Capture version"
         run: |
-          make gh_action_benchmarks.html
+          (
+            echo -n "go,"
+            go version | cut -f3 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-go
+          path: |
+            benchmarks/go.csv
+            version.csv
+
+  bench-java:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Java"
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '24'
+          cache: 'maven'
+      - name: "Download dependencies and compile"
+        run: cd java && mvn -q dependency:resolve compile
+      - name: "Run benchmark"
+        run: make benchmarks/java.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "java,"
+            java -version 2>&1 | grep "version" | cut -f2 -d "\""
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-java
+          path: |
+            benchmarks/java.csv
+            version.csv
+
+  bench-javascript:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up JavaScript"
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: "Run benchmark"
+        run: make benchmarks/javascript.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "javascript,V8 "
+            node -e "console.log(process.versions.v8)"
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-javascript
+          path: |
+            benchmarks/javascript.csv
+            version.csv
+
+  bench-julia:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: 'v1'
+      - name: "Precompile dependencies"
+        run: julia -e 'import LinearAlgebra, Statistics, Printf, Test'
+      - name: "Run benchmark"
+        run: make benchmarks/julia.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "julia,"
+            julia -v | cut -f3 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-julia
+          path: |
+            benchmarks/julia.csv
+            version.csv
+
+  bench-lua:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up LuaJIT"
+        run: cd lua && ./lua-install.sh
+      - name: "Run benchmark"
+        run: make benchmarks/lua.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "lua,"
+            (cd lua; ./ulua/luajit/*/Linux/x64/luajit -v | cut -f2 -d" ")
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-lua
+          path: |
+            benchmarks/lua.csv
+            version.csv
+
+  bench-octave:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Octave"
+        run: sudo apt-get update && sudo apt-get install -y octave libopenblas-dev
+      - name: "Run benchmark"
+        run: make benchmarks/octave.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "octave,"
+            octave-cli --version | head -1 | cut -f4 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-octave
+          path: |
+            benchmarks/octave.csv
+            version.csv
+
+  bench-python:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: "Set up NumPy"
+        run: pip install numpy==2.3
+      - name: "Run benchmark"
+        run: make benchmarks/python.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "python,"
+            python3 -V 2>&1 | cut -f2 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-python
+          path: |
+            benchmarks/python.csv
+            version.csv
+
+  bench-r:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up R"
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.5.1'
+      - name: "Run benchmark"
+        run: make benchmarks/r.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "r,"
+            R --version | grep "R version" | cut -f3 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-r
+          path: |
+            benchmarks/r.csv
+            version.csv
+
+  bench-rust:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Set up Rust"
+        uses: dtolnay/rust-toolchain@stable
+      - name: "Download dependencies and build"
+        run: cd rust && cargo build --release
+      - name: "Run benchmark"
+        run: make benchmarks/rust.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "rust,"
+            rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-rust
+          path: |
+            benchmarks/rust.csv
+            version.csv
+
+  # ---------------------------------------------------------------------------
+  # Aggregation + deploy
+  # ---------------------------------------------------------------------------
+
+  report:
+    runs-on: ubuntu-latest
+    needs:
+      - bench-c
+      - bench-fortran
+      - bench-go
+      - bench-java
+      - bench-javascript
+      - bench-julia
+      - bench-lua
+      - bench-octave
+      - bench-python
+      - bench-r
+      - bench-rust
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: 'v1'
+
+      - name: "Download all benchmark artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: "Collect benchmark CSVs"
+        run: |
+          mkdir -p benchmarks
+          for dir in artifacts/bench-*; do
+            lang=$(basename "$dir" | sed 's/^bench-//')
+            cp "$dir/benchmarks/${lang}.csv" benchmarks/
+          done
+
+      - name: "Merge benchmarks"
+        run: julia bin/collect.jl benchmarks/*.csv > gh_action_benchmarks.csv
+
+      - name: "Collect versions"
+        run: |
+          for dir in artifacts/bench-*; do
+            cat "$dir/version.csv"
+          done > gh_action_versions.csv
+
+      - name: "Generate HTML table"
+        run: julia bin/table.jl gh_action_versions.csv gh_action_benchmarks.csv > gh_action_benchmarks.html
+
       - name: "Print versions"
         run: cat gh_action_versions.csv
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
+
       - uses: julia-actions/cache@v2
       - name: "Build site"
         run: |

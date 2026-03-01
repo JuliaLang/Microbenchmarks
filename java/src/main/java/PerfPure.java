@@ -1,5 +1,5 @@
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Random;
@@ -8,21 +8,21 @@ import org.ejml.simple.SimpleMatrix;
 
 /**
  * (Below excerpt is printed on the website and repeated here)
- * 
- * These benchmarks, while not comprehensive, do test compiler performance on a range of common code patterns, 
- * such as function calls, string parsing, sorting, numerical loops, random number generation, and array operations. 
- * It is important to note that these benchmark implementations are not written for absolute maximal performance 
- * (the fastest code to compute fib(20) is the constant literal 6765). Rather, all of the benchmarks are written 
- * to test the performance of specific algorithms, expressed in a reasonable idiom in each language. 
- * In particular, all languages use the same algorithm: the Fibonacci benchmarks are all recursive while 
- * the pi summation benchmarks are all iterative; the “algorithm” for random matrix multiplication is to 
- * call LAPACK, except where that’s not possible, such as in JavaScript. The point of these benchmarks is to 
- * compare the performance of specific algorithms across language implementations, not to compare the fastest 
- * means of computing a result, which in most high-level languages relies on calling C code. 
+ *
+ * These benchmarks, while not comprehensive, do test compiler performance on a range of common code patterns,
+ * such as function calls, string parsing, sorting, numerical loops, random number generation, and array operations.
+ * It is important to note that these benchmark implementations are not written for absolute maximal performance
+ * (the fastest code to compute fib(20) is the constant literal 6765). Rather, all of the benchmarks are written
+ * to test the performance of specific algorithms, expressed in a reasonable idiom in each language.
+ * In particular, all languages use the same algorithm: the Fibonacci benchmarks are all recursive while
+ * the pi summation benchmarks are all iterative; the "algorithm" for random matrix multiplication is to
+ * call LAPACK, except where that's not possible, such as in JavaScript. The point of these benchmarks is to
+ * compare the performance of specific algorithms across language implementations, not to compare the fastest
+ * means of computing a result, which in most high-level languages relies on calling C code.
  *
  */
 public class PerfPure {
-    
+
     protected final int NITER = 5;
     protected Random rand = new Random(0);
 
@@ -30,7 +30,7 @@ public class PerfPure {
         PerfPure p = new PerfPure();
         p.runBenchmarks();
     }
-    
+
     void runBenchmarks() {
 
         long t, tmin;
@@ -53,7 +53,7 @@ public class PerfPure {
             for (int k=0; k<1000; ++k) {
                 int n = rand.nextInt(Integer.MAX_VALUE);
                 String str = Integer.toHexString(n);
-                int m = Integer.valueOf(str, 16);
+                int m = Integer.parseInt(str, 16);
                 assert(m == n);
             }
             t = System.nanoTime()-t;
@@ -122,16 +122,6 @@ public class PerfPure {
         }
         print_perf("matrix_multiply", tmin);
 
-
-        tmin = Long.MAX_VALUE;
-        for (int i=0; i<NITER; ++i) {
-            t = System.nanoTime();
-            sinc_sum(1000);
-            t = System.nanoTime()-t;
-            if (t < tmin) tmin = t;
-        }
-        print_perf("iteration_sinc_sum", tmin);
-
         // printfd
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
@@ -144,29 +134,13 @@ public class PerfPure {
     }
 
     void printfd(int n) {
-        try {
-            FileOutputStream f = new FileOutputStream("/dev/null");
-            PrintStream ps = new PrintStream(f);
-            long i = 0;
-            for (i = 0; i < n; i++) {
+        try (PrintStream ps = new PrintStream(new FileOutputStream("/dev/null"))) {
+            for (long i = 0; i < n; i++) {
                 ps.println(i + " " + (i+1));
             }
-            ps.close();
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
-    protected double sinc_sum(int n) {
-
-        double total = 0;
-        for (int i=0; i < n; i++) {
-            double f= Math.PI*i;
-            double sinc = Math.sin(f)/f;
-            total+=sinc;
-        }
-        return total;
     }
 
     private double randmatmul(int i) {
@@ -230,16 +204,16 @@ public class PerfPure {
     }
 
     public double stdev(SimpleMatrix sm) {
-            double m = mean(sm);
-            double total = 0;
+        double m = mean(sm);
+        double total = 0;
 
-            int i = sm.getNumElements();
-            while (--i>=0) {
-                double dif = (sm.get(i)-m);
-                total += dif*dif;
-            }
-            return Math.sqrt(total/(sm.getNumElements()-1));
+        int i = sm.getNumElements();
+        while (--i>=0) {
+            double dif = (sm.get(i)-m);
+            total += dif*dif;
         }
+        return Math.sqrt(total/(sm.getNumElements()-1));
+    }
 
     public double mean(SimpleMatrix sm) {
         double total = 0;
@@ -297,7 +271,7 @@ public class PerfPure {
         double cReal = zReal;
         double cImag = zImag;
         for (n=0; n<=79; ++n) {
-            if (complexAbs2(zReal,zImag) > 4.0) {
+            if (zReal*zReal + zImag*zImag > 4.0) {
                 n -= 1;
                 break;
             }
@@ -312,14 +286,6 @@ public class PerfPure {
 
         }
         return n+1;
-    }
-
-    private double complexAbs(double zReal, double zImag) {
-        return Math.sqrt(zReal*zReal + zImag*zImag);
-    }
-
-    private double complexAbs2(double zReal, double zImag) {
-        return zReal*zReal + zImag*zImag;
     }
 
     protected int mandelperf() {
@@ -342,4 +308,3 @@ public class PerfPure {
     }
 
 }
-
