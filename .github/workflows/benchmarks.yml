@@ -47,11 +47,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/c.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "c,gcc "
-            gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh c > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -74,11 +70,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/fortran.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "fortran,gcc "
-            gfortran -v 2>&1 | grep "gcc version" | cut -f3 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh fortran > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -107,11 +99,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/go.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "go,"
-            go version | cut -f3 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh go > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -140,11 +128,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/java.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "java,"
-            java -version 2>&1 | grep "version" | cut -f2 -d "\""
-          ) > version.csv
+        run: bash bin/versions.sh java > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -169,11 +153,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/javascript.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "javascript,V8 "
-            node -e "console.log(process.versions.v8)"
-          ) > version.csv
+        run: bash bin/versions.sh javascript > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -200,11 +180,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/julia.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "julia,"
-            julia -v | cut -f3 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh julia > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -227,11 +203,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/lua.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "lua,"
-            (cd lua; ./ulua/luajit/*/Linux/x64/luajit -v | cut -f2 -d" ")
-          ) > version.csv
+        run: bash bin/versions.sh lua > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -254,11 +226,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/octave.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "octave,"
-            octave-cli --version | head -1 | cut -f4 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh octave > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -285,11 +253,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/python.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "python,"
-            python3 -V 2>&1 | cut -f2 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh python > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -314,11 +278,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/r.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "r,"
-            R --version | grep "R version" | cut -f3 -d" "
-          ) > version.csv
+        run: bash bin/versions.sh r > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:
@@ -345,11 +305,7 @@ jobs:
       - name: "Run benchmark"
         run: make benchmarks/rust.csv
       - name: "Capture version"
-        run: |
-          (
-            echo -n "rust,"
-            rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
-          ) > version.csv
+        run: bash bin/versions.sh rust > version.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v4
         with:

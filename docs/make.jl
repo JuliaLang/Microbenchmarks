@@ -132,30 +132,33 @@ function make_chart(benchfile::String)
     html = """
     ```@raw html
     <canvas id="benchChart" style="max-height:500px;"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-    new Chart(document.getElementById("benchChart"), {
-        type: "bar",
-        data: {
-            labels: $labels_json,
-            datasets: [
-            $datasets_json
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                title: { display: true, text: "Benchmark times relative to C (lower is better)" },
-                legend: { position: "bottom" }
+    // Use require() to load Chart.js so it works with Documenter.jl's RequireJS
+    require.config({ paths: { chartjs: "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min" } });
+    require(["chartjs"], function(Chart) {
+        new Chart(document.getElementById("benchChart"), {
+            type: "bar",
+            data: {
+                labels: $labels_json,
+                datasets: [
+                $datasets_json
+                ]
             },
-            scales: {
-                y: {
-                    type: "logarithmic",
-                    title: { display: true, text: "Time relative to C" },
-                    min: 0.1
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: "Benchmark times relative to C (lower is better)" },
+                    legend: { position: "bottom" }
+                },
+                scales: {
+                    y: {
+                        type: "logarithmic",
+                        title: { display: true, text: "Time relative to C" },
+                        min: 0.1
+                    }
                 }
             }
-        }
+        });
     });
     </script>
     ```
@@ -185,8 +188,11 @@ function make_versions_tbl(versions_file::String)
     end
 end
 
-make_chart("gh_action_benchmarks.csv")
-make_versions_tbl("gh_action_versions.csv")
+benchmarks_csv = get(ARGS, 1, "gh_action_benchmarks.csv")
+versions_csv   = get(ARGS, 2, "gh_action_versions.csv")
+
+make_chart(benchmarks_csv)
+make_versions_tbl(versions_csv)
 
 makedocs(
     format = Documenter.HTML(),

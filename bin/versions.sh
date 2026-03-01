@@ -2,7 +2,7 @@
 
 # User argument declaring what languages to query:
 DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
-LANGUAGES=${1:-DEFAULT_LANGUAGES}
+LANGUAGES=${1:-$DEFAULT_LANGUAGES}
 
 LANGUAGES=":${LANGUAGES}:"
 
@@ -69,5 +69,5 @@ fi
 
 if [[ $LANGUAGES == *":rust:"* ]]; then
     echo -n "rust,"
-    (cd rust; rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g')
+    rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
 fi

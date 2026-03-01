@@ -1,3 +1,0 @@
-module Microbenchmarks
-
-end #module
