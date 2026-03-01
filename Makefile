@@ -60,12 +60,9 @@ benchmarks/c%.csv: bin/perf%
 benchmarks/fortran%.csv: bin/fperf%
 	@for t in $(ITERATIONS); do $<; done >$@
 
-benchmarks/go.csv: export GOPATH=$(abspath gopath)
-benchmarks/go.csv: perf.go
+benchmarks/go.csv: perf.go go.mod
 	export CGO_LDFLAGS="-lopenblas"
-	go install gonum.org/v1/netlib/blas/netlib@latest
-	go install gonum.org/v1/gonum/mat64@latest
-	go install gonum.org/v1/gonum/stat@latest
+	go mod tidy
 	@for t in $(ITERATIONS); do go run $<; done >$@
 
 benchmarks/julia.csv: perf.jl
@@ -106,8 +103,8 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
 	cd rust
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
-LANGUAGES = c fortran java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran java javascript julia lua python r rust
+LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua python r rust
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
@@ -133,6 +130,6 @@ gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchma
 	julia $^ >$@
 
 clean:
-	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log gopath/*
+	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log
 
 .PHONY: all perf clean
