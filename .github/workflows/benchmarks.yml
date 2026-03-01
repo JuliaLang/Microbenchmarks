@@ -240,6 +240,33 @@ jobs:
             benchmarks/lua.csv
             version.csv
 
+  bench-octave:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Octave"
+        run: sudo apt-get update && sudo apt-get install -y octave libopenblas-dev
+      - name: "Run benchmark"
+        run: make benchmarks/octave.csv
+      - name: "Capture version"
+        run: |
+          (
+            echo -n "octave,"
+            octave-cli --version | head -1 | cut -f4 -d" "
+          ) > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-octave
+          path: |
+            benchmarks/octave.csv
+            version.csv
+
   bench-python:
     runs-on: ubuntu-latest
     defaults:
@@ -345,6 +372,7 @@ jobs:
       - bench-javascript
       - bench-julia
       - bench-lua
+      - bench-octave
       - bench-python
       - bench-r
       - bench-rust
