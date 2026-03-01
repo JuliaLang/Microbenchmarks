@@ -314,6 +314,35 @@ jobs:
             benchmarks/rust.csv
             version.csv
 
+  bench-swift:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Swift"
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.1'
+      - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Build"
+        run: cd swift && swift build -c release -Xlinker -lopenblas
+      - name: "Run benchmark"
+        run: make benchmarks/swift.csv
+      - name: "Capture version"
+        run: bash bin/versions.sh swift > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-swift
+          path: |
+            benchmarks/swift.csv
+            version.csv
+
   # ---------------------------------------------------------------------------
   # Aggregation + deploy
   # ---------------------------------------------------------------------------
@@ -332,6 +361,7 @@ jobs:
       - bench-python
       - bench-r
       - bench-rust
+      - bench-swift
     defaults:
       run:
         shell: bash

@@ -104,8 +104,13 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.toml
 	cd rust
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust
+benchmarks/swift.csv: swift/Sources/perf/main.swift swift/Package.swift
+	cd swift
+	swift build -c release -Xlinker -lopenblas
+	@for t in $(ITERATIONS); do .build/release/perf; done >../$@
+
+LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust swift
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust swift
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)

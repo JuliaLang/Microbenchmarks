@@ -71,3 +71,8 @@ if [[ $LANGUAGES == *":rust:"* ]]; then
     echo -n "rust,"
     rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
 fi
+
+if [[ $LANGUAGES == *":swift:"* ]]; then
+    echo -n "swift,"
+    swift --version 2>&1 | head -1 | sed 's/Swift version //' | cut -f1 -d" "
+fi
