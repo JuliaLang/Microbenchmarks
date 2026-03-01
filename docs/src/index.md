@@ -5,7 +5,7 @@ performance on a range of common code patterns, such as function
 calls, string parsing, sorting, numerical loops, random number
 generation, recursion, and array operations.
 
-![Benchmark results](benchmarks.svg)
+See the [Benchmarks](@ref) page for the interactive chart comparing all languages.
 
 These micro-benchmark results were obtained on a single core (serial
 execution) on [Github
