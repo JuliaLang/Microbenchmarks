@@ -1,7 +1,45 @@
-/perf.h
-/versions.csv
+# Compiled C/Fortran binaries
+/bin/perf*
+/bin/fperf*
+
+# Fortran module directories
+/mods/
+
+# Downloaded C dependency (dSFMT)
+/dSFMT/
+
+# Benchmark results (generated)
+/benchmarks/*.csv
 /benchmarks.csv
 /benchmarks.txt
 /benchmarks.html
-/gopath
-/mods/*
+/gh_action_benchmarks.*
+/gh_action_versions.csv
+/versions.csv
+
+# Documenter build output
+/docs/build/
+/docs/Manifest.toml
+
+# Go
+/go/go.sum
+
+# Rust
+/rust/target/
+
+# Java (Maven)
+/java/target/
+
+# Scala (sbt)
+/scala/target/
+/scala/project/target/
+
+# LuaJIT install
+/lua/ulua/
+
+# Misc
+/gopath/
+/perf.h
+*~
+octave-core
+perf.log

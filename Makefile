@@ -105,7 +105,7 @@ benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.toml
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
 LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua python r rust
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
@@ -132,5 +132,7 @@ gh_action_benchmarks.html: bin/table.jl gh_action_versions.csv gh_action_benchma
 
 clean:
 	@rm -rf bin/perf* bin/fperf* benchmarks/*.csv benchmarks.csv mods *~ octave-core perf.log
+	@rm -rf gh_action_benchmarks.* gh_action_versions.csv versions.csv benchmarks.html benchmarks.txt
+	@rm -rf docs/build dSFMT
 
-.PHONY: all perf clean
+.PHONY: default clean dsfmt
