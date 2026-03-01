@@ -376,11 +376,9 @@ jobs:
         run: cat gh_action_benchmarks.csv
 
       - uses: julia-actions/cache@v2
-      - name: "Build site"
+      - name: "Build and deploy site"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           julia --color=yes --project=docs -e 'using Pkg; Pkg.instantiate()'
           julia --color=yes --project=docs --compiled-modules=existing docs/make.jl
-      - name: "Deploy site"
-        uses: julia-actions/julia-docdeploy@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
