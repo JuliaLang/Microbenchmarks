@@ -1,30 +1,10 @@
-#![feature(test)]
 #![deny(unsafe_code)]
 
-extern crate itertools;
-extern crate mersenne_twister;
-extern crate num;
-extern crate rand;
-extern crate test;
-
-// Use BLAS directly
-#[cfg(feature = "direct_blas")]
-extern crate cblas;
-
-#[cfg(feature = "direct_blas")]
-extern crate blas_src;
-
-// Use ndarray (with BLAS implementation)
-#[cfg(not(feature = "direct_blas"))]
-#[macro_use(s)]
-extern crate ndarray;
-
+use std::hint::black_box;
 use std::time::{Duration, Instant};
-use std::u32;
 use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
 
-use test::black_box;
 use num::complex::Complex64;
 use rand::Rng;
 
@@ -37,11 +17,9 @@ mod direct_blas;
 use direct_blas::{randmatstat, randmatmul, check_randmatmul};
 
 #[cfg(not(feature = "direct_blas"))]
-use ndarray::Array2;
+use ndarray::{Array2, s};
 #[cfg(not(feature = "direct_blas"))]
 use util::fill_rand;
-#[cfg(not(feature = "direct_blas"))]
-use num::Zero;
 
 const NITER: u32 = 5;
 
@@ -161,11 +139,8 @@ fn randmatstat(t: usize) -> (f64, f64) {
 /// Calculate the trace of a square matrix
 #[cfg(not(feature = "direct_blas"))]
 #[inline]
-fn trace_arr<'a, T: 'a>(m: &'a Array2<T>) -> T
-where
-    T: Zero + Clone
-{
-    m.diag().scalar_sum()
+fn trace_arr(m: &Array2<f64>) -> f64 {
+    m.diag().sum()
 }
 
 #[cfg(not(feature = "direct_blas"))]

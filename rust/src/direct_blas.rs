@@ -2,9 +2,8 @@
 
 use rand::Rng;
 use std::iter::Sum;
-use util::{gen_rng, fill_rand, myrand};
+use crate::util::{gen_rng, fill_rand, myrand};
 use cblas::{dgemm, Layout, Transpose};
-use itertools::Itertools;
 
 pub fn randmatstat(t: usize) -> (f64, f64) {
     let mut rng = gen_rng(1234u64);
@@ -105,7 +104,7 @@ where
     T: Sum<&'a T>
 {
     debug_assert_eq!(m.len(), n * n);
-    m.into_iter().step(n + 1).sum()
+    m.iter().step_by(n + 1).sum()
 }
 
 pub fn randmatmul<R: Rng>(n: usize, mut rng: R) -> Vec<f64> {

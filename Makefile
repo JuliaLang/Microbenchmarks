@@ -99,7 +99,7 @@ benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
 	cd scala
 	@for t in $(ITERATIONS); do sbt run; done >../$@
 
-benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.lock
+benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.toml
 	cd rust
 	@for t in $(ITERATIONS); do cargo run --release -q; done >../$@
 
