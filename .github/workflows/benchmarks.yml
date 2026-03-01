@@ -103,7 +103,7 @@ jobs:
       - name: "Set up OpenBLAS"
         run: sudo apt-get install -y libopenblas-dev
       - name: "Download Go modules"
-        run: go mod download
+        run: cd go && go mod download
       - name: "Run benchmark"
         run: make benchmarks/go.csv
       - name: "Capture version"
