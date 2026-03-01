@@ -41,10 +41,10 @@ dsfmt:
 	mv dSFMT-*/* ./
 	cd ..
 
-bin/perf%: perf.c
-	$(CC) -std=c99 -O$* $< -o $@  -IdSFMT -lopenblas -lm $(CFLAGS) -lpthread
+bin/perf%: c/perf.c
+	$(CC) -std=c99 -O$* $< -o $@  -Ic -IdSFMT -lopenblas -lm $(CFLAGS) -lpthread
 
-bin/fperf%: perf.f90
+bin/fperf%: fortran/perf.f90
 	mkdir -p mods/$@ #Modules for each binary go in separate directories
 	$(FC) $(FFLAGS) -Jmods/$@ -O$* $< -o $@ -lopenblas -lm -lpthread
 
@@ -60,33 +60,34 @@ benchmarks/c%.csv: bin/perf%
 benchmarks/fortran%.csv: bin/fperf%
 	@for t in $(ITERATIONS); do $<; done >$@
 
-benchmarks/go.csv: perf.go go.mod
+benchmarks/go.csv: go/perf.go go/go.mod
+	cd go
 	export CGO_LDFLAGS="-lopenblas"
 	go mod tidy
-	@for t in $(ITERATIONS); do go run $<; done >$@
+	@for t in $(ITERATIONS); do go run perf.go; done >../$@
 
-benchmarks/julia.csv: perf.jl
+benchmarks/julia.csv: julia/perf.jl
 	@for t in $(ITERATIONS); do julia $<; done >$@
 
-benchmarks/python.csv: perf.py
+benchmarks/python.csv: python/perf.py
 	@for t in $(ITERATIONS); do $(PYTHON) $<; done >$@
 
-benchmarks/matlab.csv: perf.m
-	@for t in $(ITERATIONS); do matlab -nojvm -singleCompThread -r 'perf; perf; exit' | grep ^matlab | tail -8; done >$@
+benchmarks/matlab.csv: octave/perf.m
+	@for t in $(ITERATIONS); do matlab -nojvm -singleCompThread -r "run('octave/perf.m'); exit" | grep ^matlab | tail -8; done >$@
 
-benchmarks/octave.csv: perf.m
-	@for t in $(ITERATIONS); do $(OCTAVE) -q --eval perf 2>/dev/null; done >$@
+benchmarks/octave.csv: octave/perf.m
+	@for t in $(ITERATIONS); do $(OCTAVE) -q octave/perf.m 2>/dev/null; done >$@
 
-benchmarks/r.csv: perf.R
+benchmarks/r.csv: r/perf.R
 	@for t in $(ITERATIONS); do cat $< | R --vanilla --slave 2>/dev/null; done >$@
 
-benchmarks/javascript.csv: perf.js
+benchmarks/javascript.csv: javascript/perf.js
 	@for t in $(ITERATIONS); do $(NODEJSBIN) $<; done >$@
 
-benchmarks/mathematica.csv: perf.nb
+benchmarks/mathematica.csv: mathematica/perf.nb
 	@for t in $(ITERATIONS); do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
 
-benchmarks/lua.csv: perf.lua
+benchmarks/lua.csv: lua/perf.lua
 	export BIT=64
 	@for t in $(ITERATIONS); do ./lua/ulua/bin/scilua $<; done >$@
 
