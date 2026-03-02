@@ -29,27 +29,16 @@ const BENCHMARK_ORDER = [
     "userfunc_mandelbrot",
 ]
 
-# Chart.js color palette — one color per benchmark
+# Color palette — one color per benchmark (matching julialang.org/benchmarks style)
 const COLORS = [
-    "rgba(31, 119, 180, 0.85)",
-    "rgba(255, 127, 14, 0.85)",
-    "rgba(44, 160, 44, 0.85)",
-    "rgba(214, 39, 40, 0.85)",
-    "rgba(148, 103, 189, 0.85)",
-    "rgba(140, 86, 75, 0.85)",
-    "rgba(227, 119, 194, 0.85)",
-    "rgba(127, 127, 127, 0.85)",
-]
-
-const BORDER_COLORS = [
-    "rgb(31, 119, 180)",
-    "rgb(255, 127, 14)",
-    "rgb(44, 160, 44)",
-    "rgb(214, 39, 40)",
-    "rgb(148, 103, 189)",
-    "rgb(140, 86, 75)",
-    "rgb(227, 119, 194)",
-    "rgb(127, 127, 127)",
+    "rgb(0, 190, 210)",
+    "rgb(220, 50, 50)",
+    "rgb(150, 150, 150)",
+    "rgb(0, 170, 170)",
+    "rgb(170, 140, 210)",
+    "rgb(230, 130, 180)",
+    "rgb(220, 200, 50)",
+    "rgb(80, 180, 80)",
 ]
 
 """
@@ -100,30 +89,35 @@ end
 """
     make_chart(benchfile) -> writes docs/src/benchmarks.md
 
-Generate a Documenter-compatible Markdown page with a Chart.js grouped bar chart.
+Generate a Documenter-compatible Markdown page with a Chart.js scatter plot
+in the style of julialang.org/benchmarks (colored dots, log scale, languages
+on x-axis).
 """
 function make_chart(benchfile::String)
     benchmarks = parse_benchmarks(benchfile)
     langs = sorted_languages(benchmarks)
     c_times = benchmarks["c"]
 
-    # Compute normalized times per benchmark per language
     labels_json = "[" * join(["\"$(get(LANG_LABELS, l, l))\"" for l in langs], ",") * "]"
 
+    # Each benchmark becomes a scatter dataset with {x: lang_index, y: relative_time}
     datasets = String[]
     for (i, bench) in enumerate(BENCHMARK_ORDER)
-        values = String[]
-        for lang in langs
+        points = String[]
+        for (j, lang) in enumerate(langs)
             t = get(get(benchmarks, lang, Dict()), bench, NaN)
             rel = t / c_times[bench]
-            push!(values, isnan(rel) ? "null" : @sprintf("%.4f", rel))
+            isnan(rel) && continue
+            push!(points, @sprintf("{x:%d,y:%.4f}", j - 1, rel))
         end
         push!(datasets, """{
                 label: "$bench",
-                data: [$(join(values, ","))],
+                data: [$(join(points, ","))],
                 backgroundColor: "$(COLORS[i])",
-                borderColor: "$(BORDER_COLORS[i])",
-                borderWidth: 1
+                borderColor: "$(COLORS[i])",
+                pointRadius: 7,
+                pointHoverRadius: 9,
+                pointStyle: "circle"
             }""")
     end
 
@@ -131,15 +125,14 @@ function make_chart(benchfile::String)
 
     html = """
     ```@raw html
-    <canvas id="benchChart" style="max-height:500px;"></canvas>
+    <canvas id="benchChart" style="max-height:550px;"></canvas>
     <script>
     // Use require() to load Chart.js so it works with Documenter.jl's RequireJS
     require.config({ paths: { chartjs: "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min" } });
     require(["chartjs"], function(Chart) {
         new Chart(document.getElementById("benchChart"), {
-            type: "bar",
+            type: "scatter",
             data: {
-                labels: $labels_json,
                 datasets: [
                 $datasets_json
                 ]
@@ -147,14 +140,53 @@ function make_chart(benchfile::String)
             options: {
                 responsive: true,
                 plugins: {
-                    title: { display: true, text: "Benchmark times relative to C (lower is better)" },
-                    legend: { position: "bottom" }
+                    title: {
+                        display: true,
+                        text: "Benchmark times relative to C (lower is better)",
+                        font: { size: 15 }
+                    },
+                    legend: {
+                        position: "right",
+                        labels: { usePointStyle: true, pointStyle: "circle", padding: 14 }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(items) {
+                                var labels = $labels_json;
+                                return labels[items[0].parsed.x];
+                            },
+                            label: function(item) {
+                                return item.dataset.label + ": " + item.parsed.y.toFixed(2) + "x";
+                            }
+                        }
+                    }
                 },
                 scales: {
+                    x: {
+                        type: "linear",
+                        min: -0.5,
+                        max: $(length(langs) - 1).5,
+                        ticks: {
+                            stepSize: 1,
+                            callback: function(value) {
+                                var labels = $labels_json;
+                                return labels[value] || "";
+                            }
+                        },
+                        grid: { display: false }
+                    },
                     y: {
                         type: "logarithmic",
-                        title: { display: true, text: "Time relative to C" },
-                        min: 0.1
+                        title: { display: true, text: "Time relative to C (log scale)" },
+                        min: 0.1,
+                        grid: { color: "rgba(0,0,0,0.08)" },
+                        ticks: {
+                            callback: function(value) {
+                                if ([0.1, 1, 10, 100, 1000, 10000].indexOf(value) >= 0)
+                                    return value.toString();
+                                return "";
+                            }
+                        }
                     }
                 }
             }
