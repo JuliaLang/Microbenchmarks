@@ -88,15 +88,17 @@ Test.@test issorted(sortperf(5000))
 
 ## slow pi series ##
 
+const _pisum_vol = Ref(0.0)
+
 function pisum()
-    sum = 0.0
     for j = 1:500
-        sum = 0.0
+        s = 0.0
         for k = 1:10000
-            sum += 1.0/(k*k)
+            s += 1.0/(k*k)
         end
+        _pisum_vol[] = s
     end
-    sum
+    return _pisum_vol[]
 end
 
 Test.@test abs(pisum()-1.644834071848065) < 1e-12

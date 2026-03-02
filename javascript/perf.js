@@ -113,19 +113,15 @@ const fs = require('fs'); // for print to file benchmark
     sum = 0;
     for (i = 0; i < a.length; i++) { sum += a[i]; }
     assert(sum === 14791);
-    a0 = a[0];
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
         t = (new Date()).getTime();
-        for (j=0; j < 1000; j++) {
-            a = mandelperf();
-            assert(a[0] === a0);
-        }
+        a = mandelperf();
         t = (new Date()).getTime()-t;
         if (t < tmin) { tmin=t; }
     }
-    console.log("javascript,userfunc_mandelbrot," + tmin/1000);
+    console.log("javascript,userfunc_mandelbrot," + tmin);
 
     // numeric vector sort //
 

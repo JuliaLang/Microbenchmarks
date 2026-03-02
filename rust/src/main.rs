@@ -259,17 +259,12 @@ fn main() {
     let mandel_sum_init = black_box(0u32);
     let mut mandel_sum2 = mandel_sum_init;
     let tmin = measure_best(NITER, || {
-        for j in 0..100 {
-            let m = mandelperf();
-            if j == 0 {
-                let mandel_sum: u32 = m.iter().sum();
-                assert_eq!(mandel_sum, 14791);
-                mandel_sum2 += mandel_sum;
-            }
-        }
+        let m = mandelperf();
+        let mandel_sum: u32 = m.iter().sum();
+        mandel_sum2 += mandel_sum;
     });
     assert_eq!(mandel_sum2, 14791 * NITER);
-    print_perf("userfunc_mandelbrot", to_float(tmin) / 100.0);
+    print_perf("userfunc_mandelbrot", to_float(tmin));
 
     // sort
     let tmin = measure_best(NITER, || {

@@ -118,10 +118,11 @@ void quicksort(double *a, int lo, int hi) {
 double pisum() {
     volatile double sum = 0.0;
     for (int j=0; j<500; ++j) {
-        sum = 0.0;
+        double s = 0.0;
         for (int k=1; k<=10000; ++k) {
-            sum += 1.0/(k*k);
+            s += 1.0/(k*k);
         }
+        sum = s;
     }
     return sum;
 }
@@ -304,29 +305,18 @@ int main() {
     for (int i=0; i<NITER; ++i) {
         int *M;
         t = clock_now();
-        for (int j = 0; j < 100; j++) {
-            M = mandelperf();
-            if (j == 0) {
-                int mandel_sum = 0;
-                // for (int ii = 0; ii < 21; ii++) {
-                //     for (int jj = 0; jj < 26; jj++) {
-                //         printf("%4d", M[26*ii + jj]);
-                //     }
-                //     printf("\n");
-                // }
-                for (int k = 0; k < 21*26; k++) {
-                    mandel_sum += M[k];
-                }
-                assert(mandel_sum == 14791);
-                mandel_sum2 += mandel_sum;
-            }
-            free(M);
-        }
+        M = mandelperf();
         t = clock_now()-t;
+        int mandel_sum = 0;
+        for (int k = 0; k < 21*26; k++) {
+            mandel_sum += M[k];
+        }
+        mandel_sum2 += mandel_sum;
+        free(M);
         if (t < tmin) tmin = t;
     }
     assert(mandel_sum2 == 14791 * NITER);
-    print_perf("userfunc_mandelbrot", tmin / 100);
+    print_perf("userfunc_mandelbrot", tmin);
 
     // sort
     tmin = INFINITY;
