@@ -1,274 +1,276 @@
 // This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
-import scala.util._
-import java.io._
+import java.io.{BufferedOutputStream, FileOutputStream, PrintStream}
+import java.util.Random
+
 import breeze.linalg._
-import breeze.numerics._
-import breeze.stats._
-import breeze.math._
-//import com.github.fommil.netlib.{BLAS}
+import breeze.stats.distributions.Gaussian
+import breeze.stats.distributions.Rand.VariableSeed.randBasis
 
-object PerfBreeze {
-  final val NITER = 5
+object Perf {
+  val NITER = 5
 
-  // print results appropriately. times are in milliseconds
-  def print_perf(name:String, t:Double) = {
-    printf("scala,%s,%.9f\n", name, t/1e6)
+  def printPerf(name: String, t: Long): Unit = {
+    printf("scala,%s,%.6f\n", name, t / 1e6)
   }
 
-  // time fib
-  def fib(n:Int):Int = {
-    if (n < 2) n else fib(n-1) + fib(n-2)
-  }
+  // ---------------------------------------------------------------------------
+  // Fibonacci
+  // ---------------------------------------------------------------------------
 
-  def time_fib() = {
-    assert(fib(20) == 6765)
-    var tmin = Long.MaxValue
-    var f = 0
+  def fib(n: Int): Int = if (n < 2) n else fib(n - 1) + fib(n - 2)
 
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      for(j <- 1 to 1000) {
-        f += fib(20)
-      }
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
-    }
+  // ---------------------------------------------------------------------------
+  // Mandelbrot
+  // ---------------------------------------------------------------------------
 
-    tmin / 1000.0
-  }
-
-  // time parseint
-  def time_parseint() = {
-    val generator = scala.util.Random
-    var tmin = Long.MaxValue
-
-    for(i <- 1 to NITER) {
-      var rand:Int = 0
-      var rands:String = "0"
-      var parsed:Int = 0
-      val t1 = System.nanoTime()
-      for(j <- 1 to 1000) {
-        rand = generator.nextInt()
-        rands = if(rand < 0) "-" + abs(rand).toHexString else rand.toHexString
-        parsed = Integer.parseInt(rands, 16)
-        assert(rand == parsed)
-      }
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
-    }
-    tmin / 1000.0
-  }
-
-  // time mandel
-  def mandel(zin:Complex):Int = {
-    val c = zin
-    var z = zin
+  def mandel(zr0: Double, zi0: Double): Int = {
     val maxiter = 80
-    for(n <- 0 to maxiter) {
-      if(z.abs > 2) return n
-      z = c + (z * z)
+    var zr = zr0
+    var zi = zi0
+    var n = 0
+    while (n < maxiter) {
+      if (zr * zr + zi * zi > 4.0) return n
+      val zrNew = zr * zr - zi * zi + zr0
+      val ziNew = 2.0 * zr * zi + zi0
+      zr = zrNew
+      zi = ziNew
+      n += 1
     }
     maxiter
   }
 
-  def mandelperf() = {
-    for(re <- -20 to 5; im <- -10 to 10) yield mandel(re/10.0 + i * im/10.0)
-  }
-
-  def time_mandel() = {
-    var mandel_sum = 0
-    var mandel_sum2 = 0
-    var tmin = Long.MaxValue
-
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      for(j <- 1 to 100) {
-        val mandel_arr = mandelperf()
-        if(j == 1) {
-          mandel_sum = sum(mandel_arr)
-          mandel_sum2 += mandel_sum
-        }
+  def mandelperf(): Array[Int] = {
+    val M = new Array[Int](21 * 26)
+    var i = 0
+    while (i < 21) {
+      var j = 0
+      while (j < 26) {
+        M(26 * i + j) = mandel((j - 20) / 10.0, (i - 10) / 10.0)
+        j += 1
       }
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
+      i += 1
     }
-    assert(mandel_sum == 14791)
-    assert(mandel_sum2 == mandel_sum * NITER)
-    tmin / 100.0
+    M
   }
 
-  // time quicksort
-  def quicksort(a:Array[Double], lo:Int, hi:Int):Array[Double] = {
-    var i, l = lo
+  // ---------------------------------------------------------------------------
+  // Quicksort
+  // ---------------------------------------------------------------------------
+
+  def quicksort(a: Array[Double], lo0: Int, hi: Int): Unit = {
+    var i = lo0
     var j = hi
-
-    def _swap(i:Int, j:Int) = {
-      val tmp = a(i)
-      a(i) = a(j)
-      a(j) = tmp
-    }
-
-    while(i < hi) {
-      val pivot = a((l+hi)>>>1)
-      while(i <= j) {
-        while(a(i) < pivot) i += 1
-        while(a(j) > pivot) j -= 1
-        if(i <= j) {
-          _swap(i, j)
+    var lo = lo0
+    while (i < hi) {
+      val pivot = a((lo + hi) / 2)
+      while (i <= j) {
+        while (a(i) < pivot) i += 1
+        while (a(j) > pivot) j -= 1
+        if (i <= j) {
+          val tmp = a(i)
+          a(i) = a(j)
+          a(j) = tmp
           i += 1
           j -= 1
         }
       }
-      if(l < j) quicksort(a, l, j)
-      l = j
+      if (lo < j) quicksort(a, lo, j)
+      lo = i
       j = hi
     }
-    a
   }
 
-  /*
-  def checksorted(a:Array[Double]):Boolean = {
-    for(i <- 0 to a.length-2) {
-      assert(a(i) < a(i+1))
-    }
-    true
-  }
-  */
+  // ---------------------------------------------------------------------------
+  // Pi sum
+  // ---------------------------------------------------------------------------
 
-  def time_quicksort() = {
-    var tmin = Long.MaxValue
-
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      for(j <- 1 to 1000) {
-        val A = DenseVector.rand[Double](5000)
-        quicksort(A.data, 0, 4999)
-      }
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
-    }
-    tmin / 1000.0
-  }
-
-  // time pisum
-  def pisum() = {
+  def pisum(): Double = {
     var sum = 0.0
-    for(j <- 1 to 500) {
+    var j = 0
+    while (j < 500) {
       sum = 0.0
-      for(k <- 1 to 10000) {
-        sum += 1.0/(k*k)
+      var k = 1
+      while (k <= 10000) {
+        sum += 1.0 / (k * k)
+        k += 1
       }
+      j += 1
     }
     sum
   }
 
-  def time_pisum() = {
-    var tmin = Long.MaxValue
-    var pi = 0:Double
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      pi = pisum()
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
-      assert(abs(pi-1.644834071848065) < 1e-12)
-    }
-    tmin
-  }
+  // ---------------------------------------------------------------------------
+  // Print to file
+  // ---------------------------------------------------------------------------
 
-  // time printfd
-  def printfd(n:Int) = {
-    var stream = None: Option[PrintStream]
+  def printfd(n: Int): Unit = {
+    val ps = new PrintStream(new BufferedOutputStream(new FileOutputStream("/dev/null")))
     try {
-      stream = Some(new PrintStream(new BufferedOutputStream(new FileOutputStream("/dev/null"))))
-      val valid_stream = stream.get
-      for (i <- 1 to n) {
-        valid_stream.printf(i + " " + i)
+      var i = 0
+      while (i < n) {
+        ps.println(s"$i ${i + 1}")
+        i += 1
       }
-    } catch {
-      case e: Exception => println("Exception caught: " + e)
     } finally {
-      if(stream.isDefined) stream.get.close()
+      ps.close()
     }
   }
 
-  def time_printfd() = {
-    var tmin = Long.MaxValue
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      printfd(100000)
-      val t = System.nanoTime() - t1
-      if(t < tmin) tmin = t
-    }
-    tmin
-  }
+  // ---------------------------------------------------------------------------
+  // Random matrix statistics (Breeze / BLAS)
+  // ---------------------------------------------------------------------------
 
-  // random matrix statistics
-  def randmatstat(t:Int):(Double,Double) = {
+  def randmatstat(t: Int): (Double, Double) = {
     val n = 5
-    val v = DenseVector.zeros[Double](t)
-    val w = DenseVector.zeros[Double](t)
+    val v = new Array[Double](t)
+    val w = new Array[Double](t)
+    val g = Gaussian(0, 1)
 
-    val g = breeze.stats.distributions.Gaussian(0, 1)
-    for(i <- 0 to t-1) {
-      val a = DenseMatrix.rand(n, n, g)
-      val b = DenseMatrix.rand(n, n, g)
-      val c = DenseMatrix.rand(n, n, g)
-      val d = DenseMatrix.rand(n, n, g)
-      val P = DenseMatrix.horzcat(a, b, c, d)
-      val Q = DenseMatrix.vertcat(DenseMatrix.horzcat(a, b), DenseMatrix.horzcat(c, d))
+    for (i <- 0 until t) {
+      val a = DenseMatrix.rand[Double](n, n, g)
+      val b = DenseMatrix.rand[Double](n, n, g)
+      val c = DenseMatrix.rand[Double](n, n, g)
+      val d = DenseMatrix.rand[Double](n, n, g)
+
+      val P = DenseMatrix.zeros[Double](n, 4 * n)
+      P(::, 0 until n) := a
+      P(::, n until 2 * n) := b
+      P(::, 2 * n until 3 * n) := c
+      P(::, 3 * n until 4 * n) := d
+
+      val Q = DenseMatrix.zeros[Double](2 * n, 2 * n)
+      Q(0 until n, 0 until n) := a
+      Q(0 until n, n until 2 * n) := b
+      Q(n until 2 * n, 0 until n) := c
+      Q(n until 2 * n, n until 2 * n) := d
+
       val V = P.t * P
       val W = Q.t * Q
 
       v(i) = trace(V * V * V * V)
       w(i) = trace(W * W * W * W)
     }
-    (stddev(v)/mean(v), stddev(w)/mean(w))
-  }
 
-  def time_randmatstat() = {
-    var tmin = Long.MaxValue
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
-      val (s1, s2) = randmatstat(1000)
-      val t = System.nanoTime() - t1
-      assert(0.5 < s1 && s1 < 1.0 && 0.5 < s2 && s2 < 1.0)
-
-      if(t < tmin) tmin = t
+    def stdev(arr: Array[Double]): Double = {
+      val mean = arr.sum / arr.length
+      val variance = arr.map(x => (x - mean) * (x - mean)).sum / (arr.length - 1)
+      math.sqrt(variance)
     }
-    tmin
+
+    def mean(arr: Array[Double]): Double = arr.sum / arr.length
+
+    (stdev(v) / mean(v), stdev(w) / mean(w))
   }
 
-  // random matrix multiplication
-  def randmatmul(t:Int):DenseMatrix[Double] = {
-    val m1 = randomDouble((t, t))
-    val m2 = randomDouble((t, t))
-    m1 * m2
+  // ---------------------------------------------------------------------------
+  // Random matrix multiply (Breeze / BLAS)
+  // ---------------------------------------------------------------------------
+
+  def randmatmul(n: Int): DenseMatrix[Double] = {
+    val a = DenseMatrix.rand[Double](n, n)
+    val b = DenseMatrix.rand[Double](n, n)
+    a * b
   }
 
-  def time_randmatmul() = {
-    var tmin = Long.MaxValue
-    for(i <- 1 to NITER) {
-      val t1 = System.nanoTime()
+  // ---------------------------------------------------------------------------
+  // Main
+  // ---------------------------------------------------------------------------
+
+  def main(args: Array[String]): Unit = {
+    val rand = new Random(0)
+    var tmin = 0L
+    var t = 0L
+
+    // recursion_fibonacci
+    assert(fib(20) == 6765)
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      fib(20)
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("recursion_fibonacci", tmin)
+
+    // parse_integers
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      for (_ <- 0 until 1000) {
+        val n = rand.nextInt(Integer.MAX_VALUE)
+        val s = Integer.toHexString(n)
+        val m = Integer.parseInt(s, 16)
+        assert(m == n)
+      }
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("parse_integers", tmin)
+
+    // userfunc_mandelbrot
+    {
+      val M = mandelperf()
+      val s = M.sum
+      assert(s == 14791, s"mandel sum was $s, expected 14791")
+    }
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      mandelperf()
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("userfunc_mandelbrot", tmin)
+
+    // recursion_quicksort
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      val d = new Array[Double](5000)
+      var j = 5000
+      while (j > 0) {
+        j -= 1
+        d(j) = rand.nextDouble()
+      }
+      quicksort(d, 0, 4999)
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("recursion_quicksort", tmin)
+
+    // iteration_pi_sum
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      val pi = pisum()
+      tmin = math.min(tmin, System.nanoTime() - t)
+      assert(math.abs(pi - 1.644834071848065) < 1e-12)
+    }
+    printPerf("iteration_pi_sum", tmin)
+
+    // matrix_statistics
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      randmatstat(1000)
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("matrix_statistics", tmin)
+
+    // matrix_multiply
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
       val m = randmatmul(1000)
-      val t = System.nanoTime() - t1
-      assert(0 <= m(0,0))
-
-      if(t < tmin) tmin = t
+      assert(0 <= m(0, 0))
+      tmin = math.min(tmin, System.nanoTime() - t)
     }
-    tmin
-  }
+    printPerf("matrix_multiply", tmin)
 
-
-  def main(args: Array[String]) = {
-    //println("BLAS: " + BLAS.getInstance().getClass().getName())
-    print_perf("fib", time_fib())
-    print_perf("parse_int", time_parseint())
-    print_perf("mandel", time_mandel())
-    print_perf("quicksort", time_quicksort())
-    print_perf("pi_sum", time_pisum())
-    print_perf("rand_mat_stat", time_randmatstat())
-    print_perf("rand_mat_mul", time_randmatmul())
-    print_perf("printfd", time_printfd())
+    // print_to_file
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      printfd(100000)
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    printPerf("print_to_file", tmin)
   }
 }

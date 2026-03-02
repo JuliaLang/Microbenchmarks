@@ -16,6 +16,7 @@ const LANG_LABELS = Dict(
     "r"           => "R",
     "go"          => "Go",
     "rust"        => "Rust",
+    "scala"       => "Scala",
     "swift"       => "Swift",
 )
 
@@ -182,6 +183,8 @@ function make_chart(benchfile::String)
                         max: $(length(langs) - 1).5,
                         ticks: {
                             stepSize: 1,
+                            autoSkip: false,
+                            maxRotation: 45,
                             callback: function(value) {
                                 var labels = $labels_json;
                                 return labels[value] || "";

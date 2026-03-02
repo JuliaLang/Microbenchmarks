@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # User argument declaring what languages to query:
-DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust"
+DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust:scala"
 LANGUAGES=${1:-$DEFAULT_LANGUAGES}
 
 LANGUAGES=":${LANGUAGES}:"
@@ -70,6 +70,11 @@ fi
 if [[ $LANGUAGES == *":rust:"* ]]; then
     echo -n "rust,"
     rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
+fi
+
+if [[ $LANGUAGES == *":scala:"* ]]; then
+    echo -n "scala,"
+    grep 'scalaVersion' scala/build.sbt | grep -oP '\d+\.\d+\.\d+'
 fi
 
 if [[ $LANGUAGES == *":swift:"* ]]; then

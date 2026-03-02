@@ -98,7 +98,7 @@ benchmarks/java.csv: java/src/main/java/PerfBLAS.java
 
 benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
 	cd scala
-	@for t in $(ITERATIONS); do sbt run; done >../$@
+	@for t in $(ITERATIONS); do sbt --batch run 2>/dev/null | grep '^scala,'; done >../$@
 
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.toml
 	cd rust
@@ -109,8 +109,8 @@ benchmarks/swift.csv: swift/Sources/perf/main.swift swift/Package.swift
 	swift build -c release -Xlinker -lopenblas
 	@for t in $(ITERATIONS); do .build/release/perf; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust swift
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust swift
+LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust scala swift
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust scala swift
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
