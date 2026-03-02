@@ -3,10 +3,8 @@
 [![Benchmarks](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml)
 
 A collection of micro-benchmarks comparing Julia's performance against other languages.
-Originally part of the Julia source tree, these benchmarks generate the performance chart on
-[julialang.org/benchmarks](https://julialang.org/benchmarks).
 
-**[View results](https://julialang.github.io/Microbenchmarks/)**
+**[View results](https://julialang.github.io/Microbenchmarks/dev/benchmarks)**
 
 ## Benchmarks
 
