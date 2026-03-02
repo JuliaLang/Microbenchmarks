@@ -16,6 +16,7 @@ const LANG_LABELS = Dict(
     "r"           => "R",
     "go"          => "Go",
     "rust"        => "Rust",
+    "swift"       => "Swift",
 )
 
 const BENCHMARK_ORDER = [
@@ -124,6 +125,19 @@ function make_chart(benchfile::String)
     datasets_json = join(datasets, ",\n            ")
 
     html = """
+    Each dot represents one benchmark for a given language, with time normalized to C (lower is better).
+
+    | Color | Benchmark | Tests |
+    |:------|:----------|:------|
+    | 🟦 | `iteration_pi_sum` | Numerical loops |
+    | 🟥 | `recursion_fibonacci` | Function call overhead, recursion |
+    | ⬜ | `recursion_quicksort` | Sorting, recursion, cache performance |
+    | 🟩 | `parse_integers` | String parsing |
+    | 🟪 | `print_to_file` | I/O and formatting |
+    | 🟫 | `matrix_statistics` | Small matrix operations |
+    | 🟨 | `matrix_multiply` | BLAS / numerical libraries |
+    | 🟢 | `userfunc_mandelbrot` | Complex arithmetic, comprehensions |
+
     ```@raw html
     <canvas id="benchChart" style="max-height:550px;"></canvas>
     <script>
