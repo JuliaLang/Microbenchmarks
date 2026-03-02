@@ -7,7 +7,7 @@ generation, recursion, and array operations.
 
 See the [Benchmarks](benchmarks.md) page for the interactive chart comparing all languages.
 
-Source code: [JuliaLang/Microbenchmarks.jl](https://github.com/JuliaLang/Microbenchmarks.jl)
+Source code: [JuliaLang/Microbenchmarks](https://github.com/JuliaLang/Microbenchmarks)
 
 ## What is measured
 
