@@ -1,15 +1,8 @@
 // This file was formerly a part of Julia. License is MIT: https://julialang.org/license
 
-libraryDependencies ++= Seq(
-    "org.scalanlp" %% "breeze" % "0.10",
-    "org.scalanlp" %% "breeze-natives" % "0.10"
-)
+scalaVersion := "3.3.4"
 
-resolvers ++= Seq(
-    "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
-)
-
-scalaVersion := "2.11.1"
+libraryDependencies += "org.scalanlp" %% "breeze" % "2.1.0"
 
 showSuccess := false
 

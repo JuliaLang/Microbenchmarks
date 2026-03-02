@@ -314,6 +314,38 @@ jobs:
             benchmarks/rust.csv
             version.csv
 
+  bench-scala:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Java"
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: "Set up sbt"
+        uses: sbt/setup-sbt@v1
+      - name: "Set up OpenBLAS"
+        run: sudo apt-get install -y libopenblas-dev
+      - name: "Download dependencies and compile"
+        run: cd scala && sbt --batch compile
+      - name: "Run benchmark"
+        run: make benchmarks/scala.csv
+      - name: "Capture version"
+        run: bash bin/versions.sh scala > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-scala
+          path: |
+            benchmarks/scala.csv
+            version.csv
+
   bench-swift:
     runs-on: ubuntu-latest
     defaults:
@@ -361,6 +393,7 @@ jobs:
       - bench-python
       - bench-r
       - bench-rust
+      - bench-scala
       - bench-swift
     defaults:
       run:

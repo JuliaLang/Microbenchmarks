@@ -30,7 +30,7 @@ matrix multiplication routine for each language. For most compiled
 languages this means calling BLAS (via OpenBLAS):
 
 **Using BLAS/optimized libraries:** C, Fortran, Julia, Python (NumPy),
-Go (Gonum), Java (jBLAS), Rust (ndarray), R, Octave, Swift (Accelerate)
+Go (Gonum), Java (jBLAS), Rust (ndarray), Scala (Breeze), R, Octave, Swift (Accelerate)
 
 **Pure implementation:** JavaScript, LuaJIT
 
