@@ -175,8 +175,6 @@ jobs:
         uses: julia-actions/setup-julia@v2
         with:
           version: 'v1'
-      - name: "Precompile dependencies"
-        run: julia -e 'import LinearAlgebra, Statistics, Printf, Test'
       - name: "Run benchmark"
         run: make benchmarks/julia.csv
       - name: "Capture version"

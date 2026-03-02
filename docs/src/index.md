@@ -27,7 +27,7 @@ Times are normalized relative to C.
 
 ## Methodology
 
-- Each benchmark runs 3 iterations; the minimum time is taken
+- Each benchmark runs 5 iterations; the minimum time is taken
 - Single-threaded execution (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`)
 - Julia results exclude compile time
 - Runs on GitHub Actions `ubuntu-latest` (x86_64, single core used)
