@@ -1,0 +1,38 @@
+name: Test Numba availability
+
+on:
+  push:
+    branches:
+      - numba
+  workflow_dispatch:
+
+jobs:
+  test-numba:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install numba
+        run: pip install numba
+      - name: Test numba
+        run: |
+          python -c "
+          import numba
+          print('Numba version:', numba.__version__)
+          print('LLVM version:', numba.config.LLVM_VERSION)
+
+          from numba import njit
+          import numpy as np
+
+          @njit
+          def fib(n):
+              if n < 2:
+                  return n
+              return fib(n-1) + fib(n-2)
+
+          # Trigger compilation
+          result = fib(20)
+          print('fib(20) =', result)
+          print('Numba is working correctly on GH Actions!')
+          "
