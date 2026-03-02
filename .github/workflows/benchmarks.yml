@@ -58,7 +58,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh c > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-c
           path: |
@@ -81,7 +81,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh fortran > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-fortran
           path: |
@@ -110,7 +110,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh go > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-go
           path: |
@@ -139,7 +139,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh java > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-java
           path: |
@@ -164,7 +164,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh javascript > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-javascript
           path: |
@@ -189,7 +189,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh julia > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-julia
           path: |
@@ -215,7 +215,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh lua > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-lua
           path: |
@@ -238,7 +238,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh octave > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-octave
           path: |
@@ -265,7 +265,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh numba > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-numba
           path: |
@@ -292,7 +292,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh python > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-python
           path: |
@@ -317,7 +317,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh r > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-r
           path: |
@@ -344,7 +344,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh rust > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-rust
           path: |
@@ -376,7 +376,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh scala > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-scala
           path: |
@@ -405,7 +405,7 @@ jobs:
       - name: "Capture version"
         run: bash bin/versions.sh swift > version.csv
       - name: "Upload results"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: bench-swift
           path: |
@@ -447,7 +447,7 @@ jobs:
           version: 'v1'
 
       - name: "Download all benchmark artifacts"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           path: artifacts
 
