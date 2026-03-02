@@ -116,8 +116,8 @@ function make_chart(benchfile::String)
                 data: [$(join(points, ","))],
                 backgroundColor: "$(COLORS[i])",
                 borderColor: "$(COLORS[i])",
-                pointRadius: 7,
-                pointHoverRadius: 9,
+                pointRadius: 3.5,
+                pointHoverRadius: 5,
                 pointStyle: "circle"
             }""")
     end
