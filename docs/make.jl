@@ -129,23 +129,13 @@ function make_chart(benchfile::String)
     html = """
     Each dot represents one benchmark for a given language, with time normalized to C (lower is better).
 
-    | Color | Benchmark | Tests |
-    |:------|:----------|:------|
-    | 🟦 | `iteration_pi_sum` | Numerical loops |
-    | 🟥 | `recursion_fibonacci` | Function call overhead, recursion |
-    | ⬜ | `recursion_quicksort` | Sorting, recursion, cache performance |
-    | 🟩 | `parse_integers` | String parsing |
-    | 🟪 | `print_to_file` | I/O and formatting |
-    | 🟫 | `matrix_statistics` | Small matrix operations |
-    | 🟨 | `matrix_multiply` | BLAS / numerical libraries |
-    | 🟢 | `userfunc_mandelbrot` | Complex arithmetic, comprehensions |
-
     ```@raw html
     <canvas id="benchChart" style="max-height:550px;"></canvas>
     <script>
     // Use require() to load Chart.js so it works with Documenter.jl's RequireJS
     require.config({ paths: { chartjs: "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min" } });
     require(["chartjs"], function(Chart) {
+        var langLabels = $labels_json;
         new Chart(document.getElementById("benchChart"), {
             type: "scatter",
             data: {
@@ -168,8 +158,7 @@ function make_chart(benchfile::String)
                     tooltip: {
                         callbacks: {
                             title: function(items) {
-                                var labels = $labels_json;
-                                return labels[items[0].parsed.x];
+                                return langLabels[items[0].parsed.x];
                             },
                             label: function(item) {
                                 return item.dataset.label + ": " + item.parsed.y.toFixed(2) + "x";
@@ -182,13 +171,14 @@ function make_chart(benchfile::String)
                         type: "linear",
                         min: -0.5,
                         max: $(length(langs) - 1).5,
+                        afterBuildTicks: function(axis) {
+                            axis.ticks = langLabels.map(function(_, i) { return { value: i }; });
+                        },
                         ticks: {
-                            stepSize: 1,
                             autoSkip: false,
                             maxRotation: 45,
                             callback: function(value) {
-                                var labels = $labels_json;
-                                return labels[value] || "";
+                                return langLabels[value] || "";
                             }
                         },
                         grid: { display: false }
@@ -214,9 +204,46 @@ function make_chart(benchfile::String)
     ```
     """
 
+    # Generate per-language tables
+    lang_tables = make_language_tables(benchmarks, langs, c_times)
+
     open("docs/src/benchmarks.md", "w") do io
         print(io, html)
+        println(io)
+        println(io)
+        print(io, lang_tables)
     end
+end
+
+"""
+    make_language_tables(benchmarks, langs, c_times) -> String
+
+Generate a Markdown section with a table for each language showing
+benchmark names, absolute times (ms), and times relative to C.
+"""
+function make_language_tables(benchmarks, langs, c_times)
+    io = IOBuffer()
+    println(io, "## Results by language")
+    println(io)
+    println(io, "[Download raw benchmark data (CSV)](benchmarks.csv)")
+    println(io)
+    for lang in langs
+        label = get(LANG_LABELS, lang, lang)
+        times = get(benchmarks, lang, Dict{String, Float64}())
+        isempty(times) && continue
+        println(io, "### $label")
+        println(io)
+        println(io, "| Benchmark | Time (ms) | Relative to C |")
+        println(io, "|:----------|----------:|--------------:|")
+        for bench in BENCHMARK_ORDER
+            t = get(times, bench, NaN)
+            isnan(t) && continue
+            rel = t / c_times[bench]
+            println(io, @sprintf("| `%s` | %.2f | %.2fx |", bench, t, rel))
+        end
+        println(io)
+    end
+    return String(take!(io))
 end
 
 """
@@ -243,6 +270,9 @@ versions_csv   = get(ARGS, 2, "gh_action_versions.csv")
 
 make_chart(benchmarks_csv)
 make_versions_tbl(versions_csv)
+
+# Copy CSV into docs/src/ so it is available for download in the built site
+cp(benchmarks_csv, "docs/src/benchmarks.csv"; force=true)
 
 makedocs(
     format = Documenter.HTML(),
