@@ -268,7 +268,7 @@ makedocs(
 )
 
 deploydocs(
-    repo = "github.com/JuliaLang/Microbenchmarks.jl.git",
+    repo = "github.com/JuliaLang/Microbenchmarks.git",
     target = "build",
     deps   = nothing,
     make   = nothing,
