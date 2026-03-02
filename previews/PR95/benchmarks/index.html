@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Benchmarks · Julia Microbenchmarks</title><meta name="title" content="Benchmarks · Julia Microbenchmarks"/><meta property="og:title" content="Benchmarks · Julia Microbenchmarks"/><meta property="twitter:title" content="Benchmarks · Julia Microbenchmarks"/><meta name="description" content="Documentation for Julia Microbenchmarks."/><meta property="og:description" content="Documentation for Julia Microbenchmarks."/><meta property="twitter:description" content="Documentation for Julia Microbenchmarks."/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">Julia Microbenchmarks</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Microbenchmarks</a></li><li class="is-active"><a class="tocitem" href>Benchmarks</a></li><li><a class="tocitem" href="../notes/">Notes</a></li><li><a class="tocitem" href="../versions/">Versions</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Benchmarks</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Benchmarks</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/JuliaLang/Microbenchmarks" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/JuliaLang/Microbenchmarks/blob/master/docs/src/benchmarks.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><p>Each dot represents one benchmark for a given language, with time normalized to C (lower is better).</p><table><tr><th style="text-align: left">Color</th><th style="text-align: left">Benchmark</th><th style="text-align: left">Tests</th></tr><tr><td style="text-align: left">🟦</td><td style="text-align: left"><code>iteration_pi_sum</code></td><td style="text-align: left">Numerical loops</td></tr><tr><td style="text-align: left">🟥</td><td style="text-align: left"><code>recursion_fibonacci</code></td><td style="text-align: left">Function call overhead, recursion</td></tr><tr><td style="text-align: left">⬜</td><td style="text-align: left"><code>recursion_quicksort</code></td><td style="text-align: left">Sorting, recursion, cache performance</td></tr><tr><td style="text-align: left">🟩</td><td style="text-align: left"><code>parse_integers</code></td><td style="text-align: left">String parsing</td></tr><tr><td style="text-align: left">🟪</td><td style="text-align: left"><code>print_to_file</code></td><td style="text-align: left">I/O and formatting</td></tr><tr><td style="text-align: left">🟫</td><td style="text-align: left"><code>matrix_statistics</code></td><td style="text-align: left">Small matrix operations</td></tr><tr><td style="text-align: left">🟨</td><td style="text-align: left"><code>matrix_multiply</code></td><td style="text-align: left">BLAS / numerical libraries</td></tr><tr><td style="text-align: left">🟢</td><td style="text-align: left"><code>userfunc_mandelbrot</code></td><td style="text-align: left">Complex arithmetic, comprehensions</td></tr></table><canvas id="benchChart" style="max-height:550px;"></canvas>
+<script>
+// Use require() to load Chart.js so it works with Documenter.jl's RequireJS
+require.config({ paths: { chartjs: "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min" } });
+require(["chartjs"], function(Chart) {
+    new Chart(document.getElementById("benchChart"), {
+        type: "scatter",
+        data: {
+            datasets: [
+            {
+    label: "iteration_pi_sum",
+    data: [{x:0,y:1.0000},{x:1,y:0.0000},{x:2,y:0.0000},{x:3,y:1.1774},{x:4,y:0.9994},{x:5,y:1.0020},{x:6,y:1.0006},{x:7,y:1.0025},{x:8,y:0.8219},{x:9,y:1.0150},{x:10,y:54.1718},{x:11,y:21.1581}],
+    backgroundColor: "rgb(0, 190, 210)",
+    borderColor: "rgb(0, 190, 210)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "recursion_fibonacci",
+    data: [{x:0,y:1.0000},{x:1,y:3.0012},{x:2,y:0.6688},{x:3,y:2.7744},{x:4,y:1.7293},{x:5,y:3.0714},{x:6,y:2.0696},{x:7,y:2.5791},{x:8,y:2.2462},{x:9,y:5.8953},{x:10,y:66.8666},{x:11,y:393.0200}],
+    backgroundColor: "rgb(220, 50, 50)",
+    borderColor: "rgb(220, 50, 50)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "recursion_quicksort",
+    data: [{x:0,y:1.0000},{x:1,y:0.9889},{x:2,y:1.1705},{x:3,y:1.1807},{x:4,y:1.7963},{x:5,y:1.0613},{x:6,y:2.0533},{x:7,y:2.1394},{x:8,y:5.4133},{x:9,y:2.4549},{x:10,y:43.6660},{x:11,y:53.8883}],
+    backgroundColor: "rgb(150, 150, 150)",
+    borderColor: "rgb(150, 150, 150)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "parse_integers",
+    data: [{x:0,y:1.0000},{x:1,y:1.0907},{x:2,y:0.7748},{x:3,y:0.7811},{x:4,y:1.0860},{x:5,y:0.9609},{x:6,y:4.3452},{x:7,y:3.6400},{x:8,y:5.7083},{x:9,y:2.4859},{x:10,y:12.3592},{x:11,y:26.1677}],
+    backgroundColor: "rgb(0, 170, 170)",
+    borderColor: "rgb(0, 170, 170)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "print_to_file",
+    data: [{x:0,y:1.0000},{x:1,y:1.1618},{x:2,y:9.3875},{x:3,y:0.5742},{x:4,y:0.6784},{x:5,y:1.4560},{x:6,y:1.1983},{x:7,y:8.9360},{x:8,y:4.9718},{x:9,y:12.1571},{x:10,y:4.9811},{x:11,y:65.4166}],
+    backgroundColor: "rgb(170, 140, 210)",
+    borderColor: "rgb(170, 140, 210)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "matrix_statistics",
+    data: [{x:0,y:1.0000},{x:1,y:1.8711},{x:2,y:1.5031},{x:3,y:1.1980},{x:4,y:1.8418},{x:5,y:5.5413},{x:6,y:6.0847},{x:7,y:4.9944},{x:8,y:26.5003},{x:9,y:12.7243},{x:10,y:9.5720},{x:11,y:13.2545}],
+    backgroundColor: "rgb(230, 130, 180)",
+    borderColor: "rgb(230, 130, 180)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "matrix_multiply",
+    data: [{x:0,y:1.0000},{x:1,y:0.9263},{x:2,y:1.1554},{x:3,y:1.2042},{x:4,y:2.5450},{x:5,y:3.1709},{x:6,y:1.4557},{x:7,y:4.3524},{x:8,y:13.0195},{x:9,y:24.1255},{x:10,y:1.1385},{x:11,y:1.0727}],
+    backgroundColor: "rgb(220, 200, 50)",
+    borderColor: "rgb(220, 200, 50)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+},
+            {
+    label: "userfunc_mandelbrot",
+    data: [{x:0,y:1.0000},{x:1,y:0.9120},{x:2,y:0.0009},{x:3,y:1.0790},{x:4,y:1.3440},{x:5,y:0.9117},{x:6,y:2.4802},{x:7,y:1.4776},{x:8,y:1.0991},{x:9,y:1.9659},{x:10,y:80.9076},{x:11,y:220.6576}],
+    backgroundColor: "rgb(80, 180, 80)",
+    borderColor: "rgb(80, 180, 80)",
+    pointRadius: 3.5,
+    pointHoverRadius: 5,
+    pointStyle: "circle"
+}
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: "Benchmark times relative to C (lower is better)",
+                    font: { size: 15 }
+                },
+                legend: {
+                    position: "right",
+                    labels: { usePointStyle: true, pointStyle: "circle", padding: 14 }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(items) {
+                            var labels = ["C","Julia","Fortran","Rust","LuaJIT","Go","Scala","Java","Swift","JavaScript","Python","R"];
+                            return labels[items[0].parsed.x];
+                        },
+                        label: function(item) {
+                            return item.dataset.label + ": " + item.parsed.y.toFixed(2) + "x";
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    type: "linear",
+                    min: -0.5,
+                    max: 11.5,
+                    ticks: {
+                        stepSize: 1,
+                        autoSkip: false,
+                        maxRotation: 45,
+                        callback: function(value) {
+                            var labels = ["C","Julia","Fortran","Rust","LuaJIT","Go","Scala","Java","Swift","JavaScript","Python","R"];
+                            return labels[value] || "";
+                        }
+                    },
+                    grid: { display: false }
+                },
+                y: {
+                    type: "logarithmic",
+                    title: { display: true, text: "Time relative to C (log scale)" },
+                    min: 0.1,
+                    grid: { color: "rgba(0,0,0,0.08)" },
+                    ticks: {
+                        callback: function(value) {
+                            if ([0.1, 1, 10, 100, 1000, 10000].indexOf(value) >= 0)
+                                return value.toString();
+                            return "";
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+</script></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Microbenchmarks</a><a class="docs-footer-nextpage" href="../notes/">Notes »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Monday 2 March 2026 02:31">Monday 2 March 2026</span>. Using Julia version 1.12.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
