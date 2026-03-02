@@ -223,8 +223,6 @@ benchmark names, absolute times (ms), and times relative to C.
 """
 function make_language_tables(benchmarks, langs, c_times, versions=Dict{String, String}())
     io = IOBuffer()
-    println(io, "## Results by language")
-    println(io)
     println(io, "[Download raw benchmark data (CSV)](benchmarks.csv)")
     println(io)
     for lang in langs
@@ -232,7 +230,7 @@ function make_language_tables(benchmarks, langs, c_times, versions=Dict{String, 
         times = get(benchmarks, lang, Dict{String, Float64}())
         isempty(times) && continue
         ver = get(versions, lang, "")
-        heading = isempty(ver) ? "### $label" : "### $label ($ver)"
+        heading = isempty(ver) ? "## $label" : "## $label ($ver)"
         println(io, heading)
         println(io)
         println(io, "| Benchmark | Time (ms) | Relative to C |")
@@ -258,7 +256,7 @@ make_chart(benchmarks_csv, versions)
 cp(benchmarks_csv, "docs/src/benchmarks.csv"; force=true)
 
 makedocs(
-    format = Documenter.HTML(collapselevel = 3),
+    format = Documenter.HTML(collapselevel = 1),
     sitename = "Julia Microbenchmarks",
     pages = [
         "Microbenchmarks" => "index.md",
