@@ -72,6 +72,9 @@ benchmarks/julia.csv: julia/perf.jl
 benchmarks/python.csv: python/perf.py
 	@for t in $(ITERATIONS); do $(PYTHON) $<; done >$@
 
+benchmarks/numba.csv: numba/perf.py
+	@for t in $(ITERATIONS); do $(PYTHON) $<; done >$@
+
 benchmarks/matlab.csv: octave/perf.m
 	@for t in $(ITERATIONS); do matlab -nojvm -singleCompThread -r "run('octave/perf.m'); exit" | grep ^matlab | tail -8; done >$@
 
@@ -109,8 +112,8 @@ benchmarks/swift.csv: swift/Sources/perf/main.swift swift/Package.swift
 	swift build -c release -Xlinker -lopenblas
 	@for t in $(ITERATIONS); do .build/release/perf; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab octave python r rust scala swift
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua octave python r rust scala swift
+LANGUAGES = c fortran go java javascript julia lua mathematica matlab numba octave python r rust scala swift
+GH_ACTION_LANGUAGES = c fortran go java javascript julia lua numba octave python r rust scala swift
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)

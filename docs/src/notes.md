@@ -29,8 +29,9 @@ The `matrix_multiply` benchmark calls the most obvious built-in/standard
 matrix multiplication routine for each language. For most compiled
 languages this means calling BLAS (via OpenBLAS):
 
-**Using BLAS/optimized libraries:** C, Fortran, Julia, Python (NumPy),
-Go (Gonum), Java (jBLAS), Rust (ndarray), Scala (Breeze), R, Octave, Swift (Accelerate)
+**Using BLAS/optimized libraries:** C, Fortran, Julia, Numba (NumPy),
+Python (NumPy), Go (Gonum), Java (jBLAS), Rust (ndarray), Scala (Breeze),
+R, Octave, Swift (Accelerate)
 
 **Pure implementation:** JavaScript, LuaJIT
 

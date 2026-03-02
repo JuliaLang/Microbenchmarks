@@ -11,6 +11,7 @@ const LANG_LABELS = Dict(
     "javascript"  => "JavaScript",
     "matlab"      => "Matlab",
     "mathematica" => "Mathematica",
+    "numba"       => "Numba",
     "python"      => "Python",
     "octave"      => "Octave",
     "r"           => "R",

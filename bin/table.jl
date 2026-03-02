@@ -40,6 +40,7 @@ const labels = Dict{String, String}(
     "java"        => "Java"             ,
     "javascript"  => "JavaScript"       ,
     "matlab"      => "Matlab"           ,
+    "numba"       => "Numba"            ,
     "python"      => "Python"           ,
     "mathematica" => "Mathe&shy;matica" ,
     "r"           => "R"                ,
