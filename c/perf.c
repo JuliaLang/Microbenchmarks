@@ -116,7 +116,7 @@ void quicksort(double *a, int lo, int hi) {
 }
 
 double pisum() {
-    double sum = 0.0;
+    volatile double sum = 0.0;
     for (int j=0; j<500; ++j) {
         sum = 0.0;
         for (int k=1; k<=10000; ++k) {

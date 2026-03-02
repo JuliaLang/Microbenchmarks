@@ -10,6 +10,9 @@ import breeze.stats.distributions.Rand.VariableSeed.randBasis
 object Perf {
   val NITER = 5
 
+  // Volatile sink to prevent the JVM JIT from optimizing away benchmark computations.
+  @volatile var sink: Any = _
+
   def printPerf(name: String, t: Long): Unit = {
     printf("scala,%s,%.6f\n", name, t / 1e6)
   }
@@ -90,6 +93,7 @@ object Perf {
     var j = 0
     while (j < 500) {
       sum = 0.0
+      sink = sum // prevent the JIT from collapsing the outer loop
       var k = 1
       while (k <= 10000) {
         sum += 1.0 / (k * k)
@@ -187,7 +191,7 @@ object Perf {
     tmin = Long.MaxValue
     for (_ <- 0 until NITER) {
       t = System.nanoTime()
-      fib(20)
+      sink = fib(20)
       tmin = math.min(tmin, System.nanoTime() - t)
     }
     printPerf("recursion_fibonacci", tmin)
@@ -215,7 +219,7 @@ object Perf {
     tmin = Long.MaxValue
     for (_ <- 0 until NITER) {
       t = System.nanoTime()
-      mandelperf()
+      sink = mandelperf()
       tmin = math.min(tmin, System.nanoTime() - t)
     }
     printPerf("userfunc_mandelbrot", tmin)
@@ -231,6 +235,7 @@ object Perf {
         d(j) = rand.nextDouble()
       }
       quicksort(d, 0, 4999)
+      sink = d
       tmin = math.min(tmin, System.nanoTime() - t)
     }
     printPerf("recursion_quicksort", tmin)
@@ -249,7 +254,7 @@ object Perf {
     tmin = Long.MaxValue
     for (_ <- 0 until NITER) {
       t = System.nanoTime()
-      randmatstat(1000)
+      sink = randmatstat(1000)
       tmin = math.min(tmin, System.nanoTime() - t)
     }
     printPerf("matrix_statistics", tmin)

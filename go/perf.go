@@ -98,6 +98,10 @@ func qsort_kernel(a []float64, lo, hi int) []float64 {
 
 var rnd = rand.New(rand.NewSource(1))
 
+// sink is a package-level variable used to prevent the compiler from
+// optimizing away benchmark computations.
+var sink interface{}
+
 // randmatstat
 
 func randmatstat(t int) (float64, float64) {
@@ -203,6 +207,7 @@ func pisum() float64 {
 	var sum float64
 	for i := 0; i < 500; i++ {
 		sum = 0.0
+		sink = sum // prevent the compiler from collapsing the outer loop
 		for k := 1.0; k <= 10000; k += 1 {
 			sum += 1.0 / (k * k)
 		}
@@ -247,8 +252,10 @@ var benchmarks = []struct {
 	{
 		name: "recursion_fibonacci",
 		fn: func(b *testing.B) {
+			n := 20
+			sink = &n // prevent constant propagation of fib argument
 			for i := 0; i < b.N; i++ {
-				if fib(20) != 6765 {
+				if fib(n) != 6765 {
 					b.Fatal("unexpected value for fib(20)")
 				}
 			}

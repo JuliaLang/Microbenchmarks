@@ -299,6 +299,7 @@ end subroutine
 
 real(dp) function pisum() result(s)
 integer :: j, k
+volatile :: s
 do j = 1, 500
     s = 0
     do k = 1, 10000
@@ -359,7 +360,8 @@ use bench, only: fib, parse_int, printfd, quicksort, mandelperf, pisum, randmats
 implicit none
 
 integer, parameter :: NRUNS = 1000
-integer :: i, f, n, m, k, k2
+integer :: i, n, m, k, k2
+integer, volatile :: fibarg, f
 integer(i64) :: t1, t2, tmin
 real(dp) :: pi, s1, s2
 real(dp), allocatable :: C(:, :), d(:)
@@ -367,11 +369,12 @@ character(len=11) :: s
 
 call init_random_seed()
 
+fibarg = 20
 tmin = huge(0_i64)
 do i = 1, 5
     call system_clock(t1)
     do k = 1, NRUNS
-        f = fib(20)
+        f = fib(fibarg)
     end do
     call system_clock(t2)
     if (t2-t1 < tmin) tmin = t2-t1
