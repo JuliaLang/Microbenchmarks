@@ -27,9 +27,10 @@ Times are normalized relative to C.
 
 ## Methodology
 
-- Each benchmark runs 5 iterations; the minimum time is taken
-- Single-threaded execution (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`)
-- Julia results exclude compile time
+- Each language's benchmark script internally runs each benchmark 5 times and records the minimum time
+- The Makefile invokes each script 3 times; `collect.jl` takes the overall minimum across all runs
+- JIT languages (Julia, Numba) include a warmup pass before timing to exclude compilation overhead
+- Single-threaded execution enforced via environment variables (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `GOMAXPROCS=1`, `JULIA_NUM_THREADS=1`, `NUMBA_NUM_THREADS=1`)
 - Runs on GitHub Actions `ubuntu-latest` (x86_64, single core used)
 - Benchmarks test equivalent code patterns, not peak-optimized implementations
 

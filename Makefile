@@ -31,6 +31,10 @@ default: benchmarks.html
 
 export OMP_NUM_THREADS=1
 export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export GOMAXPROCS=1
+export JULIA_NUM_THREADS=1
+export NUMBA_NUM_THREADS=1
 
 dsfmt:
 	mkdir -p dSFMT

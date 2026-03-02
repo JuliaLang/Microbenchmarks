@@ -17,9 +17,22 @@ benchmarks use the same for-loop.
 
 ## Timing methodology
 
-- Each benchmark is run 5 times; the minimum time is reported
-- Julia discards the first iteration as JIT warmup
-- Both `OMP_NUM_THREADS` and `OPENBLAS_NUM_THREADS` are set to 1 for deterministic single-threaded execution
+All languages follow the same pattern:
+
+- Each benchmark is run 5 times internally; the minimum time is reported
+- The Makefile invokes each language's script 3 times (`ITERATIONS=3`), producing multiple sets of results
+- `bin/collect.jl` takes the overall minimum across all runs, so the final reported time is the best of up to 15 measurements
+- JIT languages (Julia, Numba) include a warmup pass before the 5 timed iterations to exclude compilation overhead
+
+Environment:
+
+- The following environment variables are set to 1 (via the Makefile and the GitHub Actions workflow) for deterministic single-threaded execution:
+  - `OMP_NUM_THREADS=1` — OpenMP threads
+  - `OPENBLAS_NUM_THREADS=1` — OpenBLAS threads
+  - `MKL_NUM_THREADS=1` — Intel MKL threads (if linked)
+  - `GOMAXPROCS=1` — Go runtime OS threads
+  - `JULIA_NUM_THREADS=1` — Julia threads
+  - `NUMBA_NUM_THREADS=1` — Numba parallel threads
 - Runs on GitHub Actions `ubuntu-latest` runners (x86_64)
 
 ## Matrix benchmarks and BLAS

@@ -17,14 +17,12 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
-	"log"
 	"math"
 	"math/rand"
 	"os"
 	"strconv"
-	"testing"
+	"time"
 
 	"gonum.org/v1/gonum/mat"
 	"gonum.org/v1/gonum/stat"
@@ -215,133 +213,85 @@ func pisum() float64 {
 	return sum
 }
 
-func print_perf(name string, time float64) {
-	fmt.Printf("go,%v,%v\n", name, time*1000)
+const NITER = 5
+
+func print_perf(name string, t float64) {
+	fmt.Printf("go,%v,%v\n", name, t*1000)
 }
 
-// run tests
-
-func assert(b *testing.B, t bool) {
-	if t != true {
-		b.Fatal("assert failed")
+func timeit(name string, fn func()) {
+	tmin := math.Inf(1)
+	for i := 0; i < NITER; i++ {
+		t := time.Now()
+		fn()
+		elapsed := time.Since(t).Seconds()
+		if elapsed < tmin {
+			tmin = elapsed
+		}
 	}
+	print_perf(name, tmin)
 }
+
+// run benchmarks
 
 func main() {
-	for _, bm := range benchmarks {
-		seconds, err := runBenchmarkFor(bm.fn)
-		if err != nil {
-			log.Fatalf("%s %s", bm.name, err)
+	n := 20
+	sink = &n // prevent constant propagation of fib argument
+	if fib(n) != 6765 {
+		panic("unexpected value for fib(20)")
+	}
+	timeit("recursion_fibonacci", func() {
+		fib(n)
+	})
+
+	timeit("parse_integers", func() {
+		for k := 0; k < 1000; k++ {
+			n := rnd.Uint32()
+			m, _ := strconv.ParseUint(strconv.FormatUint(uint64(n), 16), 16, 32)
+			if uint32(m) != n {
+				panic("incorrect value for m")
+			}
 		}
-		print_perf(bm.name, seconds)
+	})
+
+	if mandelperf() != 14791 {
+		panic("unexpected value for mandelperf")
 	}
-}
+	timeit("userfunc_mandelbrot", func() {
+		mandelperf()
+	})
 
-func runBenchmarkFor(fn func(*testing.B)) (seconds float64, err error) {
-	bm := testing.Benchmark(fn)
-	if (bm.N == 0) {
-		return 0, errors.New("failed")
+	timeit("recursion_quicksort", func() {
+		lst := make([]float64, 5000)
+		for k := range lst {
+			lst[k] = rnd.Float64()
+		}
+		qsort_kernel(lst, 0, len(lst)-1)
+	})
+
+	if math.Abs(pisum()-1.644834071848065) >= 1e-6 {
+		panic("pi_sum out of range")
 	}
-	return bm.T.Seconds() / float64(bm.N), nil
-}
+	timeit("iteration_pi_sum", func() {
+		pisum()
+	})
 
-var benchmarks = []struct {
-	name string
-	fn   func(*testing.B)
-}{
-	{
-		name: "recursion_fibonacci",
-		fn: func(b *testing.B) {
-			n := 20
-			sink = &n // prevent constant propagation of fib argument
-			for i := 0; i < b.N; i++ {
-				if fib(n) != 6765 {
-					b.Fatal("unexpected value for fib(20)")
-				}
-			}
-		},
-	},
+	c1, c2 := randmatstat(1000)
+	if !(0.5 < c1 && c1 < 1.0 && 0.5 < c2 && c2 < 1.0) {
+		panic("randmatstat out of range")
+	}
+	timeit("matrix_statistics", func() {
+		randmatstat(1000)
+	})
 
-	{
-		name: "parse_integers",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				for k := 0; k < 1000; k++ {
-					n := rnd.Uint32()
-					m, _ := strconv.ParseUint(strconv.FormatUint(uint64(n), 16), 16, 32)
-					if uint32(m) != n {
-						b.Fatal("incorrect value for m")
-					}
-				}
-			}
-		},
-	},
+	timeit("matrix_multiply", func() {
+		c := randmatmul(1000)
+		if c.At(0, 0) < 0 {
+			panic("unexpected negative value")
+		}
+	})
 
-	{
-		name: "userfunc_mandelbrot",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				if mandelperf() != 14791 {
-					b.Fatal("unexpected value for mandelperf")
-				}
-			}
-		},
-	},
-
-	{
-		name: "print_to_file",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				printfd(100000)
-			}
-		},
-	},
-
-	{
-		name: "recursion_quicksort",
-		fn: func(b *testing.B) {
-			lst := make([]float64, 5000)
-			b.ResetTimer()
-			for i := 0; i < b.N; i++ {
-				for k := range lst {
-					lst[k] = rnd.Float64()
-				}
-				qsort_kernel(lst, 0, len(lst)-1)
-			}
-		},
-	},
-
-	{
-		name: "iteration_pi_sum",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				if math.Abs(pisum()-1.644834071848065) >= 1e-6 {
-					b.Fatal("pi_sum out of range")
-				}
-			}
-		},
-	},
-
-	{
-		name: "matrix_statistics",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				c1, c2 := randmatstat(1000)
-				assert(b, 0.5 < c1)
-				assert(b, c1 < 1.0)
-				assert(b, 0.5 < c2)
-				assert(b, c2 < 1.0)
-			}
-		},
-	},
-
-	{
-		name: "matrix_multiply",
-		fn: func(b *testing.B) {
-			for i := 0; i < b.N; i++ {
-				c := randmatmul(1000)
-				assert(b, c.At(0, 0) >= 0)
-			}
-		},
-	},
+	timeit("print_to_file", func() {
+		printfd(100000)
+	})
 }

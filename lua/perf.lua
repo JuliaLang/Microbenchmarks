@@ -39,16 +39,16 @@ local function elapsed(f)
     return t1 - t0, val1, val2
 end
 
+local NITER = 5
+
 local function timeit(f, name, check)
-    local t, k, s = 1/0, 0, now_ms()
-    while true do
-        k = k + 1
+    local t = 1/0
+    for k = 1, NITER do
         local tx, val1, val2 = elapsed(f)
         t = min(t, tx)
         if check then
             check(val1, val2)
         end
-        if k > 5 and (now_ms() - s) >= 2000 then break end
     end
     io.write(format('lua,%s,%g\n', name, t))
 end
