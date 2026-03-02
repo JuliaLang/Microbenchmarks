@@ -79,7 +79,7 @@ benchmarks/matlab.csv: octave/perf.m
 	@for t in $(ITERATIONS); do matlab -nojvm -singleCompThread -r "run('octave/perf.m'); exit" | grep ^matlab | tail -8; done >$@
 
 benchmarks/octave.csv: octave/perf.m
-	@for t in $(ITERATIONS); do $(OCTAVE) -q octave/perf.m 2>/dev/null; done >$@
+	@for t in $(ITERATIONS); do $(OCTAVE) -q --path octave --eval "perf" 2>/dev/null; done >$@
 
 benchmarks/r.csv: r/perf.R
 	@for t in $(ITERATIONS); do cat $< | R --vanilla --slave 2>/dev/null; done >$@
