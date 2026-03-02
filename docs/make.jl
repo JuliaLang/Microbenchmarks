@@ -126,37 +126,8 @@ function make_chart(benchfile::String)
 
     datasets_json = join(datasets, ",\n            ")
 
-    # Build legend table rows with colored SVG circles matching the chart
-    bench_descriptions = [
-        "Numerical loops",
-        "Function call overhead, recursion",
-        "Sorting, recursion, cache performance",
-        "String parsing",
-        "I/O and formatting",
-        "Small matrix operations",
-        "BLAS / numerical libraries",
-        "Complex arithmetic, comprehensions",
-    ]
-    legend_rows = String[]
-    for (i, bench) in enumerate(BENCHMARK_ORDER)
-        color = COLORS[i]
-        dot = """<svg width="12" height="12"><circle cx="6" cy="6" r="5" fill="$color"/></svg>"""
-        push!(legend_rows,
-            """<tr><td>$dot</td><td><code>$bench</code></td><td>$(bench_descriptions[i])</td></tr>""")
-    end
-    legend_html = join(legend_rows, "\n    ")
-
     html = """
     Each dot represents one benchmark for a given language, with time normalized to C (lower is better).
-
-    ```@raw html
-    <table>
-    <thead><tr><th style="text-align:left">Color</th><th style="text-align:left">Benchmark</th><th style="text-align:left">Tests</th></tr></thead>
-    <tbody>
-    $legend_html
-    </tbody>
-    </table>
-    ```
 
     ```@raw html
     <canvas id="benchChart" style="max-height:550px;"></canvas>
