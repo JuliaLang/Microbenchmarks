@@ -74,7 +74,7 @@ fi
 
 if [[ $LANGUAGES == *":rust:"* ]]; then
     echo -n "rust,"
-    rustc --version | cut -c 7- | sed 's/ ([0-9a-f]* /<br>(/g'
+    rustc --version | cut -c 7- | sed 's/ (.*//'
 fi
 
 if [[ $LANGUAGES == *":scala:"* ]]; then

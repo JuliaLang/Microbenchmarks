@@ -96,7 +96,7 @@ Generate a Documenter-compatible Markdown page with a Chart.js scatter plot
 in the style of julialang.org/benchmarks (colored dots, log scale, languages
 on x-axis).
 """
-function make_chart(benchfile::String)
+function make_chart(benchfile::String, versions::Dict{String, String}=Dict{String, String}())
     benchmarks = parse_benchmarks(benchfile)
     langs = sorted_languages(benchmarks)
     c_times = benchmarks["c"]
@@ -205,7 +205,7 @@ function make_chart(benchfile::String)
     """
 
     # Generate per-language tables
-    lang_tables = make_language_tables(benchmarks, langs, c_times)
+    lang_tables = make_language_tables(benchmarks, langs, c_times, versions)
 
     open("docs/src/benchmarks.md", "w") do io
         print(io, html)
@@ -221,7 +221,7 @@ end
 Generate a Markdown section with a table for each language showing
 benchmark names, absolute times (ms), and times relative to C.
 """
-function make_language_tables(benchmarks, langs, c_times)
+function make_language_tables(benchmarks, langs, c_times, versions=Dict{String, String}())
     io = IOBuffer()
     println(io, "## Results by language")
     println(io)
@@ -231,7 +231,9 @@ function make_language_tables(benchmarks, langs, c_times)
         label = get(LANG_LABELS, lang, lang)
         times = get(benchmarks, lang, Dict{String, Float64}())
         isempty(times) && continue
-        println(io, "### $label")
+        ver = get(versions, lang, "")
+        heading = isempty(ver) ? "### $label" : "### $label ($ver)"
+        println(io, heading)
         println(io)
         println(io, "| Benchmark | Time (ms) | Relative to C |")
         println(io, "|:----------|----------:|--------------:|")
@@ -246,30 +248,11 @@ function make_language_tables(benchmarks, langs, c_times)
     return String(take!(io))
 end
 
-"""
-    make_versions_tbl(versions_file) -> writes docs/src/versions.md
-
-Generate a simple Markdown table of language versions.
-"""
-function make_versions_tbl(versions_file::String)
-    versions = parse_versions(versions_file)
-    langs = sort(collect(keys(versions)))
-
-    open("docs/src/versions.md", "w") do io
-        println(io, "| Language | Version |")
-        println(io, "|:---------|:--------|")
-        for lang in langs
-            label = get(LANG_LABELS, lang, lang)
-            println(io, "| $label | $(versions[lang]) |")
-        end
-    end
-end
-
 benchmarks_csv = get(ARGS, 1, "gh_action_benchmarks.csv")
 versions_csv   = get(ARGS, 2, "gh_action_versions.csv")
 
-make_chart(benchmarks_csv)
-make_versions_tbl(versions_csv)
+versions = parse_versions(versions_csv)
+make_chart(benchmarks_csv, versions)
 
 # Copy CSV into docs/src/ so it is available for download in the built site
 cp(benchmarks_csv, "docs/src/benchmarks.csv"; force=true)
@@ -281,7 +264,6 @@ makedocs(
         "Microbenchmarks" => "index.md",
         "Benchmarks" => "benchmarks.md",
         "Notes" => "notes.md",
-        "Versions" => "versions.md",
     ],
 )
 
