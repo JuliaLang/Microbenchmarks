@@ -39,7 +39,7 @@ fi
 
 if [[ $LANGUAGES == *":lua:"* ]]; then
     echo -n "lua,"
-    (cd lua; ./ulua/luajit/*/Linux/x64/luajit -v | cut -f2 -d" ")
+    luajit -v | cut -f2 -d" "
 fi
 
 if [[ $LANGUAGES == *":mathematica:"* ]]; then

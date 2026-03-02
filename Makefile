@@ -91,8 +91,7 @@ benchmarks/mathematica.csv: mathematica/perf.nb
 	@for t in $(ITERATIONS); do $(MATHEMATICABIN) -noprompt -run "<<$<; Exit[]"; done >$@
 
 benchmarks/lua.csv: lua/perf.lua
-	export BIT=64
-	@for t in $(ITERATIONS); do ./lua/ulua/bin/scilua $<; done >$@
+	@for t in $(ITERATIONS); do luajit $<; done >$@
 
 benchmarks/java.csv: java/src/main/java/PerfBLAS.java
 	cd java

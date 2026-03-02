@@ -37,8 +37,8 @@
 # Swift
 /swift/.build/
 
-# LuaJIT install
-/lua/ulua/
+# LuaJIT (previously used ulua, now installed via apt)
+
 
 # Misc
 /gopath/
