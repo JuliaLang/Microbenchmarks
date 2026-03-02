@@ -98,7 +98,7 @@ benchmarks/java.csv: java/src/main/java/PerfBLAS.java
 
 benchmarks/scala.csv: scala/src/main/scala/perf.scala scala/build.sbt
 	cd scala
-	@for t in $(ITERATIONS); do sbt --batch run; done >../$@
+	@for t in $(ITERATIONS); do sbt --batch run 2>/dev/null | grep '^scala,'; done >../$@
 
 benchmarks/rust.csv: rust/src/main.rs rust/src/util.rs rust/Cargo.toml
 	cd rust
