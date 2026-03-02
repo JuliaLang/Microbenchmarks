@@ -203,7 +203,6 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y -qq luajit luarocks libopenblas-dev
           sudo luarocks install sci
-          sudo luarocks install time
       - name: "Run benchmark"
         run: make benchmarks/lua.csv
       - name: "Capture version"

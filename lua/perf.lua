@@ -5,33 +5,42 @@ end
 
 local ffi     = require 'ffi'
 local bit     = require 'bit'
-local time    = require 'time'
 local alg     = require 'sci.alg'
 local prng    = require 'sci.prng'
 local stat    = require 'sci.stat'
 local dist    = require 'sci.dist'
 local complex = require 'sci.complex'
 
+ffi.cdef[[
+typedef struct { long tv_sec; long tv_nsec; } timespec;
+int clock_gettime(int clk_id, timespec *tp);
+]]
+local CLOCK_MONOTONIC = 1
+local ts = ffi.new('timespec')
+local function now_ms()
+    ffi.C.clock_gettime(CLOCK_MONOTONIC, ts)
+    return tonumber(ts.tv_sec) * 1000 + tonumber(ts.tv_nsec) / 1e6
+end
+
 local min, sqrt, random, abs = math.min, math.sqrt, math.random, math.abs
-local cabs = complex.abs
 local rshift = bit.rshift
 local format = string.format
-local nowutc = time.nowutc
 local rng = prng.std()
 local vec, mat, join = alg.vec, alg.mat, alg.join
 local sum, trace = alg.sum, alg.trace
 local var, mean = stat.var, stat.mean
+local cnew = complex.new
 
 --------------------------------------------------------------------------------
 local function elapsed(f)
-    local t0 = nowutc()
+    local t0 = now_ms()
     local val1, val2 = f()
-    local t1 = nowutc()
-    return (t1 - t0):tomilliseconds(), val1, val2
+    local t1 = now_ms()
+    return t1 - t0, val1, val2
 end
 
 local function timeit(f, name, check)
-    local t, k, s = 1/0, 0, nowutc()
+    local t, k, s = 1/0, 0, now_ms()
     while true do
         k = k + 1
         local tx, val1, val2 = elapsed(f)
@@ -39,7 +48,7 @@ local function timeit(f, name, check)
         if check then
             check(val1, val2)
         end
-        if k > 5 and (nowutc() - s):toseconds() >= 2 then break end
+        if k > 5 and (now_ms() - s) >= 2000 then break end
     end
     io.write(format('lua,%s,%g\n', name, t))
 end
@@ -89,7 +98,7 @@ local function mandelperf()
     for r=1,26 do -- Lua's for i=l,u,c doesn't match Julia's for i=l:c:u.
         for c=1,21 do
             local re, im = (r - 21)*0.1, (c - 11)*0.1
-            a[{r, c}] = mandel(re + im*1i)
+            a[{r, c}] = mandel(cnew(re, im))
         end
     end
     return a
@@ -169,8 +178,16 @@ local function randmatstat(t)
         local a, b, c, d = randn(n, n), randn(n, n), randn(n, n), randn(n, n)
         local P = join(a..b..c..d)
         local Q = join(a..b, c..d)
-        v[i] = trace((P[]`**P[])^^4)
-        w[i] = trace((Q[]`**Q[])^^4)
+        local PtP = mat(P:ncol(), P:ncol())
+        alg.mul(PtP, P, P, true, false)   -- PtP = P' * P
+        local PtP4 = mat(PtP:nrow(), PtP:ncol())
+        alg.pow(PtP4, PtP, 4)             -- PtP4 = (P' * P)^4
+        v[i] = trace(PtP4)
+        local QtQ = mat(Q:ncol(), Q:ncol())
+        alg.mul(QtQ, Q, Q, true, false)   -- QtQ = Q' * Q
+        local QtQ4 = mat(QtQ:nrow(), QtQ:ncol())
+        alg.pow(QtQ4, QtQ, 4)             -- QtQ4 = (Q' * Q)^4
+        w[i] = trace(QtQ4)
     end
     return sqrt(var(v))/mean(v), sqrt(var(w))/mean(w)
 end
@@ -182,7 +199,9 @@ timeit(function() return randmatstat(1000) end, 'matrix_statistics',
 
 local function randmatmult(n)
     local a, b = rand(n, n), rand(n, n)
-    return a[]**b[]
+    local c = mat(n, n)
+    alg.mul(c, a, b, false, false)
+    return c
 end
 
 timeit(function() return randmatmult(1000) end, 'matrix_multiply')
