@@ -20,7 +20,6 @@ jobs:
           python -c "
           import numba
           print('Numba version:', numba.__version__)
-          print('LLVM version:', numba.config.LLVM_VERSION)
 
           from numba import njit
           import numpy as np
