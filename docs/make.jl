@@ -258,7 +258,7 @@ make_chart(benchmarks_csv, versions)
 cp(benchmarks_csv, "docs/src/benchmarks.csv"; force=true)
 
 makedocs(
-    format = Documenter.HTML(),
+    format = Documenter.HTML(collapselevel = 3),
     sitename = "Julia Microbenchmarks",
     pages = [
         "Microbenchmarks" => "index.md",
