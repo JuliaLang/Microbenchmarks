@@ -17,9 +17,8 @@ benchmarks use the same for-loop.
 
 ## Timing methodology
 
-- Each benchmark is run 3 times; the minimum time is reported
-- A minimum accumulation time of 2 seconds ensures stable measurements
-- The first iteration serves as warmup
+- Each benchmark is run 5 times; the minimum time is reported
+- Julia discards the first iteration as JIT warmup
 - Both `OMP_NUM_THREADS` and `OPENBLAS_NUM_THREADS` are set to 1 for deterministic single-threaded execution
 - Runs on GitHub Actions `ubuntu-latest` runners (x86_64)
 
