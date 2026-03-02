@@ -299,12 +299,14 @@ end subroutine
 
 real(dp) function pisum() result(s)
 integer :: j, k
+real(dp) :: t
 volatile :: s
 do j = 1, 500
-    s = 0
+    t = 0
     do k = 1, 10000
-        s = s + 1._dp / k**2
+        t = t + 1._dp / k**2
     end do
+    s = t
 end do
 end function
 
@@ -412,14 +414,12 @@ print "('fortran,print_to_file,',f0.6)", sysclock2ms(tmin)
 tmin = huge(0_i64)
 do i = 1, 5
     call system_clock(t1)
-    do k = 1, NRUNS
-        f = mandelperf()
-    end do
+    f = mandelperf()
     call system_clock(t2)
     if (t2-t1 < tmin) tmin = t2-t1
 end do
 call assert(f == 14791)
-print "('fortran,userfunc_mandelbrot,',f0.6)", sysclock2ms(tmin) / NRUNS
+print "('fortran,userfunc_mandelbrot,',f0.6)", sysclock2ms(tmin)
 
 tmin = huge(0_i64)
 do i = 1, 5

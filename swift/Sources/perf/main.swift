@@ -353,13 +353,11 @@ do {
 tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()
-    for _ in 0..<100 {
-        blackHole(mandelperf())
-    }
+    blackHole(mandelperf())
     let elapsed = clockNow() - t
     if elapsed < tmin { tmin = elapsed }
 }
-printPerf("userfunc_mandelbrot", tmin / 100)
+printPerf("userfunc_mandelbrot", tmin)
 
 // quicksort
 tmin = Double.infinity
