@@ -52,6 +52,11 @@ if [[ $LANGUAGES == *":matlab:"* ]]; then
     matlab -nodisplay -nojvm -nosplash -r "version -release, quit" | tail -n3 | head -n1 | cut -f5 -d" " | sed "s/'//g"
 fi
 
+if [[ $LANGUAGES == *":numba:"* ]]; then
+    echo -n "numba,"
+    python3 -c "import numba; print(numba.__version__)"
+fi
+
 if [[ $LANGUAGES == *":octave:"* ]]; then
     echo -n "octave,"
     octave-cli -v | grep version | cut -f4 -d" "

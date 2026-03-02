@@ -37,7 +37,7 @@ Running the full suite locally requires:
 
 * GCC and GFortran
 * OpenBLAS development libraries (`libopenblas-dev` on Debian/Ubuntu)
-* Go, Java (Maven), Node.js, Python 3 (NumPy), R, Rust, Scala (sbt), Swift, LuaJIT, Octave
+* Go, Java (Maven), Node.js, Python 3 (NumPy, Numba), R, Rust, Scala (sbt), Swift, LuaJIT, Octave
 
 Individual language benchmarks can be run with, e.g., `make benchmarks/julia.csv`.
 
@@ -50,6 +50,7 @@ Individual language benchmarks can be run with, e.g., `make benchmarks/julia.csv
 * [JavaScript](javascript/perf.js)
 * [Julia](julia/perf.jl)
 * [LuaJIT](lua/perf.lua)
+* [Numba](numba/perf.py)
 * [Octave](octave/perf.m)
 * [Python](python/perf.py)
 * [R](r/perf.R)

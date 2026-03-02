@@ -235,6 +235,33 @@ jobs:
             benchmarks/octave.csv
             version.csv
 
+  bench-numba:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: "Set up Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: "Set up Numba"
+        run: pip install numpy==2.3 numba
+      - name: "Run benchmark"
+        run: make benchmarks/numba.csv
+      - name: "Capture version"
+        run: bash bin/versions.sh numba > version.csv
+      - name: "Upload results"
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-numba
+          path: |
+            benchmarks/numba.csv
+            version.csv
+
   bench-python:
     runs-on: ubuntu-latest
     defaults:
@@ -389,6 +416,7 @@ jobs:
       - bench-javascript
       - bench-julia
       - bench-lua
+      - bench-numba
       - bench-octave
       - bench-python
       - bench-r
