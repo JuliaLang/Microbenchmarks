@@ -38,3 +38,13 @@ R, Octave, Swift (Accelerate)
 The `matrix_statistics` benchmark computes statistics on small 5×5
 matrices and is less BLAS-dependent, testing the language's own matrix
 operations.
+
+## Running locally
+
+To build and run all benchmarks: `make` (GNU Make required).
+
+Individual languages can be run with, e.g., `make benchmarks/julia.csv`.
+
+The full suite requires: GCC, GFortran, OpenBLAS (`libopenblas-dev`),
+Go, Java (Maven), Node.js, Python 3 (NumPy, Numba), R, Rust, Scala (sbt),
+Swift, LuaJIT, and Octave.

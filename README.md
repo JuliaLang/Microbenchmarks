@@ -1,17 +1,17 @@
 # Microbenchmarks
 
-This is a collection of micro-benchmarks used to compare Julia's performance against
-that of other languages.
-It was formerly part of the Julia source tree.
-The results of these benchmarks are used to generate the performance graph on the
-[Julia benchmarks page](https://julialang.org/benchmarks).
+[![Benchmarks](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml)
 
-The benchmark [results](https://julialang.github.io/Microbenchmarks.jl/) are auto-generated
-on Github Actions. Times are normalized relative to C.
+A collection of micro-benchmarks comparing Julia's performance against other languages.
+Originally part of the Julia source tree, these benchmarks generate the performance chart on
+[julialang.org/benchmarks](https://julialang.org/benchmarks).
+
+**[View results](https://julialang.github.io/Microbenchmarks/)**
 
 ## Benchmarks
 
-All benchmarks implement identical algorithms across languages (serial, single-core):
+All benchmarks implement identical algorithms across languages (serial, single-core).
+Times are normalized relative to C.
 
 | Benchmark | Description |
 |:----------|:------------|
@@ -24,24 +24,7 @@ All benchmarks implement identical algorithms across languages (serial, single-c
 | `matrix_multiply` | Multiply two random 1,000x1,000 matrices (BLAS) |
 | `userfunc_mandelbrot` | Mandelbrot set computation over a grid |
 
-## Running benchmarks
-
-Install Julia with [juliaup](https://github.com/JuliaLang/juliaup).
-
-To build binaries and run the benchmarks, simply run `make`.
-Note that this refers to GNU Make, so BSD users will need to run `gmake`.
-
-### Prerequisites
-
-Running the full suite locally requires:
-
-* GCC and GFortran
-* OpenBLAS development libraries (`libopenblas-dev` on Debian/Ubuntu)
-* Go, Java (Maven), Node.js, Python 3 (NumPy, Numba), R, Rust, Scala (sbt), Swift, LuaJIT, Octave
-
-Individual language benchmarks can be run with, e.g., `make benchmarks/julia.csv`.
-
-## Languages in CI
+## Languages
 
 * [C](c/perf.c)
 * [Fortran](fortran/perf.f90)
@@ -58,7 +41,4 @@ Individual language benchmarks can be run with, e.g., `make benchmarks/julia.csv
 * [Scala](scala/src/main/scala/perf.scala)
 * [Swift](swift/Sources/perf/main.swift)
 
-## Additional languages (local only)
-
-* [Mathematica](mathematica/perf.nb)
-* [Matlab](octave/perf.m)
+Mathematica and Matlab benchmarks are available but not run in CI.
