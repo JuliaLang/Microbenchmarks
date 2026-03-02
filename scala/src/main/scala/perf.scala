@@ -5,6 +5,7 @@ import java.util.Random
 
 import breeze.linalg._
 import breeze.stats.distributions.Gaussian
+import breeze.stats.distributions.Rand.VariableSeed.randBasis
 
 object Perf {
   val NITER = 5
@@ -127,13 +128,22 @@ object Perf {
     val g = Gaussian(0, 1)
 
     for (i <- 0 until t) {
-      val a = DenseMatrix.rand(n, n, g)
-      val b = DenseMatrix.rand(n, n, g)
-      val c = DenseMatrix.rand(n, n, g)
-      val d = DenseMatrix.rand(n, n, g)
+      val a = DenseMatrix.rand[Double](n, n, g)
+      val b = DenseMatrix.rand[Double](n, n, g)
+      val c = DenseMatrix.rand[Double](n, n, g)
+      val d = DenseMatrix.rand[Double](n, n, g)
 
-      val P = DenseMatrix.horzcat(a, b, c, d)
-      val Q = DenseMatrix.vertcat(DenseMatrix.horzcat(a, b), DenseMatrix.horzcat(c, d))
+      val P = DenseMatrix.zeros[Double](n, 4 * n)
+      P(::, 0 until n) := a
+      P(::, n until 2 * n) := b
+      P(::, 2 * n until 3 * n) := c
+      P(::, 3 * n until 4 * n) := d
+
+      val Q = DenseMatrix.zeros[Double](2 * n, 2 * n)
+      Q(0 until n, 0 until n) := a
+      Q(0 until n, n until 2 * n) := b
+      Q(n until 2 * n, 0 until n) := c
+      Q(n until 2 * n, n until 2 * n) := d
 
       val V = P.t * P
       val W = Q.t * Q
