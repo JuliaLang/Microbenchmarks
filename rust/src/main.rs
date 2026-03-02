@@ -63,6 +63,7 @@ fn mandelperf() -> Vec<u32> {
 fn pisum() -> f64 {
     let mut sum = 0.;
     for _ in 0..500 {
+        sum = black_box(0.);
         sum = (1..10001)
             .map(|k| {
                 let k = k as f64;
