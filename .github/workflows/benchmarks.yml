@@ -18,6 +18,15 @@ permissions:
   pull-requests: read
   statuses: write
 
+# Force single-threaded execution for all benchmarks
+env:
+  OMP_NUM_THREADS: 1
+  OPENBLAS_NUM_THREADS: 1
+  MKL_NUM_THREADS: 1
+  GOMAXPROCS: 1
+  JULIA_NUM_THREADS: 1
+  NUMBA_NUM_THREADS: 1
+
 # ---------------------------------------------------------------------------
 # Per-language benchmark jobs
 # ---------------------------------------------------------------------------
