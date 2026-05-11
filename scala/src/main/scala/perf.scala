@@ -277,5 +277,45 @@ object Perf {
       tmin = math.min(tmin, System.nanoTime() - t)
     }
     printPerf("print_to_file", tmin)
+
+    // allocation_binary_trees
+    val bt_depth = 14
+    val bt_iters = 25
+    val bt_expected = bt_iters * ((1 << bt_depth) - 1)
+    assert(binaryTreesPerf(bt_depth, bt_iters) == bt_expected)
+    var bt_sum = 0
+    tmin = Long.MaxValue
+    for (_ <- 0 until NITER) {
+      t = System.nanoTime()
+      val s = binaryTreesPerf(bt_depth, bt_iters)
+      bt_sum += s
+      tmin = math.min(tmin, System.nanoTime() - t)
+    }
+    assert(bt_sum == bt_expected * NITER)
+    printPerf("allocation_binary_trees", tmin)
+  }
+
+  // ---------------------------------------------------------------------------
+  // Binary tree allocation
+  // ---------------------------------------------------------------------------
+
+  case class BTreeNode(left: BTreeNode, right: BTreeNode)
+
+  def makeBtree(depth: Int): BTreeNode = {
+    if (depth == 0) return null
+    BTreeNode(makeBtree(depth - 1), makeBtree(depth - 1))
+  }
+
+  def btreeChecksum(n: BTreeNode): Int = {
+    if (n == null) return 0
+    1 + btreeChecksum(n.left) + btreeChecksum(n.right)
+  }
+
+  def binaryTreesPerf(depth: Int, iters: Int): Int = {
+    var s = 0
+    for (_ <- 0 until iters) {
+      s += btreeChecksum(makeBtree(depth))
+    }
+    s
   }
 }

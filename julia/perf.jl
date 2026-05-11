@@ -133,6 +133,35 @@ end
 
 @timeit rand(1000, 1000) * rand(1000, 1000) "matrix_multiply"
 
+## binary tree allocation ##
+
+struct BTreeNode
+    left::Union{BTreeNode, Nothing}
+    right::Union{BTreeNode, Nothing}
+end
+
+function make_btree(depth::Int)
+    depth == 0 && return nothing
+    return BTreeNode(make_btree(depth - 1), make_btree(depth - 1))
+end
+
+function btree_checksum(n::Union{BTreeNode, Nothing})
+    n === nothing && return 0
+    return 1 + btree_checksum(n.left) + btree_checksum(n.right)
+end
+
+function binary_trees_perf(depth, iters)
+    s = 0
+    for j = 1:iters
+        tree = make_btree(depth)
+        s += btree_checksum(tree)
+    end
+    return s
+end
+
+@test binary_trees_perf(14, 25) == 25 * ((1 << 14) - 1)
+@timeit binary_trees_perf(14, 25) "allocation_binary_trees"
+
 ## printfd ##
 
 if Sys.isunix()

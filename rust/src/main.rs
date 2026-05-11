@@ -23,6 +23,37 @@ use util::fill_rand;
 
 const NITER: u32 = 5;
 
+// binary tree allocation
+
+struct BTreeNode {
+    left: Option<Box<BTreeNode>>,
+    right: Option<Box<BTreeNode>>,
+}
+
+fn make_btree(depth: i32) -> Option<Box<BTreeNode>> {
+    if depth == 0 { return None; }
+    Some(Box::new(BTreeNode {
+        left: make_btree(depth - 1),
+        right: make_btree(depth - 1),
+    }))
+}
+
+fn btree_checksum(n: &Option<Box<BTreeNode>>) -> i32 {
+    match n {
+        None => 0,
+        Some(node) => 1 + btree_checksum(&node.left) + btree_checksum(&node.right),
+    }
+}
+
+fn binary_trees_perf(depth: i32, iters: i32) -> i32 {
+    let mut s = 0;
+    for _ in 0..iters {
+        let tree = make_btree(depth);
+        s += btree_checksum(&tree);
+    }
+    s
+}
+
 #[cfg(not(feature = "direct_blas"))]
 fn nrand<R: Rng>(shape: (usize, usize), rng: &mut R) -> Array2<f64> {
     let mut m = Array2::zeros(shape);
@@ -300,4 +331,17 @@ fn main() {
         printfd(100000);
     });
     print_perf("print_to_file", to_float(tmin));
+
+    // binary trees
+    let bt_depth = 14;
+    let bt_iters = 25;
+    let bt_expected = bt_iters * ((1i32 << bt_depth) - 1);
+    assert_eq!(binary_trees_perf(bt_depth, bt_iters), bt_expected);
+    let mut bt_sum: i32 = 0;
+    let tmin = measure_best(NITER, || {
+        let s = binary_trees_perf(bt_depth, bt_iters);
+        bt_sum = bt_sum.wrapping_add(s);
+    });
+    assert_eq!(bt_sum, bt_expected * NITER as i32);
+    print_perf("allocation_binary_trees", to_float(tmin));
 }

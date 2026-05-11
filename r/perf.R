@@ -179,3 +179,26 @@ randmatmul = function(n) {
 
 assert(randmatmul(1000)[1] >= 0)
 timeit("matrix_multiply", randmatmul, 1000)
+
+## binary tree allocation ##
+
+make_btree = function(depth) {
+    if (depth == 0) return(NULL)
+    return(list(left = make_btree(depth - 1), right = make_btree(depth - 1)))
+}
+
+btree_checksum = function(n) {
+    if (is.null(n)) return(0)
+    return(1 + btree_checksum(n$left) + btree_checksum(n$right))
+}
+
+binary_trees_perf = function(depth, iters) {
+    s = 0
+    for (j in 1:iters) {
+        s = s + btree_checksum(make_btree(depth))
+    }
+    return(s)
+}
+
+assert(binary_trees_perf(14, 25) == 25 * (2^14 - 1))
+timeit("allocation_binary_trees", binary_trees_perf, 14, 25)

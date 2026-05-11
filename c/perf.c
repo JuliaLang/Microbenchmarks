@@ -229,6 +229,43 @@ void printfd(int n) {
     fclose(f);
 }
 
+// binary tree allocation
+
+typedef struct btree_node {
+    struct btree_node *left;
+    struct btree_node *right;
+} btree_node;
+
+btree_node *make_tree(int depth) {
+    if (depth == 0) return NULL;
+    btree_node *n = (btree_node *)malloc(sizeof(btree_node));
+    n->left  = make_tree(depth - 1);
+    n->right = make_tree(depth - 1);
+    return n;
+}
+
+int tree_checksum(btree_node *n) {
+    if (n == NULL) return 0;
+    return 1 + tree_checksum(n->left) + tree_checksum(n->right);
+}
+
+void free_tree(btree_node *n) {
+    if (n == NULL) return;
+    free_tree(n->left);
+    free_tree(n->right);
+    free(n);
+}
+
+int binary_trees(int depth, int iterations) {
+    int sum = 0;
+    for (int j = 0; j < iterations; j++) {
+        btree_node *tree = make_tree(depth);
+        sum += tree_checksum(tree);
+        free_tree(tree);
+    }
+    return sum;
+}
+
 void print_perf(const char *name, double t) {
     printf("c,%s,%.6f\n", name, t*1000);
 }
@@ -375,6 +412,23 @@ int main() {
         if (t < tmin) tmin = t;
     }
     print_perf("print_to_file", tmin);
+
+    // binary trees — alloc/free trees of depth 14 (2^14-1 = 16383 nodes each)
+    static volatile int bt_sum_init = 0;
+    int bt_sum2 = bt_sum_init;
+    int bt_depth = 14;
+    int bt_iter = 25;
+    int bt_expected = bt_iter * ((1 << bt_depth) - 1);
+    tmin = INFINITY;
+    for (int i = 0; i < NITER; ++i) {
+        t = clock_now();
+        int s = binary_trees(bt_depth, bt_iter);
+        t = clock_now() - t;
+        bt_sum2 += s;
+        if (t < tmin) tmin = t;
+    }
+    assert(bt_sum2 == bt_expected * NITER);
+    print_perf("allocation_binary_trees", tmin);
 
     return 0;
 }

@@ -35,6 +35,37 @@ func blackHole<T>(_ x: T) {
 }
 
 // ---------------------------------------------------------------------------
+// Binary tree allocation
+// ---------------------------------------------------------------------------
+
+class BTreeNode {
+    let left: BTreeNode?
+    let right: BTreeNode?
+    init(left: BTreeNode?, right: BTreeNode?) {
+        self.left = left
+        self.right = right
+    }
+}
+
+func makeBtree(_ depth: Int) -> BTreeNode? {
+    if depth == 0 { return nil }
+    return BTreeNode(left: makeBtree(depth - 1), right: makeBtree(depth - 1))
+}
+
+func btreeChecksum(_ n: BTreeNode?) -> Int {
+    guard let n = n else { return 0 }
+    return 1 + btreeChecksum(n.left) + btreeChecksum(n.right)
+}
+
+func binaryTreesPerf(depth: Int, iters: Int) -> Int {
+    var s = 0
+    for _ in 0..<iters {
+        s += btreeChecksum(makeBtree(depth))
+    }
+    return s
+}
+
+// ---------------------------------------------------------------------------
 // Fibonacci
 // ---------------------------------------------------------------------------
 
@@ -414,3 +445,21 @@ for _ in 0..<NITER {
     if elapsed < tmin { tmin = elapsed }
 }
 printPerf("print_to_file", tmin)
+
+// binary trees
+let btDepth = 14
+let btIters = 25
+let btExpected = btIters * ((1 << btDepth) - 1)
+precondition(binaryTreesPerf(depth: btDepth, iters: btIters) == btExpected)
+var btSum = 0
+tmin = Double.infinity
+for _ in 0..<NITER {
+    let t = clockNow()
+    let s = binaryTreesPerf(depth: btDepth, iters: btIters)
+    btSum += s
+    let elapsed = clockNow() - t
+    if elapsed < tmin { tmin = elapsed }
+}
+blackHole(btSum)
+precondition(btSum == btExpected * NITER)
+printPerf("allocation_binary_trees", tmin)

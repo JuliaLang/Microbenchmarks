@@ -14,6 +14,7 @@ const benchmark_order = [
     "matrix_statistics",
     "matrix_multiply",
     "userfunc_mandelbrot",
+    "allocation_binary_trees",
 ]
 
 const versions = Dict{String, String}()

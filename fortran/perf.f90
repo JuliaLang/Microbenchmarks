@@ -181,7 +181,15 @@ use utils, only: trace, randn, std, mean, stop_error
 use types, only: dp
 implicit none
 private
-public fib, parse_int, printfd, quicksort, mandelperf, pisum, randmatstat, randmatmul
+public fib, parse_int, printfd, quicksort, mandelperf, pisum, randmatstat, randmatmul, &
+    btree_node, make_btree, btree_checksum, free_btree
+
+! binary tree node type
+
+type :: btree_node
+    type(btree_node), pointer :: left => null()
+    type(btree_node), pointer :: right => null()
+end type
 
 contains
 
@@ -307,8 +315,40 @@ do j = 1, 500
         t = t + 1._dp / k**2
     end do
     s = t
-end do
+    end do
 end function
+
+! binary tree allocation
+
+recursive subroutine make_btree(node, depth)
+    type(btree_node), pointer, intent(out) :: node
+    integer, intent(in) :: depth
+    if (depth == 0) then
+        nullify(node)
+        return
+    end if
+    allocate(node)
+    call make_btree(node%left, depth - 1)
+    call make_btree(node%right, depth - 1)
+end subroutine
+
+recursive integer function btree_checksum(node) result(s)
+    type(btree_node), pointer, intent(in) :: node
+    if (.not. associated(node)) then
+        s = 0
+        return
+    end if
+    s = 1 + btree_checksum(node%left) + btree_checksum(node%right)
+end function
+
+recursive subroutine free_btree(node)
+    type(btree_node), pointer, intent(inout) :: node
+    if (.not. associated(node)) return
+    call free_btree(node%left)
+    call free_btree(node%right)
+    deallocate(node)
+    nullify(node)
+end subroutine
 
 subroutine randmatstat(t, s1, s2)
 integer, intent(in) :: t
@@ -358,7 +398,7 @@ program perf
 use types, only: dp, i64
 use utils, only: assert, init_random_seed, sysclock2ms, hex_string
 use bench, only: fib, parse_int, printfd, quicksort, mandelperf, pisum, randmatstat, &
-    randmatmul
+    randmatmul, btree_node, make_btree, btree_checksum, free_btree
 implicit none
 
 integer, parameter :: NRUNS = 1000
@@ -368,6 +408,8 @@ integer(i64) :: t1, t2, tmin
 real(dp) :: pi, s1, s2
 real(dp), allocatable :: C(:, :), d(:)
 character(len=11) :: s
+type(btree_node), pointer :: btree
+integer :: bt_sum
 
 call init_random_seed()
 
@@ -465,5 +507,21 @@ do i = 1, 5
     if (t2-t1 < tmin) tmin = t2-t1
 end do
 print "('fortran,matrix_multiply,',f0.6)", sysclock2ms(tmin)
+
+! binary trees
+bt_sum = 0
+tmin = huge(0_i64)
+do i = 1, 5
+    call system_clock(t1)
+    do k = 1, 25
+        call make_btree(btree, 14)
+        bt_sum = bt_sum + btree_checksum(btree)
+        call free_btree(btree)
+    end do
+    call system_clock(t2)
+    if (t2-t1 < tmin) tmin = t2-t1
+end do
+call assert(bt_sum == 25 * (2**14 - 1) * 5)
+print "('fortran,allocation_binary_trees,',f0.6)", sysclock2ms(tmin)
 
 end program

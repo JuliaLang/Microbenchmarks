@@ -200,3 +200,37 @@ if __name__ == "__main__":
         t = time.time()-t
         if t < tmin: tmin = t
     print_perf ("print_to_file", tmin)
+
+    ## binary tree allocation (plain Python — not Numba-accelerable) ##
+
+    class BTreeNode:
+        __slots__ = ('left', 'right')
+        def __init__(self, left, right):
+            self.left = left
+            self.right = right
+
+    def make_btree(depth):
+        if depth == 0:
+            return None
+        return BTreeNode(make_btree(depth - 1), make_btree(depth - 1))
+
+    def btree_checksum(n):
+        if n is None:
+            return 0
+        return 1 + btree_checksum(n.left) + btree_checksum(n.right)
+
+    def binary_trees_perf(depth, iters):
+        s = 0
+        for j in range(iters):
+            tree = make_btree(depth)
+            s += btree_checksum(tree)
+        return s
+
+    assert binary_trees_perf(14, 25) == 25 * ((1 << 14) - 1)
+    tmin = float('inf')
+    for i in range(mintrials):
+        t = time.time()
+        binary_trees_perf(14, 25)
+        t = time.time()-t
+        if t < tmin: tmin = t
+    print_perf("allocation_binary_trees", tmin)

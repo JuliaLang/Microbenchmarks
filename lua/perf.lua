@@ -217,3 +217,26 @@ if jit.os ~= 'Windows' then
 
     timeit(function() return printfd(100000) end, 'print_to_file')
 end
+
+-- binary tree allocation
+
+local function make_btree(depth)
+    if depth == 0 then return nil end
+    return {left = make_btree(depth - 1), right = make_btree(depth - 1)}
+end
+
+local function btree_checksum(n)
+    if n == nil then return 0 end
+    return 1 + btree_checksum(n.left) + btree_checksum(n.right)
+end
+
+local function binary_trees_perf(depth, iters)
+    local s = 0
+    for j = 1, iters do
+        s = s + btree_checksum(make_btree(depth))
+    end
+    return s
+end
+
+timeit(function() return binary_trees_perf(14, 25) end, 'allocation_binary_trees',
+    function(s) assert(s == 25 * (bit.lshift(1, 14) - 1)) end)

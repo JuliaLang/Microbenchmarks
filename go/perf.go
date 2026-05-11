@@ -215,6 +215,35 @@ func pisum() float64 {
 
 const NITER = 5
 
+// binary tree allocation
+
+type btreeNode struct {
+    left, right *btreeNode
+}
+
+func makeBtree(depth int) *btreeNode {
+    if depth == 0 {
+        return nil
+    }
+    return &btreeNode{makeBtree(depth - 1), makeBtree(depth - 1)}
+}
+
+func btreeChecksum(n *btreeNode) int {
+    if n == nil {
+        return 0
+    }
+    return 1 + btreeChecksum(n.left) + btreeChecksum(n.right)
+}
+
+func binaryTreesPerf(depth, iters int) int {
+    s := 0
+    for j := 0; j < iters; j++ {
+        tree := makeBtree(depth)
+        s += btreeChecksum(tree)
+    }
+    return s
+}
+
 func print_perf(name string, t float64) {
 	fmt.Printf("go,%v,%v\n", name, t*1000)
 }
@@ -293,5 +322,12 @@ func main() {
 
 	timeit("print_to_file", func() {
 		printfd(100000)
+	})
+
+	if binaryTreesPerf(14, 25) != 25*((1<<14)-1) {
+		panic("binary_trees_perf incorrect")
+	}
+	timeit("allocation_binary_trees", func() {
+		binaryTreesPerf(14, 25)
 	})
 }

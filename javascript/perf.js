@@ -446,6 +446,36 @@ const fs = require('fs'); // for print to file benchmark
         return matmul(A, B, n, n, n);
     }
 
+    // binary trees
+    function make_btree(depth) {
+        if (depth === 0) return null;
+        return {left: make_btree(depth - 1), right: make_btree(depth - 1)};
+    }
+
+    function btree_checksum(n) {
+        if (n === null) return 0;
+        return 1 + btree_checksum(n.left) + btree_checksum(n.right);
+    }
+
+    function binary_trees_perf(depth, iters) {
+        var s = 0, j;
+        for (j = 0; j < iters; j++) {
+            var tree = make_btree(depth);
+            s += btree_checksum(tree);
+        }
+        return s;
+    }
+
+    assert(binary_trees_perf(14, 25) === 25 * ((1 << 14) - 1));
+    tmin = Number.POSITIVE_INFINITY;
+    for (var trial = 0; trial < 5; trial++) {
+        t = (new Date()).getTime();
+        binary_trees_perf(14, 25);
+        t = (new Date()).getTime() - t;
+        if (t < tmin) { tmin = t; }
+    }
+    console.log("javascript,allocation_binary_trees," + tmin);
+
     tmin = Number.POSITIVE_INFINITY;
     t = (new Date()).getTime();
     C = randmatmul(1000);

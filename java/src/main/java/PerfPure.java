@@ -122,6 +122,23 @@ public class PerfPure {
         }
         print_perf("matrix_multiply", tmin);
 
+        // binary trees
+        int bt_depth = 14;
+        int bt_iters = 25;
+        int bt_expected = bt_iters * ((1 << bt_depth) - 1);
+        assert(binaryTreesPerf(bt_depth, bt_iters) == bt_expected);
+        int bt_sum = 0;
+        tmin = Long.MAX_VALUE;
+        for (int i = 0; i < NITER; ++i) {
+            t = System.nanoTime();
+            int s = binaryTreesPerf(bt_depth, bt_iters);
+            t = System.nanoTime() - t;
+            bt_sum += s;
+            if (t < tmin) tmin = t;
+        }
+        assert(bt_sum == bt_expected * NITER);
+        print_perf("allocation_binary_trees", tmin);
+
         // printfd
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
@@ -141,6 +158,34 @@ public class PerfPure {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // binary tree allocation
+
+    private static class BTreeNode {
+        BTreeNode left, right;
+        BTreeNode(BTreeNode left, BTreeNode right) {
+            this.left = left; this.right = right;
+        }
+    }
+
+    private static BTreeNode makeBtree(int depth) {
+        if (depth == 0) return null;
+        return new BTreeNode(makeBtree(depth - 1), makeBtree(depth - 1));
+    }
+
+    private static int btreeChecksum(BTreeNode n) {
+        if (n == null) return 0;
+        return 1 + btreeChecksum(n.left) + btreeChecksum(n.right);
+    }
+
+    private static int binaryTreesPerf(int depth, int iters) {
+        int s = 0;
+        for (int j = 0; j < iters; j++) {
+            BTreeNode tree = makeBtree(depth);
+            s += btreeChecksum(tree);
+        }
+        return s;
     }
 
     private double randmatmul(int i) {

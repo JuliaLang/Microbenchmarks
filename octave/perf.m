@@ -44,7 +44,10 @@ function perf()
 	timeit('matrix_multiply', @randmatmul, 1000);
 
 	printfd(1)
-	timeit('print_to_file', @printfd, 100000)
+    timeit('print_to_file', @printfd, 100000)
+
+    assert(binary_trees_perf(14, 25) == 25 * (2^14 - 1))
+    timeit('allocation_binary_trees', @binary_trees_perf, 14, 25)
 
 end
 
@@ -231,4 +234,30 @@ function printfd(n)
         fprintf(f, '%d %d\n', i, i + 1);
     end
     fclose(f);
+end
+
+%% binary tree allocation %%
+
+function node = make_btree(depth)
+    if depth == 0
+        node = [];
+        return
+    end
+    node.left = make_btree(depth - 1);
+    node.right = make_btree(depth - 1);
+end
+
+function s = btree_checksum(n)
+    if isempty(n)
+        s = 0;
+        return
+    end
+    s = 1 + btree_checksum(n.left) + btree_checksum(n.right);
+end
+
+function s = binary_trees_perf(depth, iters)
+    s = 0;
+    for j = 1:iters
+        s = s + btree_checksum(make_btree(depth));
+    end
 end
