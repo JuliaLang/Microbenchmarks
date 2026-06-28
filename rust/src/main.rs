@@ -39,18 +39,16 @@ fn fib(n: i32) -> i32 {
     }
 }
 
-fn mandel(z: Complex64) -> u32 {
-    use std::iter;
-
-    iter::repeat(z)
-        .scan(z, |z, c| {
-            let current = *z;
-            *z = current * current + c;
-            Some(current)
-        })
-        .take(80)
-        .take_while(|z| z.norm_sqr() <= 4.0)
-        .count() as u32
+fn mandel(mut z: Complex64) -> u32 {
+    let c = z;
+    let maxiter = 80_u32;
+    for n in 0..maxiter {
+        if z.norm_sqr() > 4. {
+            return n
+        }
+        z = z.powi(2) + c;
+    }
+    maxiter
 }
 
 fn mandelperf() -> Vec<u32> {
@@ -63,7 +61,6 @@ fn mandelperf() -> Vec<u32> {
 fn pisum() -> f64 {
     let mut sum = 0.;
     for _ in 0..500 {
-        sum = black_box(0.);
         sum = (1..10001)
             .map(|k| {
                 let k = k as f64;
@@ -256,14 +253,12 @@ fn main() {
     });
     print_perf("parse_integers", to_float(tmin) / 100.0);
 
-    let mandel_sum_init = black_box(0u32);
-    let mut mandel_sum2 = mandel_sum_init;
+    let mut mandel_sum = 0;
     let tmin = measure_best(NITER, || {
         let m = mandelperf();
-        let mandel_sum: u32 = m.iter().sum();
-        mandel_sum2 += mandel_sum;
+        mandel_sum += m.iter().sum::<u32>();
     });
-    assert_eq!(mandel_sum2, 14791 * NITER);
+    assert_eq!(mandel_sum, 14791 * NITER);
     print_perf("userfunc_mandelbrot", to_float(tmin));
 
     // sort
