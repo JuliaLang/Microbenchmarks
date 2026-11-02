@@ -93,7 +93,7 @@ def pisum():
 #     return numpy.sum(1./(numpy.arange(1,10000)**2))
 
 def parse_int(t):
-    for i in range(1,t):
+    for i in range(t):
         n = random.randint(0,2**32-1)
         s = hex(n)
         #s = string(n, base = 16)
@@ -105,7 +105,7 @@ def parse_int(t):
 
 def printfd(t):
     f = open("/dev/null", "w")
-    for i in range(1,t):
+    for i in range(1,t+1):
         f.write("{:d} {:d}\n".format(i, i+1))
     f.close()
 

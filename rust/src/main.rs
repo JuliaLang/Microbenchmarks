@@ -19,12 +19,19 @@ use direct_blas::{randmatstat, randmatmul, check_randmatmul};
 #[cfg(not(feature = "direct_blas"))]
 use ndarray::{Array2, s};
 #[cfg(not(feature = "direct_blas"))]
-use util::fill_rand;
+use util::{fill_rand, fill_randn};
 
 const NITER: u32 = 5;
 
 #[cfg(not(feature = "direct_blas"))]
 fn nrand<R: Rng>(shape: (usize, usize), rng: &mut R) -> Array2<f64> {
+    let mut m = Array2::zeros(shape);
+    fill_randn(&mut m, rng);
+    m
+}
+
+#[cfg(not(feature = "direct_blas"))]
+fn urand<R: Rng>(shape: (usize, usize), rng: &mut R) -> Array2<f64> {
     let mut m = Array2::zeros(shape);
     fill_rand(&mut m, rng);
     m
@@ -143,8 +150,8 @@ fn trace_arr(m: &Array2<f64>) -> f64 {
 
 #[cfg(not(feature = "direct_blas"))]
 fn randmatmul<R: Rng>(n: usize, mut rng: R) -> Array2<f64> {
-    let a = nrand((n, n), &mut rng);
-    let b = nrand((n, n), &mut rng);
+    let a = urand((n, n), &mut rng);
+    let b = urand((n, n), &mut rng);
 
     a.dot(&b)
 }
@@ -204,7 +211,7 @@ fn printfd(n: usize) {
         .write(true).open("/dev/null").unwrap();
     let mut f = BufWriter::new(f);
     for i in 0..n {
-        writeln!(f, "{} {}", i, i).unwrap();
+        writeln!(f, "{} {}", i, i + 1).unwrap();
     }
 }
 

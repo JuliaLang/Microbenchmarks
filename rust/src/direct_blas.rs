@@ -2,7 +2,7 @@
 
 use rand::Rng;
 use std::iter::Sum;
-use crate::util::{gen_rng, fill_rand, myrand};
+use crate::util::{gen_rng, fill_randn, myrand};
 use cblas::{dgemm, Layout, Transpose};
 
 pub fn randmatstat(t: usize) -> (f64, f64) {
@@ -27,10 +27,10 @@ pub fn randmatstat(t: usize) -> (f64, f64) {
         let mut qt_q2 = vec![0.; (2 * n) * (2 * n)];
 
         for (ve, we) in v.iter_mut().zip(w.iter_mut()) {
-            fill_rand(&mut a, &mut rng);
-            fill_rand(&mut b, &mut rng);
-            fill_rand(&mut c, &mut rng);
-            fill_rand(&mut d, &mut rng);
+            fill_randn(&mut a, &mut rng);
+            fill_randn(&mut b, &mut rng);
+            fill_randn(&mut c, &mut rng);
+            fill_randn(&mut d, &mut rng);
 
             p[0 .. n * n].copy_from_slice(&a);
             p[n * n .. 2 * n * n].copy_from_slice(&b);
@@ -39,10 +39,10 @@ pub fn randmatstat(t: usize) -> (f64, f64) {
 
             for j in 0..n {
                 for k in 0..n {
-                    q[2 * n * j + k] = a[k];
-                    q[2 * n * j + n + k] = b[k];
-                    q[2 * n * (n + j) + k] = c[k];
-                    q[2 * n * (n + j) + n + k] = d[k];
+                    q[2 * n * j + k] = a[n * j + k];
+                    q[2 * n * j + n + k] = b[n * j + k];
+                    q[2 * n * (n + j) + k] = c[n * j + k];
+                    q[2 * n * (n + j) + n + k] = d[n * j + k];
                 }
             }
 
@@ -50,7 +50,7 @@ pub fn randmatstat(t: usize) -> (f64, f64) {
                 let n = n as i32;
 
                 dgemm(Layout::ColumnMajor, Transpose::Ordinary, Transpose::None,
-                    n , n, 4 * n, 1., &p, 4 * n, &p, 4 * n, 0.,
+                    4 * n, 4 * n, n, 1., &p, n, &p, n, 0.,
                     &mut pt_p1, 4 * n);
                 dgemm(Layout::ColumnMajor, Transpose::None, Transpose::None,
                     4 * n, 4 * n, 4 * n, 1., &pt_p1, 4 * n, &pt_p1, 4 * n, 0.,

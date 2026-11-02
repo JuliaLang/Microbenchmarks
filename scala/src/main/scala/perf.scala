@@ -152,8 +152,10 @@ object Perf {
       val V = P.t * P
       val W = Q.t * Q
 
-      v(i) = trace(V * V * V * V)
-      w(i) = trace(W * W * W * W)
+      val V2 = V * V
+      val W2 = W * W
+      v(i) = trace(V2 * V2)
+      w(i) = trace(W2 * W2)
     }
 
     def stdev(arr: Array[Double]): Double = {

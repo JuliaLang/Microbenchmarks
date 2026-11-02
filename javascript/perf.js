@@ -167,7 +167,7 @@ const fs = require('fs'); // for print to file benchmark
 
     function sortperf(n) {
         var v = rand(n);
-        qsort_kernel(v, 0, n);
+        qsort_kernel(v, 0, n-1);
         return v;
     }
 
@@ -176,7 +176,7 @@ const fs = require('fs'); // for print to file benchmark
         t = (new Date()).getTime();
         for (j=0; j < 100; j++) {
             v = sortperf(5000);
-            assert(a[0] < 0.99);
+            assert(v[0] < 0.99);
         }
         t = (new Date()).getTime()-t;
         if (t < tmin) { tmin=t; }
@@ -186,7 +186,7 @@ const fs = require('fs'); // for print to file benchmark
     // slow pi series //
 
     function pisum() {
-        var sum, k;
+        var sum, k, i;
         sum = 0.0;
         for (i=0; i < 500; i++) {
             sum = 0.0;
@@ -315,10 +315,10 @@ const fs = require('fs'); // for print to file benchmark
             P.set( d, 3*n*n );
 
             for (j = 0; j < n; j++) {
-                Q.set( aSub, 2*n*j         );
-                Q.set( bSub, 2*n*j+n       );
-                Q.set( cSub, 2*n*(n+j)     );
-                Q.set( dSub, 2*n*(n+j)+n   );
+                Q.set( a.subarray(n*j, n*j+n), 2*n*j         );
+                Q.set( b.subarray(n*j, n*j+n), 2*n*j+n       );
+                Q.set( c.subarray(n*j, n*j+n), 2*n*(n+j)     );
+                Q.set( d.subarray(n*j, n*j+n), 2*n*(n+j)+n   );
                 /*
                   for (k = 0; k < n; k++) {
                   Q[ 2*n*j        + k ] = a[k];
@@ -329,7 +329,7 @@ const fs = require('fs'); // for print to file benchmark
                 */
             }
 
-            transpose( PTransposed, P, n, 4*n );
+            transpose( PTransposed, P, 4*n, n );
             matmulCopy( Pt1P, PTransposed, P, 4*n, n, 4*n );
             matmulCopy( Pt2P, Pt1P, Pt1P, 4*n, 4*n, 4*n);
             matmulCopy( Pt1P, Pt2P, Pt2P, 4*n, 4*n, 4*n);
@@ -447,10 +447,12 @@ const fs = require('fs'); // for print to file benchmark
     }
 
     tmin = Number.POSITIVE_INFINITY;
-    t = (new Date()).getTime();
-    C = randmatmul(1000);
-    assert(0 <= C[0]);
-    t = (new Date()).getTime()-t;
-    if (t < tmin) { tmin=t; }
+    for (i=0; i < 5; i++) {
+        t = (new Date()).getTime();
+        C = randmatmul(1000);
+        assert(0 <= C[0]);
+        t = (new Date()).getTime()-t;
+        if (t < tmin) { tmin=t; }
+    }
     console.log("javascript,matrix_multiply," + tmin);
 }());

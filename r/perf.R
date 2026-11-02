@@ -42,7 +42,7 @@ parseintperf = function(t) {
 timeit("parse_integers", parseintperf, 1000)
 
 printfdperf = function(t) {
-    fd<-file("/dev/null")
+    fd<-file("/dev/null", "w")
     on.exit(close(fd))
     for (i in 1:t) {
         s = sprintf("%d %d", i, i+1)
@@ -134,7 +134,7 @@ pisum = function() {
 }
 
 assert(abs(pisum()-1.644834071848065) < 1e-12);
-timeit("iteration_pi_sum", pisum, times=1)
+timeit("iteration_pi_sum", pisum)
 
 ## pi_sum_vec ##
 
@@ -159,8 +159,12 @@ randmatstat = function(t) {
         d = matrix(rnorm(n*n), ncol=n, nrow=n)
         P = cbind(a,b,c,d)
         Q = rbind(cbind(a,b),cbind(c,d))
-        v[i] = sum(diag((t(P)%*%P)^4))
-        w[i] = sum(diag((t(Q)%*%Q)^4))
+        PtP = t(P)%*%P
+        PtP2 = PtP%*%PtP
+        v[i] = sum(diag(PtP2%*%PtP2))
+        QtQ = t(Q)%*%Q
+        QtQ2 = QtQ%*%QtQ
+        w[i] = sum(diag(QtQ2%*%QtQ2))
     }
     s1 = apply(v,2,sd)/mean(v)
     s2 = apply(w,2,sd)/mean(w)

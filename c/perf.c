@@ -163,14 +163,14 @@ struct double_pair randmatstat(int t) {
         memcpy(P+3*n*n, d, n*n*sizeof(double));
         for (int j=0; j < n; j++) {
             for (int k=0; k < n; k++) {
-                Q[2*n*j+k]       = a[k];
-                Q[2*n*j+n+k]     = b[k];
-                Q[2*n*(n+j)+k]   = c[k];
-                Q[2*n*(n+j)+n+k] = d[k];
+                Q[2*n*j+k]       = a[n*j+k];
+                Q[2*n*j+n+k]     = b[n*j+k];
+                Q[2*n*(n+j)+k]   = c[n*j+k];
+                Q[2*n*(n+j)+n+k] = d[n*j+k];
             }
         }
         cblas_dgemm(CblasColMajor, CblasTrans, CblasNoTrans,
-                    n, n, 4*n, 1.0, P, 4*n, P, 4*n, 0.0, PtP1, 4*n);
+                    4*n, 4*n, n, 1.0, P, n, P, n, 0.0, PtP1, 4*n);
         cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
                     4*n, 4*n, 4*n, 1.0, PtP1, 4*n, PtP1, 4*n, 0.0, PtP2, 4*n);
         cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans,
@@ -351,7 +351,7 @@ int main() {
         t = clock_now()-t;
         if (t < tmin) tmin = t;
     }
-    // assert(0.5 < r.s1 && r.s1 < 1.0 && 0.5 < r.s2 && r.s2 < 1.0);
+    assert(0.5 < r.s1 && r.s1 < 1.0 && 0.5 < r.s2 && r.s2 < 1.0);
     print_perf("matrix_statistics", tmin);
 
     // rand mat mul

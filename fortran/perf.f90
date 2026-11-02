@@ -68,7 +68,7 @@ real(dp) function std(x) result(t)
 real(dp), intent(in) :: x(:)
 integer :: n
 n=size(x)
-t = sqrt(sum(x**2)/n -(sum(x)/n)**2)
+t = sqrt((sum(x**2) - sum(x)**2/n) / (n-1))
 end function
 
 subroutine init_random_seed()
@@ -318,14 +318,14 @@ real(dp), allocatable :: v(:), w(:)
 integer :: n, i
 n = 5
 allocate(a(n, n), b(n, n), c(n, n), d(n, n))
-allocate(P(4*n, n), Q(2*n, 2*n), X(2*n, 2*n))
+allocate(P(n, 4*n), Q(2*n, 2*n), X(4*n, 4*n))
 allocate(v(t), w(t))
 do i = 1, t
     call randn(a)
     call randn(b)
     call randn(c)
     call randn(d)
-    P(:n, :)=a; P(n+1:2*n, :)=b; P(2*n+1:3*n, :)=c; P(3*n+1:, :)=d
+    P(:, :n)=a; P(:, n+1:2*n)=b; P(:, 2*n+1:3*n)=c; P(:, 3*n+1:)=d
     Q(:n,    :n) = a; Q(n+1:,    :n) = b
     Q(:n, n+1: ) = c; Q(n+1:, n+1: ) = d
     X = matmul(transpose(P), P)
@@ -452,8 +452,8 @@ do i = 1, 5
     call system_clock(t2)
     if (t2-t1 < tmin) tmin = t2-t1
 end do
-! call assert(s1 > 0.5_dp .and. s1 < 1)
-! call assert(s2 > 0.5_dp .and. s2 < 1)
+call assert(s1 > 0.5_dp .and. s1 < 1)
+call assert(s2 > 0.5_dp .and. s2 < 1)
 print "('fortran,matrix_statistics,',f0.6)", sysclock2ms(tmin)
 
 tmin = huge(0_i64)

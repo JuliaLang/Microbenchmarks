@@ -13,13 +13,15 @@ public class PerfBLAS extends PerfPure {
         p.runBenchmarks();
     }
 
-    private double randmatmul(int i) {
-        DoubleMatrix a = DoubleMatrix.randn(i,i);
-        DoubleMatrix b = DoubleMatrix.randn(i,i);
+    @Override
+    protected double randmatmul(int i) {
+        DoubleMatrix a = DoubleMatrix.rand(i,i);
+        DoubleMatrix b = DoubleMatrix.rand(i,i);
         return a.mmul(b).get(0);
     }
 
-    private double[] randmatstat(int t) {
+    @Override
+    protected double[] randmatstat(int t) {
         int n=5;
         DoubleMatrix p;
         DoubleMatrix q;
