@@ -21,6 +21,10 @@
 /docs/build/
 /docs/Manifest.toml
 
+# C#
+/csharp/bin/
+/csharp/obj/
+
 # Go
 /go/go.sum
 

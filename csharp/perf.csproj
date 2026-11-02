@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Print numbers the same way regardless of locale, and don't require libicu. -->
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- Compile every method fully optimized on first call. With tiered compilation, the
+         short-running benchmarks finish in unoptimized code before tier-up happens. -->
+    <TieredCompilation>false</TieredCompilation>
+    <!-- Keep the runtime single-threaded, like the other languages: no background GC thread. -->
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+  </PropertyGroup>
+
+</Project>

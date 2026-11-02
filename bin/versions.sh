@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # User argument declaring what languages to query:
-DEFAULT_LANGUAGES="c:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust:scala"
+DEFAULT_LANGUAGES="c:csharp:fortran:go:java:javascript:julia:lua:mathematica:matlab:octave:python:r:rust:scala"
 LANGUAGES=${1:-$DEFAULT_LANGUAGES}
 
 LANGUAGES=":${LANGUAGES}:"
@@ -10,6 +10,11 @@ LANGUAGES=":${LANGUAGES}:"
 if [[ $LANGUAGES == *":c:"* ]]; then
     echo -n "c,gcc "
     gcc -v 2>&1 | grep "gcc version" | cut -f3 -d" "
+fi
+
+if [[ $LANGUAGES == *":csharp:"* ]]; then
+    echo -n "csharp,.NET "
+    dotnet run -c Release --project csharp -- --version
 fi
 
 if [[ $LANGUAGES == *":fortran:"* ]]; then

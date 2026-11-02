@@ -41,7 +41,7 @@ The `matrix_multiply` benchmark calls the most obvious built-in/standard
 matrix multiplication routine for each language. For most compiled
 languages this means calling BLAS (via OpenBLAS):
 
-**Using BLAS/optimized libraries:** C, Fortran, Julia, Numba (NumPy),
+**Using BLAS/optimized libraries:** C, C# (P/Invoke), Fortran, Julia, Numba (NumPy),
 Python (NumPy), Go (Gonum), Java (jBLAS), Rust (ndarray), Scala (Breeze),
 R, Octave, Swift (Accelerate)
 
@@ -58,5 +58,5 @@ To build and run all benchmarks: `make` (GNU Make required).
 Individual languages can be run with, e.g., `make benchmarks/julia.csv`.
 
 The full suite requires: GCC, GFortran, OpenBLAS (`libopenblas-dev`),
-Go, Java (Maven), Node.js, Python 3 (NumPy, Numba), R, Rust, Scala (sbt),
+.NET, Go, Java (Maven), Node.js, Python 3 (NumPy, Numba), R, Rust, Scala (sbt),
 Swift, LuaJIT, and Octave.
