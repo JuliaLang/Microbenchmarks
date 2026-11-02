@@ -34,6 +34,7 @@ end
 
 const labels = Dict{String, String}(
     "c"           => "C"                ,
+    "csharp"      => "C#"               ,
     "julia"       => "Julia"            ,
     "lua"         => "LuaJIT"           ,
     "fortran"     => "Fortran"          ,

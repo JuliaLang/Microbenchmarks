@@ -25,6 +25,7 @@ Times are normalized relative to C.
 ## Languages
 
 * [C](c/perf.c)
+* [C#](csharp/perf.cs)
 * [Fortran](fortran/perf.f90)
 * [Go](go/perf.go)
 * [Java](java/src/main/java/PerfBLAS.java)
