@@ -384,7 +384,10 @@ jobs:
             version.csv
 
   bench-swift:
-    runs-on: ubuntu-latest
+    # setup-swift@v2 rejects Ubuntu 26.04, which `ubuntu-latest` is moving to. v3 is not an
+    # option yet: it is still a beta whose GPG verification fails on GitHub-hosted runners.
+    # See https://github.com/swift-actions/setup-swift/issues/798 and .../issues/805
+    runs-on: ubuntu-24.04
     defaults:
       run:
         shell: bash
@@ -393,7 +396,7 @@ jobs:
         with:
           persist-credentials: false
       - name: "Set up Swift"
-        uses: swift-actions/setup-swift@v3
+        uses: swift-actions/setup-swift@v2
         with:
           swift-version: '6.1'
       - name: "Set up OpenBLAS"
