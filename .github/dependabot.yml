@@ -4,3 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    ignore:
+      # v3 is a broken beta; see the comment on bench-swift in benchmarks.yml.
+      - dependency-name: "swift-actions/setup-swift"
+        update-types: ["version-update:semver-major"]

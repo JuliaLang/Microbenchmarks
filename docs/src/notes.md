@@ -33,7 +33,7 @@ Environment:
   - `GOMAXPROCS=1` — Go runtime OS threads
   - `JULIA_NUM_THREADS=1` — Julia threads
   - `NUMBA_NUM_THREADS=1` — Numba parallel threads
-- Runs on GitHub Actions `ubuntu-latest` runners (x86_64)
+- Runs on GitHub Actions `ubuntu-latest` runners (x86_64), except Swift, which runs on `ubuntu-24.04`
 
 ## Matrix benchmarks and BLAS
 
