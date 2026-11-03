@@ -311,11 +311,17 @@ static class Perf
         Check(mandelSum == 14791, $"mandel sum was {mandelSum}, expected 14791");
         TimeIt("userfunc_mandelbrot", () => intSink = MandelPerf()[0]);
 
+        double[] sorted = MyRand(5000);
+        Quicksort(sorted, 0, 5000 - 1);
+        for (int k = 1; k < sorted.Length; k++)
+        {
+            Check(sorted[k - 1] <= sorted[k], "quicksort did not sort");
+        }
         TimeIt("recursion_quicksort", () =>
         {
             double[] d = MyRand(5000);
             Quicksort(d, 0, 5000 - 1);
-            intSink = d[0] <= d[4999] ? 1 : throw new InvalidOperationException("not sorted");
+            Volatile.Write(ref doubleSink, d[4999]);
         });
 
         Check(Math.Abs(PiSum() - 1.644834071848065) < 1e-12, "pi sum is wrong");
