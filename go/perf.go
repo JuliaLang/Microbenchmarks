@@ -21,6 +21,7 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"sort"
 	"strconv"
 	"time"
 
@@ -259,6 +260,14 @@ func main() {
 		mandelperf()
 	})
 
+	lst := make([]float64, 5000)
+	for k := range lst {
+		lst[k] = rnd.Float64()
+	}
+	qsort_kernel(lst, 0, len(lst)-1)
+	if !sort.Float64sAreSorted(lst) {
+		panic("quicksort did not sort")
+	}
 	timeit("recursion_quicksort", func() {
 		lst := make([]float64, 5000)
 		for k := range lst {

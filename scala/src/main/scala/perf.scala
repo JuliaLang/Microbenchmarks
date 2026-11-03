@@ -227,6 +227,11 @@ object Perf {
     printPerf("userfunc_mandelbrot", tmin)
 
     // recursion_quicksort
+    {
+      val d = Array.fill(5000)(rand.nextDouble())
+      quicksort(d, 0, d.length - 1)
+      assert(d.sliding(2).forall(p => p(0) <= p(1)), "quicksort did not sort")
+    }
     tmin = Long.MaxValue
     for (_ <- 0 until NITER) {
       t = System.nanoTime()

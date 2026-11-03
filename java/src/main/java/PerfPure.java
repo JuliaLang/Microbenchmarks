@@ -74,6 +74,13 @@ public class PerfPure {
         print_perf("userfunc_mandelbrot", tmin);
 
         // sort
+        {
+            double[] d = new double[5000];
+            for (int k = 0; k < d.length; k++) d[k] = rand.nextDouble();
+            quicksort(d, 0, d.length-1);
+            for (int k = 1; k < d.length; k++)
+                if (d[k-1] > d[k]) throw new AssertionError("quicksort did not sort");
+        }
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
             t = System.nanoTime();

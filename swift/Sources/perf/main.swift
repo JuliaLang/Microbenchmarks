@@ -360,6 +360,11 @@ for _ in 0..<NITER {
 printPerf("userfunc_mandelbrot", tmin)
 
 // quicksort
+do {
+    var d = myrand(5000)
+    quicksort(&d, 0, 5000 - 1)
+    precondition(zip(d, d.dropFirst()).allSatisfy { $0 <= $1 }, "quicksort did not sort")
+}
 tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()

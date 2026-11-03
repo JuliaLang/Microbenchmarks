@@ -421,6 +421,11 @@ end do
 call assert(f == 14791)
 print "('fortran,userfunc_mandelbrot,',f0.6)", sysclock2ms(tmin)
 
+allocate(d(5000))
+call random_number(d)
+call quicksort(d, 1, size(d))
+call assert(all(d(1:size(d)-1) <= d(2:)))
+deallocate(d)
 tmin = huge(0_i64)
 do i = 1, 5
     call system_clock(t1)

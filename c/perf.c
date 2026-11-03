@@ -319,6 +319,13 @@ int main() {
     print_perf("userfunc_mandelbrot", tmin);
 
     // sort
+    {
+        double *d = myrand(5000);
+        quicksort(d, 0, 5000-1);
+        for (int k = 1; k < 5000; k++)
+            assert(d[k-1] <= d[k]);
+        free(d);
+    }
     tmin = INFINITY;
     for (int i=0; i<NITER; ++i) {
         t = clock_now();

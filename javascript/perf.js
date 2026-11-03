@@ -171,12 +171,15 @@ const fs = require('fs'); // for print to file benchmark
         return v;
     }
 
+    v = sortperf(5000);
+    assert(v.length === 5000);
+    for (j=1; j < v.length; j++) { assert(v[j-1] <= v[j]); }
+
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
         t = (new Date()).getTime();
         for (j=0; j < 100; j++) {
             v = sortperf(5000);
-            assert(v[0] < 0.99);
         }
         t = (new Date()).getTime()-t;
         if (t < tmin) { tmin=t; }

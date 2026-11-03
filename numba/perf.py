@@ -156,6 +156,9 @@ if __name__ == "__main__":
         if t < tmin: tmin = t
     print_perf ("userfunc_mandelbrot", tmin)
 
+    lst = rand(5000)
+    qsort_kernel(lst, 0, len(lst)-1)
+    assert (lst[:-1] <= lst[1:]).all()
     tmin = float('inf')
     for i in range(mintrials):
         t = time.time()

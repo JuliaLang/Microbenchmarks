@@ -269,6 +269,9 @@ fn main() {
     print_perf("userfunc_mandelbrot", to_float(tmin));
 
     // sort
+    let mut d = myrand(5000, &mut rng);
+    quicksort(&mut d, 0);
+    assert!(d.windows(2).all(|w| w[0] <= w[1]));
     let tmin = measure_best(NITER, || {
         let mut d = myrand(5000, &mut rng);
         quicksort(&mut d, 0);
