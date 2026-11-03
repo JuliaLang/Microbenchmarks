@@ -115,8 +115,13 @@ benchmarks/swift.csv: swift/Sources/perf/main.swift swift/Package.swift
 	swift build -c release -Xlinker -lopenblas
 	@for t in $(ITERATIONS); do .build/release/perf; done >../$@
 
-LANGUAGES = c fortran go java javascript julia lua mathematica matlab numba octave python r rust scala swift
-GH_ACTION_LANGUAGES = c fortran go java javascript julia lua numba octave python r rust scala swift
+benchmarks/csharp.csv: csharp/perf.cs csharp/perf.csproj
+	cd csharp
+	dotnet build -c Release
+	@for t in $(ITERATIONS); do dotnet run -c Release --no-build; done >../$@
+
+LANGUAGES = c csharp fortran go java javascript julia lua mathematica matlab numba octave python r rust scala swift
+GH_ACTION_LANGUAGES = c csharp fortran go java javascript julia lua numba octave python r rust scala swift
 
 BENCHMARKS = $(foreach lang,$(LANGUAGES),benchmarks/$(lang).csv)
 GH_ACTION_BENCHMARKS = $(foreach lang,$(GH_ACTION_LANGUAGES),benchmarks/$(lang).csv)
