@@ -41,6 +41,10 @@
 # Swift
 /swift/.build/
 
+# Python
+__pycache__/
+*.pyc
+
 # LuaJIT (previously used ulua, now installed via apt)
 
 
