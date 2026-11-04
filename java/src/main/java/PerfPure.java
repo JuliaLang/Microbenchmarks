@@ -74,6 +74,13 @@ public class PerfPure {
         print_perf("userfunc_mandelbrot", tmin);
 
         // sort
+        {
+            double[] d = new double[5000];
+            for (int k = 0; k < d.length; k++) d[k] = rand.nextDouble();
+            quicksort(d, 0, d.length-1);
+            for (int k = 1; k < d.length; k++)
+                if (d[k-1] > d[k]) throw new AssertionError("quicksort did not sort");
+        }
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
             t = System.nanoTime();
@@ -143,13 +150,13 @@ public class PerfPure {
         }
     }
 
-    private double randmatmul(int i) {
-        SimpleMatrix a = SimpleMatrix.random_DDRM(i, i,  -1d, +1d, rand);
-        SimpleMatrix b = SimpleMatrix.random_DDRM(i, i,  -1d, +1d, rand);
+    protected double randmatmul(int i) {
+        SimpleMatrix a = SimpleMatrix.random_DDRM(i, i,  0d, 1d, rand);
+        SimpleMatrix b = SimpleMatrix.random_DDRM(i, i,  0d, 1d, rand);
         return a.mult(b).get(0);
     }
 
-    private double[] randmatstat(int t) {
+    protected double[] randmatstat(int t) {
         int n=5;
         SimpleMatrix p = new SimpleMatrix(new double[n][4*n]);
         SimpleMatrix q = new SimpleMatrix(new double[2*n][2*n]);
@@ -270,10 +277,9 @@ public class PerfPure {
         int n = 0;
         double cReal = zReal;
         double cImag = zImag;
-        for (n=0; n<=79; ++n) {
+        for (n=0; n<80; ++n) {
             if (zReal*zReal + zImag*zImag > 4.0) {
-                n -= 1;
-                break;
+                return n;
             }
 
             // z^2
@@ -285,14 +291,14 @@ public class PerfPure {
             zImag = zSquaredImag+cImag;
 
         }
-        return n+1;
+        return n;
     }
 
     protected int mandelperf() {
         int mandel_sum = 0;
-        for (double re=-2.0; re<=0.5; re+=0.1) {
-            for (double im=-1.0; im<=1.0; im+=0.1) {
-                int m = mandel(re,im);
+        for (int j = 0; j < 26; j++) {
+            for (int i = 0; i < 21; i++) {
+                int m = mandel((j-20)/10.0, (i-10)/10.0);
                 mandel_sum += m;
             }
         }

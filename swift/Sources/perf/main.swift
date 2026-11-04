@@ -232,10 +232,10 @@ func randmatstat(_ t: Int) -> (Double, Double) {
         // Q = [a b; c d]  (column-major: 2n rows, 2n cols)
         for j in 0..<n {
             for k in 0..<n {
-                Q[2*n*j + k]         = a[k]
-                Q[2*n*j + n + k]     = b[k]
-                Q[2*n*(n+j) + k]     = c[k]
-                Q[2*n*(n+j) + n + k] = d[k]
+                Q[2*n*j + k]         = a[n*j + k]
+                Q[2*n*j + n + k]     = b[n*j + k]
+                Q[2*n*(n+j) + k]     = c[n*j + k]
+                Q[2*n*(n+j) + n + k] = d[n*j + k]
             }
         }
 
@@ -360,6 +360,11 @@ for _ in 0..<NITER {
 printPerf("userfunc_mandelbrot", tmin)
 
 // quicksort
+do {
+    var d = myrand(5000)
+    quicksort(&d, 0, 5000 - 1)
+    precondition(zip(d, d.dropFirst()).allSatisfy { $0 <= $1 }, "quicksort did not sort")
+}
 tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()

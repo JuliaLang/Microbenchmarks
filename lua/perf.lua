@@ -133,12 +133,13 @@ local function sortperf()
     return qsort(v, 1, n)
 end
 
-timeit(sortperf, 'recursion_quicksort', function(x)
+do
+    local x = sortperf()
     for i=2,5000 do
         assert(x[i-1] <= x[i])
     end
 end
-)
+timeit(sortperf, 'recursion_quicksort')
 
 local function pisum()
     local s

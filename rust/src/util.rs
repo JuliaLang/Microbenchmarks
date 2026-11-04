@@ -1,4 +1,5 @@
 use rand::Rng;
+use rand_distr::StandardNormal;
 use rand::SeedableRng;
 use rand_mt::Mt19937GenRand64;
 
@@ -17,6 +18,16 @@ where
 {
     for v in a.into_iter() {
         *v = rng.gen();
+    }
+}
+
+pub fn fill_randn<'a, I, R>(a: I, rng: &mut R)
+where
+    I: IntoIterator<Item=&'a mut f64>,
+    R: Rng,
+{
+    for v in a.into_iter() {
+        *v = rng.sample(StandardNormal);
     }
 }
 

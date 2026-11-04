@@ -21,22 +21,21 @@ import (
 	"math"
 	"math/rand"
 	"os"
+	"sort"
 	"strconv"
 	"time"
 
+	"gonum.org/v1/gonum/blas/blas64"
 	"gonum.org/v1/gonum/mat"
 	"gonum.org/v1/gonum/stat"
 	"gonum.org/v1/netlib/blas/netlib"
 )
 
 func init() {
-	// Use the BLAS implementation specified in CGO_LDFLAGS. This line can be
-	// commented out to use the native Go BLAS implementation found in
-	// gonum.org/v1/gonum/blas/gonum.
-	//blas64.Use(gonum.Implementation{})
-
-	// These are here so that toggling the BLAS implementation does not make imports unused
-	_ = netlib.Implementation{}
+	// Use the BLAS implementation specified in CGO_LDFLAGS. Replace this line with
+	// blas64.Use(gonum.Implementation{}) (gonum.org/v1/gonum/blas/gonum) to use the
+	// native Go BLAS implementation instead.
+	blas64.Use(netlib.Implementation{})
 }
 
 // fibonacci
@@ -145,7 +144,7 @@ func randmatstat(t int) (float64, float64) {
 		w[i] = mat.Trace(qTmp)
 	}
 	mv, stdv := stat.MeanStdDev(v, nil)
-	mw, stdw := stat.MeanStdDev(v, nil)
+	mw, stdw := stat.MeanStdDev(w, nil)
 	return stdv / mv, stdw / mw
 }
 
@@ -261,6 +260,14 @@ func main() {
 		mandelperf()
 	})
 
+	lst := make([]float64, 5000)
+	for k := range lst {
+		lst[k] = rnd.Float64()
+	}
+	qsort_kernel(lst, 0, len(lst)-1)
+	if !sort.Float64sAreSorted(lst) {
+		panic("quicksort did not sort")
+	}
 	timeit("recursion_quicksort", func() {
 		lst := make([]float64, 5000)
 		for k := range lst {

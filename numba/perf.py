@@ -98,7 +98,7 @@ def pisum():
     return sum
 
 def parse_int(t):
-    for i in range(1, t):
+    for i in range(t):
         n = random.randint(0, 2**32-1)
         s = hex(n)
         if s[-1] == 'L':
@@ -109,7 +109,7 @@ def parse_int(t):
 
 def printfd(t):
     f = open("/dev/null", "w")
-    for i in range(1, t):
+    for i in range(1, t+1):
         f.write("{:d} {:d}\n".format(i, i+1))
     f.close()
 
@@ -156,6 +156,9 @@ if __name__ == "__main__":
         if t < tmin: tmin = t
     print_perf ("userfunc_mandelbrot", tmin)
 
+    lst = rand(5000)
+    qsort_kernel(lst, 0, len(lst)-1)
+    assert (lst[:-1] <= lst[1:]).all()
     tmin = float('inf')
     for i in range(mintrials):
         t = time.time()
