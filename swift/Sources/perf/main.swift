@@ -155,54 +155,22 @@ func pisum() -> Double {
 // Random number helpers
 // ---------------------------------------------------------------------------
 
-// Xoshiro256++, the same generator Julia uses by default. Swift's default
+// Use the C library's seeded drand48 family. Swift's own
 // SystemRandomNumberGenerator makes a getrandom syscall for every number on
 // Linux, which would dominate every benchmark that uses random numbers.
-struct Xoshiro256: RandomNumberGenerator {
-    var s0: UInt64, s1: UInt64, s2: UInt64, s3: UInt64
+srand48(1776)
 
-    // Expand the seed with SplitMix64, as recommended by the authors.
-    static func splitmix(_ x: inout UInt64) -> UInt64 {
-        x &+= 0x9e3779b97f4a7c15
-        var z = x
-        z = (z ^ (z >> 30)) &* 0xbf58476d1ce4e5b9
-        z = (z ^ (z >> 27)) &* 0x94d049bb133111eb
-        return z ^ (z >> 31)
-    }
-
-    init(seed: UInt64) {
-        var x = seed
-        s0 = Xoshiro256.splitmix(&x)
-        s1 = Xoshiro256.splitmix(&x)
-        s2 = Xoshiro256.splitmix(&x)
-        s3 = Xoshiro256.splitmix(&x)
-    }
-
-    @inline(__always)
-    mutating func next() -> UInt64 {
-        let result = (s0 &+ s3).rotl(23) &+ s0
-        let t = s1 << 17
-        s2 ^= s0
-        s3 ^= s1
-        s1 ^= s2
-        s0 ^= s3
-        s2 ^= t
-        s3 = s3.rotl(45)
-        return result
-    }
-}
-
-extension UInt64 {
-    @inline(__always)
-    func rotl(_ k: UInt64) -> UInt64 { (self << k) | (self >> (64 - k)) }
-}
-
-var rng = Xoshiro256(seed: 1776)
-
-// Uniform double in [0, 1) from the top 53 bits.
+// Uniform double in [0, 1).
 @inline(__always)
 func randDouble() -> Double {
-    Double(rng.next() >> 11) * 0x1.0p-53
+    drand48()
+}
+
+// Uniform 32-bit unsigned integer. mrand48 returns a signed value uniformly
+// distributed over the full 32-bit range.
+@inline(__always)
+func randUInt32() -> UInt32 {
+    UInt32(truncatingIfNeeded: mrand48())
 }
 
 func myrand(_ n: Int) -> [Double] {
@@ -385,7 +353,7 @@ tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()
     for _ in 0..<(1000 * 100) {
-        let n = UInt32(truncatingIfNeeded: rng.next() >> 32)
+        let n = randUInt32()
         let s = String(n, radix: 16)
         let m = parseIntFromString(s, base: 16)
         precondition(m == Int(n), "parse_integers returned the wrong value")
