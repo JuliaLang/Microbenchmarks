@@ -258,6 +258,11 @@ object Perf {
     printPerf("iteration_pi_sum", tmin)
 
     // matrix_statistics
+    {
+      val (s1, s2) = randmatstat(1000)
+      assert(0.5 < s1 && s1 < 1.0 && 0.5 < s2 && s2 < 1.0,
+        s"matrix_statistics out of range: $s1, $s2")
+    }
     tmin = Long.MaxValue
     for (_ <- 0 until NITER) {
       t = System.nanoTime()

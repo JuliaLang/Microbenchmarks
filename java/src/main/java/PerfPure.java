@@ -1,3 +1,4 @@
+import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -31,11 +32,17 @@ public class PerfPure {
         p.runBenchmarks();
     }
 
+    // Java's assert statement is disabled unless the JVM runs with -ea, so the
+    // checks use this instead.
+    protected static void check(boolean cond, String msg) {
+        if (!cond) throw new AssertionError(msg);
+    }
+
     void runBenchmarks() {
 
         long t, tmin;
 
-        assert(fib(20) == 6765);
+        check(fib(20) == 6765, "fib(20) != 6765");
         int f = 0;
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
@@ -54,7 +61,7 @@ public class PerfPure {
                 int n = rand.nextInt(Integer.MAX_VALUE);
                 String str = Integer.toHexString(n);
                 int m = Integer.parseInt(str, 16);
-                assert(m == n);
+                check(m == n, "parse_integers returned the wrong value");
             }
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
@@ -70,7 +77,7 @@ public class PerfPure {
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
         }
-        assert(mandel_sum == 14791) : "value was "+mandel_sum;
+        check(mandel_sum == 14791, "mandel sum was "+mandel_sum);
         print_perf("userfunc_mandelbrot", tmin);
 
         // sort
@@ -79,7 +86,7 @@ public class PerfPure {
             for (int k = 0; k < d.length; k++) d[k] = rand.nextDouble();
             quicksort(d, 0, d.length-1);
             for (int k = 1; k < d.length; k++)
-                if (d[k-1] > d[k]) throw new AssertionError("quicksort did not sort");
+                check(d[k-1] <= d[k], "quicksort did not sort");
         }
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
@@ -104,11 +111,13 @@ public class PerfPure {
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
         }
-        assert(Math.abs(pi-1.644834071848065) < 1e-12);
+        check(Math.abs(pi-1.644834071848065) < 1e-12, "pi sum was "+pi);
         print_perf("iteration_pi_sum", tmin);
 
         // rand mat stat
-        double[] r;
+        double[] r = randmatstat(1000);
+        check(0.5 < r[0] && r[0] < 1.0 && 0.5 < r[1] && r[1] < 1.0,
+              "matrix_statistics out of range: "+r[0]+", "+r[1]);
         tmin = Long.MAX_VALUE;
         for (int i=0; i<NITER; ++i) {
             t = System.nanoTime();
@@ -123,7 +132,7 @@ public class PerfPure {
         for (int i=0; i<NITER; ++i) {
             t = System.nanoTime();
             double d = randmatmul(1000);
-            assert(0 <= d);
+            check(0 <= d, "matrix_multiply result was negative");
             t = System.nanoTime()-t;
             if (t < tmin) tmin = t;
         }
@@ -141,7 +150,9 @@ public class PerfPure {
     }
 
     void printfd(int n) {
-        try (PrintStream ps = new PrintStream(new FileOutputStream("/dev/null"))) {
+        // Buffered, as in the other languages. A bare FileOutputStream makes a
+        // write syscall for every line.
+        try (PrintStream ps = new PrintStream(new BufferedOutputStream(new FileOutputStream("/dev/null")))) {
             for (long i = 0; i < n; i++) {
                 ps.println(i + " " + (i+1));
             }
@@ -156,27 +167,35 @@ public class PerfPure {
         return a.mult(b).get(0);
     }
 
+    protected SimpleMatrix randn(int m, int n) {
+        SimpleMatrix a = new SimpleMatrix(m, n);
+        for (int i = 0; i < m*n; i++) a.set(i, rand.nextGaussian());
+        return a;
+    }
+
     protected double[] randmatstat(int t) {
         int n=5;
-        SimpleMatrix p = new SimpleMatrix(new double[n][4*n]);
-        SimpleMatrix q = new SimpleMatrix(new double[2*n][2*n]);
-        SimpleMatrix v = new SimpleMatrix(new double[t][1]); //zeros(t,1);
-        SimpleMatrix w = new SimpleMatrix(new double[t][1]); //zeros(t,1);
+        SimpleMatrix p = new SimpleMatrix(n, 4*n);
+        SimpleMatrix q = new SimpleMatrix(2*n, 2*n);
+        SimpleMatrix v = new SimpleMatrix(t, 1);
+        SimpleMatrix w = new SimpleMatrix(t, 1);
         for (int i=0; i < t; i++) {
-            SimpleMatrix a = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
-            SimpleMatrix b = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
-            SimpleMatrix c = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
-            SimpleMatrix d = SimpleMatrix.random_DDRM(n, n,  -1d, +1d, rand);
+            SimpleMatrix a = randn(n, n);
+            SimpleMatrix b = randn(n, n);
+            SimpleMatrix c = randn(n, n);
+            SimpleMatrix d = randn(n, n);
 
-            p.combine(0, 0*n, a);
-            p.combine(0, 1*n, b);
-            p.combine(0, 2*n, c);
-            p.combine(0, 3*n, d);
+            // insertIntoThis modifies p and q in place. combine() would
+            // return a new matrix and leave them all zeros.
+            p.insertIntoThis(0, 0*n, a);
+            p.insertIntoThis(0, 1*n, b);
+            p.insertIntoThis(0, 2*n, c);
+            p.insertIntoThis(0, 3*n, d);
 
-            q.combine(0, 0*n, a);
-            q.combine(0, 1*n, b);
-            q.combine(n, 0*n, c);
-            q.combine(n, 1*n, d);
+            q.insertIntoThis(0, 0*n, a);
+            q.insertIntoThis(0, 1*n, b);
+            q.insertIntoThis(n, 0*n, c);
+            q.insertIntoThis(n, 1*n, d);
 
             SimpleMatrix x = p.transpose().mult(p);
             x = x.mult(x);

@@ -59,7 +59,7 @@ func parseIntFromString(_ s: String, base: Int) -> Int {
         } else {
             fatalError("invalid character")
         }
-        assert(d < base)
+        precondition(d < base, "invalid digit")
         n = n * base + d
     }
     return n
@@ -152,13 +152,63 @@ func pisum() -> Double {
 }
 
 // ---------------------------------------------------------------------------
-// Random number helpers (simple LCG for parse_int; system random for others)
+// Random number helpers
 // ---------------------------------------------------------------------------
+
+// Xoshiro256++, the same generator Julia uses by default. Swift's default
+// SystemRandomNumberGenerator makes a getrandom syscall for every number on
+// Linux, which would dominate every benchmark that uses random numbers.
+struct Xoshiro256: RandomNumberGenerator {
+    var s0: UInt64, s1: UInt64, s2: UInt64, s3: UInt64
+
+    // Expand the seed with SplitMix64, as recommended by the authors.
+    static func splitmix(_ x: inout UInt64) -> UInt64 {
+        x &+= 0x9e3779b97f4a7c15
+        var z = x
+        z = (z ^ (z >> 30)) &* 0xbf58476d1ce4e5b9
+        z = (z ^ (z >> 27)) &* 0x94d049bb133111eb
+        return z ^ (z >> 31)
+    }
+
+    init(seed: UInt64) {
+        var x = seed
+        s0 = Xoshiro256.splitmix(&x)
+        s1 = Xoshiro256.splitmix(&x)
+        s2 = Xoshiro256.splitmix(&x)
+        s3 = Xoshiro256.splitmix(&x)
+    }
+
+    @inline(__always)
+    mutating func next() -> UInt64 {
+        let result = (s0 &+ s3).rotl(23) &+ s0
+        let t = s1 << 17
+        s2 ^= s0
+        s3 ^= s1
+        s1 ^= s2
+        s0 ^= s3
+        s2 ^= t
+        s3 = s3.rotl(45)
+        return result
+    }
+}
+
+extension UInt64 {
+    @inline(__always)
+    func rotl(_ k: UInt64) -> UInt64 { (self << k) | (self >> (64 - k)) }
+}
+
+var rng = Xoshiro256(seed: 1776)
+
+// Uniform double in [0, 1) from the top 53 bits.
+@inline(__always)
+func randDouble() -> Double {
+    Double(rng.next() >> 11) * 0x1.0p-53
+}
 
 func myrand(_ n: Int) -> [Double] {
     var a = [Double](repeating: 0, count: n)
     for i in 0..<n {
-        a[i] = Double.random(in: 0.0..<1.0)
+        a[i] = randDouble()
     }
     return a
 }
@@ -188,8 +238,8 @@ func gaussian() -> Double {
     var x: Double
     var y: Double
     repeat {
-        x = Double.random(in: -1.0...1.0)
-        y = Double.random(in: -1.0...1.0)
+        x = 2.0 * randDouble() - 1.0
+        y = 2.0 * randDouble() - 1.0
         k = x * x + y * y
     } while k >= 1.0
     return x * sqrt((-2.0 * log(k)) / k)
@@ -303,13 +353,14 @@ func randmatmul(_ n: Int) -> [Double] {
 // Print to file
 // ---------------------------------------------------------------------------
 
+// Use C stdio so output is buffered, as in the other languages. FileHandle.write
+// makes one write syscall per call.
 func printfd(_ n: Int) {
-    let fh = FileHandle(forWritingAtPath: "/dev/null")!
+    guard let f = fopen("/dev/null", "w") else { fatalError("cannot open /dev/null") }
     for i in 0..<n {
-        let s = "\(i) \(i + 1)\n"
-        fh.write(s.data(using: .utf8)!)
+        fputs("\(i) \(i + 1)\n", f)
     }
-    fh.closeFile()
+    fclose(f)
 }
 
 // ---------------------------------------------------------------------------
@@ -334,10 +385,10 @@ tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()
     for _ in 0..<(1000 * 100) {
-        let n = UInt32.random(in: 0...UInt32.max)
+        let n = UInt32(truncatingIfNeeded: rng.next() >> 32)
         let s = String(n, radix: 16)
         let m = parseIntFromString(s, base: 16)
-        blackHole(m == Int(n))
+        precondition(m == Int(n), "parse_integers returned the wrong value")
     }
     let elapsed = clockNow() - t
     if elapsed < tmin { tmin = elapsed }
@@ -389,6 +440,11 @@ for _ in 0..<NITER {
 printPerf("iteration_pi_sum", tmin)
 
 // rand mat stat
+do {
+    let (s1, s2) = randmatstat(1000)
+    precondition(0.5 < s1 && s1 < 1.0 && 0.5 < s2 && s2 < 1.0,
+                 "matrix_statistics out of range: \(s1), \(s2)")
+}
 tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()

@@ -38,7 +38,7 @@ function perf()
 	%timeit('pi_sum_vec',@pisumvec, true)
 
 	[s1, s2] = randmatstat(1000);
-	assert(round(10*s1) > 5 && round(10*s1) < 10);
+	assert(0.5 < s1 && s1 < 1.0 && 0.5 < s2 && s2 < 1.0);
 	timeit('matrix_statistics', @randmatstat, 1000)
 
 	timeit('matrix_multiply', @randmatmul, 1000);

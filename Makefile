@@ -2,6 +2,16 @@
 # (so we can use @for on the second line)
 .ONESHELL:
 
+# Run each recipe with bash -e -o pipefail so that a failing command anywhere in
+# a recipe fails the target: in any iteration of a `for` loop, before a
+# `| grep` filter, or on an earlier line of a multi-line recipe. Without this,
+# a failing assert can leave CI green with a missing or partial row.
+SHELL = /bin/bash
+.SHELLFLAGS = -eo pipefail -c
+
+# Don't leave a partial CSV behind when a benchmark fails.
+.DELETE_ON_ERROR:
+
 NODEJSBIN = node
 
 ITERATIONS=$(shell seq 1 3)
@@ -18,7 +28,9 @@ else
 MATHEMATICABIN = math
 endif
 
-FFLAGS=-fexternal-blas
+# The matrix_statistics matrices are 20x20 and smaller, below gfortran's
+# default -fblas-matmul-limit of 30, so lower it to make matmul call BLAS as in C.
+FFLAGS=-fexternal-blas -fblas-matmul-limit=1
 #gfortran cannot multiply matrices using 64-bit external BLAS.
 ifeq ($(findstring gfortran, $(FC)), gfortran)
 ifeq ($(USE_BLAS64), 1)

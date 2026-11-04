@@ -57,6 +57,9 @@ jobs:
         run: make benchmarks/c.csv
       - name: "Capture version"
         run: bash bin/versions.sh c > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "c,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -64,6 +67,7 @@ jobs:
           path: |
             benchmarks/c.csv
             version.csv
+            cpu.csv
 
   bench-csharp:
     runs-on: ubuntu-latest
@@ -87,6 +91,9 @@ jobs:
         run: make benchmarks/csharp.csv
       - name: "Capture version"
         run: bash bin/versions.sh csharp > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "csharp,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -94,6 +101,7 @@ jobs:
           path: |
             benchmarks/csharp.csv
             version.csv
+            cpu.csv
 
   bench-fortran:
     runs-on: ubuntu-latest
@@ -110,6 +118,9 @@ jobs:
         run: make benchmarks/fortran.csv
       - name: "Capture version"
         run: bash bin/versions.sh fortran > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "fortran,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -117,6 +128,7 @@ jobs:
           path: |
             benchmarks/fortran.csv
             version.csv
+            cpu.csv
 
   bench-go:
     runs-on: ubuntu-latest
@@ -139,6 +151,9 @@ jobs:
         run: make benchmarks/go.csv
       - name: "Capture version"
         run: bash bin/versions.sh go > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "go,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -146,6 +161,7 @@ jobs:
           path: |
             benchmarks/go.csv
             version.csv
+            cpu.csv
 
   bench-java:
     runs-on: ubuntu-latest
@@ -168,6 +184,9 @@ jobs:
         run: make benchmarks/java.csv
       - name: "Capture version"
         run: bash bin/versions.sh java > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "java,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -175,6 +194,7 @@ jobs:
           path: |
             benchmarks/java.csv
             version.csv
+            cpu.csv
 
   bench-javascript:
     runs-on: ubuntu-latest
@@ -193,6 +213,9 @@ jobs:
         run: make benchmarks/javascript.csv
       - name: "Capture version"
         run: bash bin/versions.sh javascript > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "javascript,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -200,6 +223,7 @@ jobs:
           path: |
             benchmarks/javascript.csv
             version.csv
+            cpu.csv
 
   bench-julia:
     runs-on: ubuntu-latest
@@ -218,6 +242,9 @@ jobs:
         run: make benchmarks/julia.csv
       - name: "Capture version"
         run: bash bin/versions.sh julia > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "julia,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -225,6 +252,7 @@ jobs:
           path: |
             benchmarks/julia.csv
             version.csv
+            cpu.csv
 
   bench-lua:
     runs-on: ubuntu-latest
@@ -244,6 +272,9 @@ jobs:
         run: make benchmarks/lua.csv
       - name: "Capture version"
         run: bash bin/versions.sh lua > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "lua,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -251,6 +282,7 @@ jobs:
           path: |
             benchmarks/lua.csv
             version.csv
+            cpu.csv
 
   bench-octave:
     runs-on: ubuntu-latest
@@ -267,6 +299,9 @@ jobs:
         run: make benchmarks/octave.csv
       - name: "Capture version"
         run: bash bin/versions.sh octave > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "octave,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -274,6 +309,7 @@ jobs:
           path: |
             benchmarks/octave.csv
             version.csv
+            cpu.csv
 
   bench-numba:
     runs-on: ubuntu-latest
@@ -294,6 +330,9 @@ jobs:
         run: make benchmarks/numba.csv
       - name: "Capture version"
         run: bash bin/versions.sh numba > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "numba,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -301,6 +340,7 @@ jobs:
           path: |
             benchmarks/numba.csv
             version.csv
+            cpu.csv
 
   bench-python:
     runs-on: ubuntu-latest
@@ -321,6 +361,9 @@ jobs:
         run: make benchmarks/python.csv
       - name: "Capture version"
         run: bash bin/versions.sh python > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "python,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -328,6 +371,7 @@ jobs:
           path: |
             benchmarks/python.csv
             version.csv
+            cpu.csv
 
   bench-r:
     runs-on: ubuntu-latest
@@ -346,6 +390,9 @@ jobs:
         run: make benchmarks/r.csv
       - name: "Capture version"
         run: bash bin/versions.sh r > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "r,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -353,6 +400,7 @@ jobs:
           path: |
             benchmarks/r.csv
             version.csv
+            cpu.csv
 
   bench-rust:
     runs-on: ubuntu-latest
@@ -369,10 +417,17 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
       - name: "Download dependencies and build"
         run: cd rust && cargo build --release
+      - name: "Check the direct_blas variant"
+        # The Makefile benchmarks the default ndarray build. Run the direct
+        # BLAS build once so its asserts are exercised too.
+        run: cd rust && cargo run --release -q --features direct_blas > /dev/null
       - name: "Run benchmark"
         run: make benchmarks/rust.csv
       - name: "Capture version"
         run: bash bin/versions.sh rust > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "rust,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -380,6 +435,7 @@ jobs:
           path: |
             benchmarks/rust.csv
             version.csv
+            cpu.csv
 
   bench-scala:
     runs-on: ubuntu-latest
@@ -405,6 +461,9 @@ jobs:
         run: make benchmarks/scala.csv
       - name: "Capture version"
         run: bash bin/versions.sh scala > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "scala,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -412,6 +471,7 @@ jobs:
           path: |
             benchmarks/scala.csv
             version.csv
+            cpu.csv
 
   bench-swift:
     # setup-swift@v2 rejects Ubuntu 26.04, which `ubuntu-latest` is moving to. v3 is not an
@@ -437,6 +497,9 @@ jobs:
         run: make benchmarks/swift.csv
       - name: "Capture version"
         run: bash bin/versions.sh swift > version.csv
+      - name: "Record runner CPU"
+        run: |
+          echo "swift,$(grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs)" > cpu.csv
       - name: "Upload results"
         uses: actions/upload-artifact@v7
         with:
@@ -444,6 +507,7 @@ jobs:
           path: |
             benchmarks/swift.csv
             version.csv
+            cpu.csv
 
   # ---------------------------------------------------------------------------
   # Aggregation + deploy
@@ -507,6 +571,10 @@ jobs:
 
       - name: "Print versions"
         run: cat gh_action_versions.csv
+      - name: "Print runner CPUs"
+        # Each language runs on its own runner, so times from runners with
+        # different CPUs aren't directly comparable.
+        run: cat artifacts/bench-*/cpu.csv
       - name: "Print benchmark data"
         run: cat gh_action_benchmarks.csv
 
