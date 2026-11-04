@@ -1,4 +1,5 @@
 const fs = require('fs'); // for print to file benchmark
+const { performance } = require('perf_hooks'); // sub-millisecond timer
 
 (function () {
     'use strict';
@@ -16,11 +17,11 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         for (j=0; j < 1000; j++) {
             assert(fib(20) === 6765);
         }
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin = t; }
     }
     console.log("javascript,recursion_fibonacci," + tmin/1000);
@@ -29,14 +30,14 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         for (j=0; j < 1000*100; j++) {
             n = Math.floor(4294967295*Math.random());
             s = n.toString(16);
             m = parseInt(s,16);
             assert(m === n);
         }
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin = t; }
     }
     console.log("javascript,parse_integers," + tmin/100);
@@ -44,20 +45,28 @@ const fs = require('fs'); // for print to file benchmark
 
     // print to file
 
+    // Buffer output and write it in 8 KB chunks, like C's stdio does,
+    // rather than making one write syscall per line.
     function printfd(n) {
-	let f = fs.openSync("/dev/null", "w");
-	for (let i = 1; i <= n; i++) {
-	    fs.writeSync(f, `${i} ${i + 1}\n`);
-	}
-	fs.closeSync(f);
+        let f = fs.openSync("/dev/null", "w");
+        let buf = "";
+        for (let i = 1; i <= n; i++) {
+            buf += `${i} ${i + 1}\n`;
+            if (buf.length >= 8192) {
+                fs.writeSync(f, buf);
+                buf = "";
+            }
+        }
+        if (buf.length > 0) { fs.writeSync(f, buf); }
+        fs.closeSync(f);
     }
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
-	printfd(100000)
-	t = (new Date()).getTime()-t;
-	if (t < tmin) { tmin = t; }
+        t = performance.now();
+        printfd(100000);
+        t = performance.now()-t;
+        if (t < tmin) { tmin = t; }
     }
     console.log("javascript,print_to_file," + tmin);
 
@@ -116,9 +125,9 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         a = mandelperf();
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin=t; }
     }
     console.log("javascript,userfunc_mandelbrot," + tmin);
@@ -177,11 +186,11 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         for (j=0; j < 100; j++) {
             v = sortperf(5000);
         }
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin=t; }
     }
     console.log("javascript,recursion_quicksort," + tmin/100);
@@ -202,11 +211,11 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         for (j=0; j < 10; j++) {
             assert(Math.abs(pisum()-1.644834071848065) < 1e-12);
         }
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin=t; }
     }
     console.log("javascript,iteration_pi_sum," + tmin/10);
@@ -224,16 +233,11 @@ const fs = require('fs'); // for print to file benchmark
         return i*Math.sqrt((-2*Math.log(k))/k);
     }
 
-    function randn( a, sub ) {
-        var subLen, len, i;
-        subLen = sub.length;
+    function randn( a ) {
+        var len, i;
         len = a.length;
 
-        for (i = 0; i < subLen; i++) {
-            a[i] = sub[i] = gaussian();
-        }
-
-        for (i = subLen; i < len; i++) {
+        for (i = 0; i < len; i++) {
             a[i] = gaussian();
         }
 
@@ -273,7 +277,7 @@ const fs = require('fs'); // for print to file benchmark
 
     function randmatstat(t) {
         var n, P, PTransposed, Pt1P, Pt2P, Q, QTransposed, Pt1Q, Pt2Q,
-        a, b, c, d, aSub, bSub, cSub, dSub, v, w, i, j, k,
+        a, b, c, d, v, w, i, j, k,
         trP, trQ, v1, v2, w1, w2;
         n = 5;
 
@@ -293,12 +297,6 @@ const fs = require('fs'); // for print to file benchmark
         c = new Float64Array( n*n );
         d = new Float64Array( n*n );
 
-        // the first n number of elements of a to d
-        aSub = new Float64Array( n );
-        bSub = new Float64Array( n );
-        cSub = new Float64Array( n );
-        dSub = new Float64Array( n );
-
         v = new Float64Array( t );
         w = new Float64Array( t );
 
@@ -307,10 +305,10 @@ const fs = require('fs'); // for print to file benchmark
         k = 0;
 
         for (i = 0; i < t; i++) {
-            a = randn( a, aSub );
-            b = randn( b, bSub );
-            c = randn( c, cSub );
-            d = randn( d, dSub );
+            a = randn( a );
+            b = randn( b );
+            c = randn( c );
+            d = randn( d );
 
             P.set( a, 0*n*n );
             P.set( b, 1*n*n );
@@ -372,13 +370,13 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         for (j=0; j < 10; j++) {
             r = randmatstat(1000);
-            // assert(0.5 < r.s1 < 1.0);
-            //        assert(0.5 < r.s2 < 1.0);
+            assert(0.5 < r.s1 && r.s1 < 1.0);
+            assert(0.5 < r.s2 && r.s2 < 1.0);
         }
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin=t; }
     }
     console.log("javascript,matrix_statistics," + tmin/10);
@@ -451,10 +449,10 @@ const fs = require('fs'); // for print to file benchmark
 
     tmin = Number.POSITIVE_INFINITY;
     for (i=0; i < 5; i++) {
-        t = (new Date()).getTime();
+        t = performance.now();
         C = randmatmul(1000);
         assert(0 <= C[0]);
-        t = (new Date()).getTime()-t;
+        t = performance.now()-t;
         if (t < tmin) { tmin=t; }
     }
     console.log("javascript,matrix_multiply," + tmin);

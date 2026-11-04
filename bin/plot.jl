@@ -16,6 +16,7 @@ benchmarks =
 # Capitalize and decorate language names from datafile
 dict = Dict(
     "c" => "C",
+    "csharp" => "C#",
     "julia" => "Julia",
     "lua" => "LuaJIT",
     "fortran" => "Fortran",
@@ -23,10 +24,13 @@ dict = Dict(
     "javascript" => "JavaScript",
     "matlab" => "Matlab",
     "mathematica" => "Mathematica",
+    "numba" => "Numba",
     "python" => "Python",
     "octave" => "Octave",
     "r" => "R",
     "rust" => "Rust",
+    "scala" => "Scala",
+    "swift" => "Swift",
     "go" => "Go",
 );
 benchmarks[!, :language] = [dict[lang] for lang in benchmarks[!, :language]]

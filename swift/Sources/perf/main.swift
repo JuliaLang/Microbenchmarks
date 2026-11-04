@@ -59,7 +59,7 @@ func parseIntFromString(_ s: String, base: Int) -> Int {
         } else {
             fatalError("invalid character")
         }
-        assert(d < base)
+        precondition(d < base, "invalid digit")
         n = n * base + d
     }
     return n
@@ -152,13 +152,31 @@ func pisum() -> Double {
 }
 
 // ---------------------------------------------------------------------------
-// Random number helpers (simple LCG for parse_int; system random for others)
+// Random number helpers
 // ---------------------------------------------------------------------------
+
+// Use the C library's seeded drand48 family. Swift's own
+// SystemRandomNumberGenerator makes a getrandom syscall for every number on
+// Linux, which would dominate every benchmark that uses random numbers.
+srand48(1776)
+
+// Uniform double in [0, 1).
+@inline(__always)
+func randDouble() -> Double {
+    drand48()
+}
+
+// Uniform 32-bit unsigned integer. mrand48 returns a signed value uniformly
+// distributed over the full 32-bit range.
+@inline(__always)
+func randUInt32() -> UInt32 {
+    UInt32(truncatingIfNeeded: mrand48())
+}
 
 func myrand(_ n: Int) -> [Double] {
     var a = [Double](repeating: 0, count: n)
     for i in 0..<n {
-        a[i] = Double.random(in: 0.0..<1.0)
+        a[i] = randDouble()
     }
     return a
 }
@@ -188,8 +206,8 @@ func gaussian() -> Double {
     var x: Double
     var y: Double
     repeat {
-        x = Double.random(in: -1.0...1.0)
-        y = Double.random(in: -1.0...1.0)
+        x = 2.0 * randDouble() - 1.0
+        y = 2.0 * randDouble() - 1.0
         k = x * x + y * y
     } while k >= 1.0
     return x * sqrt((-2.0 * log(k)) / k)
@@ -303,13 +321,14 @@ func randmatmul(_ n: Int) -> [Double] {
 // Print to file
 // ---------------------------------------------------------------------------
 
+// Use C stdio so output is buffered, as in the other languages. FileHandle.write
+// makes one write syscall per call.
 func printfd(_ n: Int) {
-    let fh = FileHandle(forWritingAtPath: "/dev/null")!
+    guard let f = fopen("/dev/null", "w") else { fatalError("cannot open /dev/null") }
     for i in 0..<n {
-        let s = "\(i) \(i + 1)\n"
-        fh.write(s.data(using: .utf8)!)
+        fputs("\(i) \(i + 1)\n", f)
     }
-    fh.closeFile()
+    fclose(f)
 }
 
 // ---------------------------------------------------------------------------
@@ -334,10 +353,10 @@ tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()
     for _ in 0..<(1000 * 100) {
-        let n = UInt32.random(in: 0...UInt32.max)
+        let n = randUInt32()
         let s = String(n, radix: 16)
         let m = parseIntFromString(s, base: 16)
-        blackHole(m == Int(n))
+        precondition(m == Int(n), "parse_integers returned the wrong value")
     }
     let elapsed = clockNow() - t
     if elapsed < tmin { tmin = elapsed }
@@ -389,6 +408,11 @@ for _ in 0..<NITER {
 printPerf("iteration_pi_sum", tmin)
 
 // rand mat stat
+do {
+    let (s1, s2) = randmatstat(1000)
+    precondition(0.5 < s1 && s1 < 1.0 && 0.5 < s2 && s2 < 1.0,
+                 "matrix_statistics out of range: \(s1), \(s2)")
+}
 tmin = Double.infinity
 for _ in 0..<NITER {
     let t = clockNow()

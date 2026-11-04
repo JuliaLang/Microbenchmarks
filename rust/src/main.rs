@@ -38,7 +38,6 @@ fn urand<R: Rng>(shape: (usize, usize), rng: &mut R) -> Array2<f64> {
 }
 
 fn fib(n: i32) -> i32 {
-    let n = black_box(n); // prevent over-optimization
     if n < 2 {
         n
     } else {
@@ -244,9 +243,12 @@ fn main() {
     let fibarg = 20;
     let tmin = measure_best(NITER, || {
         for _ in 0..1000 {
-            f = f.wrapping_add(fib(fibarg));
+            // black_box only the top-level argument, as C does with volatile,
+            // so the call can't be hoisted or constant-folded.
+            f = f.wrapping_add(fib(black_box(fibarg)));
         }
     });
+    assert_eq!(black_box(f), 6765 * 1000 * NITER as i32);
     print_perf("recursion_fibonacci", to_float(tmin) / 1000.0);
 
     // parse_int
@@ -291,6 +293,8 @@ fn main() {
     let tmin = measure_best(NITER, || {
         r = black_box(randmatstat(1000));
     });
+    assert!(0.5 < r.0 && r.0 < 1.0 && 0.5 < r.1 && r.1 < 1.0,
+            "matrix_statistics out of range: {:?}", r);
     print_perf("matrix_statistics", to_float(tmin));
 
     // rand mat mul

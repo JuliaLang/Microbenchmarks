@@ -4,11 +4,15 @@ assert = function(bool) {
     if (!bool) stop('Assertion failed')
 }
 
+# system.time() only reports whole milliseconds, which is too coarse for the
+# shorter benchmarks. Sys.time() has microsecond resolution.
 timeit = function(name, f, ..., times=5) {
     tmin = Inf
     f = cmpfun(f)
-    for (t in 1:times) {
-        t = system.time(f(...))["elapsed"]
+    for (i in 1:times) {
+        t0 = Sys.time()
+        f(...)
+        t = as.numeric(Sys.time()) - as.numeric(t0)
         if (t < tmin) tmin = t
     }
     cat(sprintf("r,%s,%.8f\n", name, tmin*1000))
@@ -171,6 +175,8 @@ randmatstat = function(t) {
     return(c(s1,s2))
 }
 
+s = randmatstat(1000)
+assert(0.5 < s[1] && s[1] < 1.0 && 0.5 < s[2] && s[2] < 1.0)
 timeit("matrix_statistics", randmatstat, 1000)
 
 ## rand_mat_mul ##
