@@ -13,10 +13,12 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 permissions:
-  actions: write
-  contents: write
-  pull-requests: read
-  statuses: write
+  contents: read
+
+# These per-language jobs each run on their own runner, whose CPU can differ
+# from job to job, so they are a quick per-language check only. The published
+# results come from benchmarks-single-runner.yml, which runs every language on
+# one runner.
 
 # Force single-threaded execution for all benchmarks
 env:
@@ -509,79 +511,3 @@ jobs:
             version.csv
             cpu.csv
 
-  # ---------------------------------------------------------------------------
-  # Aggregation + deploy
-  # ---------------------------------------------------------------------------
-
-  report:
-    runs-on: ubuntu-latest
-    needs:
-      - bench-c
-      - bench-csharp
-      - bench-fortran
-      - bench-go
-      - bench-java
-      - bench-javascript
-      - bench-julia
-      - bench-lua
-      - bench-numba
-      - bench-octave
-      - bench-python
-      - bench-r
-      - bench-rust
-      - bench-scala
-      - bench-swift
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          persist-credentials: false
-
-      - name: "Set up Julia"
-        uses: julia-actions/setup-julia@v3
-        with:
-          version: 'v1'
-
-      - name: "Download all benchmark artifacts"
-        uses: actions/download-artifact@v8
-        with:
-          path: artifacts
-
-      - name: "Collect benchmark CSVs"
-        run: |
-          mkdir -p benchmarks
-          for dir in artifacts/bench-*; do
-            lang=$(basename "$dir" | sed 's/^bench-//')
-            cp "$dir/benchmarks/${lang}.csv" benchmarks/
-          done
-
-      - name: "Merge benchmarks"
-        run: julia bin/collect.jl benchmarks/*.csv > gh_action_benchmarks.csv
-
-      - name: "Collect versions"
-        run: |
-          for dir in artifacts/bench-*; do
-            cat "$dir/version.csv"
-          done > gh_action_versions.csv
-
-      - name: "Generate HTML table"
-        run: julia bin/table.jl gh_action_versions.csv gh_action_benchmarks.csv > gh_action_benchmarks.html
-
-      - name: "Print versions"
-        run: cat gh_action_versions.csv
-      - name: "Print runner CPUs"
-        # Each language runs on its own runner, so times from runners with
-        # different CPUs aren't directly comparable.
-        run: cat artifacts/bench-*/cpu.csv
-      - name: "Print benchmark data"
-        run: cat gh_action_benchmarks.csv
-
-      - uses: julia-actions/cache@v3
-      - name: "Build and deploy site"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          julia --color=yes --project=docs -e 'using Pkg; Pkg.instantiate()'
-          julia --color=yes --project=docs --compiled-modules=existing docs/make.jl

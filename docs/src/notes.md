@@ -20,7 +20,7 @@ benchmarks use the same for-loop.
 All languages follow the same pattern:
 
 - Each benchmark is run 5 times internally; the minimum time is reported
-- The Makefile invokes each language's script 3 times (`ITERATIONS=3`), producing multiple sets of results
+- CI runs the whole suite 3 times back-to-back (`PASSES=3`); each pass invokes every language's script once (`ITERATIONS=1`), so runs of the same language are spread across the job rather than taken in a row. Run locally, the Makefile invokes each script 3 times (`ITERATIONS=3`)
 - `bin/collect.jl` takes the overall minimum across all runs, so the final reported time is the best of up to 15 measurements
 - JIT languages (Julia, Numba) include a warmup pass before the 5 timed iterations to exclude compilation overhead
 
@@ -33,7 +33,7 @@ Environment:
   - `GOMAXPROCS=1` — Go runtime OS threads
   - `JULIA_NUM_THREADS=1` — Julia threads
   - `NUMBA_NUM_THREADS=1` — Numba parallel threads
-- Runs on GitHub Actions `ubuntu-latest` runners (x86_64), except Swift, which runs on `ubuntu-24.04`
+- All languages run in one job on a single GitHub Actions `ubuntu-24.04` runner (x86_64). Every toolchain is installed and all code is compiled before any benchmark runs, so the benchmarks run back-to-back on an otherwise idle machine and every time (and every ratio to C) comes from the same CPU. The CPU model is printed in the job log and summary
 
 ## Matrix benchmarks and BLAS
 

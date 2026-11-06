@@ -7,13 +7,15 @@ name: Benchmarks (single runner)
 # All toolchains are installed and all code is compiled first; the benchmarks
 # then run back-to-back with nothing else happening on the machine. The suite
 # runs PASSES times, with each pass running every language once, and the best
-# time per benchmark is kept across passes.
+# time per benchmark is kept across passes. The `report` job publishes these
+# results to the docs site.
 
 on:
   pull_request:
   push:
     branches:
       - master
+    tags: '*'
   workflow_dispatch:
 
 concurrency:
@@ -45,6 +47,8 @@ jobs:
     # A fixed image also keeps the OS, compilers and system libraries stable.
     runs-on: ubuntu-24.04
     timeout-minutes: 60
+    permissions:
+      contents: read
     defaults:
       run:
         shell: bash
@@ -232,3 +236,52 @@ jobs:
             gh_action_benchmarks.html
             cpu.txt
             results/
+
+  # ---------------------------------------------------------------------------
+  # Publish the single-runner results to the docs site
+  # ---------------------------------------------------------------------------
+
+  report:
+    runs-on: ubuntu-latest
+    needs: bench-all
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: read
+      statuses: write
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v3
+        with:
+          version: 'v1'
+
+      - name: "Download single-runner results"
+        uses: actions/download-artifact@v8
+        with:
+          name: bench-all
+          path: bench-all
+
+      - name: "Collect results"
+        run: cp bench-all/gh_action_benchmarks.csv bench-all/gh_action_versions.csv .
+
+      - name: "Print versions"
+        run: cat gh_action_versions.csv
+      - name: "Print runner CPU"
+        run: cat bench-all/cpu.txt
+      - name: "Print benchmark data"
+        run: cat gh_action_benchmarks.csv
+
+      - uses: julia-actions/cache@v3
+      - name: "Build and deploy site"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          julia --color=yes --project=docs -e 'using Pkg; Pkg.instantiate()'
+          julia --color=yes --project=docs --compiled-modules=existing docs/make.jl
