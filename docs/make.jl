@@ -121,8 +121,6 @@ function make_svg(benchmarks, langs, c_times; cpu::AbstractString="", standalone
     hi = max(1, ceil(Int, log10(maximum(values(rels)))))
     yof(v) = top + (hi - log10(v)) / (hi - lo) * plot_h
     xof(j) = left + (j - 0.5) * band
-    # Spread the benchmarks of one language across part of its column so dots overlap less
-    dx(i) = (i - (length(BENCHMARK_ORDER) + 1) / 2) * band * 0.6 / length(BENCHMARK_ORDER)
 
     io = IOBuffer()
     println(io, """<svg xmlns="http://www.w3.org/2000/svg" class="mb-chart" viewBox="0 0 $W $H" """ *
@@ -137,6 +135,7 @@ function make_svg(benchmarks, langs, c_times; cpu::AbstractString="", standalone
     println(io, "  .mb-chart text { fill: currentColor; }")
     println(io, "  .mb-chart .grid { stroke: currentColor; stroke-opacity: 0.12; }")
     println(io, "  .mb-chart .grid.one { stroke-opacity: 0.45; }")
+    println(io, "  .mb-chart .grid.lang { stroke-opacity: 0.05; }")
     println(io, "  .mb-chart .axis { stroke: currentColor; stroke-opacity: 0.5; }")
     println(io, "  .mb-chart .muted { fill-opacity: 0.7; }")
     println(io, "</style>")
@@ -156,9 +155,10 @@ function make_svg(benchmarks, langs, c_times; cpu::AbstractString="", standalone
     println(io, @sprintf("""<text transform="translate(18,%.1f) rotate(-90)" text-anchor="middle">Time relative to C (log scale)</text>""", top + plot_h / 2))
     println(io, @sprintf("""<line class="axis" x1="%d" x2="%d" y1="%d" y2="%d"/>""", left, left + plot_w, top + plot_h, top + plot_h))
 
-    # Language labels under each column
+    # A faint vertical line through each language's dots, and its label underneath
     for (j, lang) in enumerate(langs)
         x, y = xof(j), top + plot_h + 14
+        println(io, @sprintf("""<line class="grid lang" x1="%.1f" x2="%.1f" y1="%d" y2="%d"/>""", x, x, top, top + plot_h))
         println(io, @sprintf("""<text transform="translate(%.1f,%d) rotate(-40)" text-anchor="end" dominant-baseline="middle">%s</text>""",
                              x, y, xml_escape(get(LANG_LABELS, lang, lang))))
     end
@@ -171,7 +171,7 @@ function make_svg(benchmarks, langs, c_times; cpu::AbstractString="", standalone
             rel === nothing && continue
             label = xml_escape(get(LANG_LABELS, lang, lang))
             println(io, @sprintf("""<circle cx="%.1f" cy="%.1f" r="4.5"><title>%s, %s: %.2f× C</title></circle>""",
-                                 xof(j) + dx(i), yof(rel), label, bench, rel))
+                                 xof(j), yof(rel), label, bench, rel))
         end
         println(io, "</g>")
     end
