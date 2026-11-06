@@ -10,7 +10,7 @@
   .mb-chart .muted { fill-opacity: 0.7; }
 </style>
 <text x="385.0" y="22" text-anchor="middle" font-size="16">Benchmark times relative to C (lower is better)</text>
-<text class="muted" x="385.0" y="42" text-anchor="middle" font-size="12">All languages run on one machine: AMD EPYC 7763 64-Core Processor</text>
+<text class="muted" x="385.0" y="42" text-anchor="middle" font-size="12">All languages run on one machine: AMD EPYC 9V74 80-Core Processor</text>
 <line class="grid" x1="70" x2="700" y1="410.0" y2="410.0"/>
 <text x="62" y="410.0" text-anchor="end" dominant-baseline="middle">0.1</text>
 <line class="grid one" x1="70" x2="700" y1="340.4" y2="340.4"/>
@@ -29,152 +29,152 @@
 <text transform="translate(133.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Julia</text>
 <text transform="translate(175.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Rust</text>
 <text transform="translate(217.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">C#</text>
-<text transform="translate(259.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Fortran</text>
-<text transform="translate(301.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Go</text>
+<text transform="translate(259.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Go</text>
+<text transform="translate(301.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Fortran</text>
 <text transform="translate(343.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Swift</text>
 <text transform="translate(385.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">LuaJIT</text>
 <text transform="translate(427.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Scala</text>
-<text transform="translate(469.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Numba</text>
-<text transform="translate(511.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Java</text>
+<text transform="translate(469.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Java</text>
+<text transform="translate(511.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Numba</text>
 <text transform="translate(553.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">JavaScript</text>
 <text transform="translate(595.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Python</text>
 <text transform="translate(637.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">R</text>
 <text transform="translate(679.0,424) rotate(-40)" text-anchor="end" dominant-baseline="middle">Octave</text>
 <g fill="rgb(0, 190, 210)">
 <circle cx="80.0" cy="340.4" r="4.5"><title>C, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="122.0" cy="340.4" r="4.5"><title>Julia, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="164.0" cy="352.1" r="4.5"><title>Rust, iteration_pi_sum: 0.68× C</title></circle>
-<circle cx="206.0" cy="340.4" r="4.5"><title>C#, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="248.0" cy="340.4" r="4.5"><title>Fortran, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="290.0" cy="345.5" r="4.5"><title>Go, iteration_pi_sum: 0.84× C</title></circle>
-<circle cx="332.0" cy="340.4" r="4.5"><title>Swift, iteration_pi_sum: 1.00× C</title></circle>
+<circle cx="122.0" cy="340.7" r="4.5"><title>Julia, iteration_pi_sum: 0.99× C</title></circle>
+<circle cx="164.0" cy="353.0" r="4.5"><title>Rust, iteration_pi_sum: 0.66× C</title></circle>
+<circle cx="206.0" cy="340.7" r="4.5"><title>C#, iteration_pi_sum: 0.99× C</title></circle>
+<circle cx="248.0" cy="344.3" r="4.5"><title>Go, iteration_pi_sum: 0.88× C</title></circle>
+<circle cx="290.0" cy="339.9" r="4.5"><title>Fortran, iteration_pi_sum: 1.02× C</title></circle>
+<circle cx="332.0" cy="340.8" r="4.5"><title>Swift, iteration_pi_sum: 0.99× C</title></circle>
 <circle cx="374.0" cy="340.4" r="4.5"><title>LuaJIT, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="416.0" cy="340.4" r="4.5"><title>Scala, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="458.0" cy="340.4" r="4.5"><title>Numba, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="500.0" cy="340.2" r="4.5"><title>Java, iteration_pi_sum: 1.01× C</title></circle>
-<circle cx="542.0" cy="340.4" r="4.5"><title>JavaScript, iteration_pi_sum: 1.00× C</title></circle>
-<circle cx="584.0" cy="220.1" r="4.5"><title>Python, iteration_pi_sum: 53.51× C</title></circle>
-<circle cx="626.0" cy="242.4" r="4.5"><title>R, iteration_pi_sum: 25.58× C</title></circle>
-<circle cx="668.0" cy="155.1" r="4.5"><title>Octave, iteration_pi_sum: 459.12× C</title></circle>
+<circle cx="416.0" cy="338.9" r="4.5"><title>Scala, iteration_pi_sum: 1.05× C</title></circle>
+<circle cx="458.0" cy="339.5" r="4.5"><title>Java, iteration_pi_sum: 1.03× C</title></circle>
+<circle cx="500.0" cy="339.9" r="4.5"><title>Numba, iteration_pi_sum: 1.02× C</title></circle>
+<circle cx="542.0" cy="339.8" r="4.5"><title>JavaScript, iteration_pi_sum: 1.02× C</title></circle>
+<circle cx="584.0" cy="222.5" r="4.5"><title>Python, iteration_pi_sum: 49.46× C</title></circle>
+<circle cx="626.0" cy="246.6" r="4.5"><title>R, iteration_pi_sum: 22.24× C</title></circle>
+<circle cx="668.0" cy="160.7" r="4.5"><title>Octave, iteration_pi_sum: 382.00× C</title></circle>
 </g>
 <g fill="rgb(220, 50, 50)">
 <circle cx="83.1" cy="340.4" r="4.5"><title>C, recursion_fibonacci: 1.00× C</title></circle>
-<circle cx="125.1" cy="302.3" r="4.5"><title>Julia, recursion_fibonacci: 3.53× C</title></circle>
-<circle cx="167.1" cy="324.7" r="4.5"><title>Rust, recursion_fibonacci: 1.68× C</title></circle>
-<circle cx="209.1" cy="325.4" r="4.5"><title>C#, recursion_fibonacci: 1.64× C</title></circle>
-<circle cx="251.1" cy="351.2" r="4.5"><title>Fortran, recursion_fibonacci: 0.70× C</title></circle>
-<circle cx="293.1" cy="303.7" r="4.5"><title>Go, recursion_fibonacci: 3.37× C</title></circle>
-<circle cx="335.1" cy="312.8" r="4.5"><title>Swift, recursion_fibonacci: 2.49× C</title></circle>
-<circle cx="377.1" cy="291.6" r="4.5"><title>LuaJIT, recursion_fibonacci: 5.03× C</title></circle>
-<circle cx="419.1" cy="322.0" r="4.5"><title>Scala, recursion_fibonacci: 1.84× C</title></circle>
-<circle cx="461.1" cy="298.7" r="4.5"><title>Numba, recursion_fibonacci: 3.98× C</title></circle>
-<circle cx="503.1" cy="289.9" r="4.5"><title>Java, recursion_fibonacci: 5.32× C</title></circle>
-<circle cx="545.1" cy="285.4" r="4.5"><title>JavaScript, recursion_fibonacci: 6.16× C</title></circle>
-<circle cx="587.1" cy="213.6" r="4.5"><title>Python, recursion_fibonacci: 66.26× C</title></circle>
-<circle cx="629.1" cy="152.6" r="4.5"><title>R, recursion_fibonacci: 499.52× C</title></circle>
-<circle cx="671.1" cy="80.2" r="4.5"><title>Octave, recursion_fibonacci: 5468.74× C</title></circle>
+<circle cx="125.1" cy="301.9" r="4.5"><title>Julia, recursion_fibonacci: 3.58× C</title></circle>
+<circle cx="167.1" cy="321.1" r="4.5"><title>Rust, recursion_fibonacci: 1.89× C</title></circle>
+<circle cx="209.1" cy="322.7" r="4.5"><title>C#, recursion_fibonacci: 1.80× C</title></circle>
+<circle cx="251.1" cy="306.3" r="4.5"><title>Go, recursion_fibonacci: 3.09× C</title></circle>
+<circle cx="293.1" cy="349.3" r="4.5"><title>Fortran, recursion_fibonacci: 0.74× C</title></circle>
+<circle cx="335.1" cy="309.2" r="4.5"><title>Swift, recursion_fibonacci: 2.81× C</title></circle>
+<circle cx="377.1" cy="287.2" r="4.5"><title>LuaJIT, recursion_fibonacci: 5.80× C</title></circle>
+<circle cx="419.1" cy="321.5" r="4.5"><title>Scala, recursion_fibonacci: 1.87× C</title></circle>
+<circle cx="461.1" cy="293.0" r="4.5"><title>Java, recursion_fibonacci: 4.80× C</title></circle>
+<circle cx="503.1" cy="301.6" r="4.5"><title>Numba, recursion_fibonacci: 3.61× C</title></circle>
+<circle cx="545.1" cy="282.7" r="4.5"><title>JavaScript, recursion_fibonacci: 6.74× C</title></circle>
+<circle cx="587.1" cy="211.3" r="4.5"><title>Python, recursion_fibonacci: 71.63× C</title></circle>
+<circle cx="629.1" cy="158.2" r="4.5"><title>R, recursion_fibonacci: 415.44× C</title></circle>
+<circle cx="671.1" cy="81.0" r="4.5"><title>Octave, recursion_fibonacci: 5337.44× C</title></circle>
 </g>
 <g fill="rgb(150, 150, 150)">
 <circle cx="86.3" cy="340.4" r="4.5"><title>C, recursion_quicksort: 1.00× C</title></circle>
-<circle cx="128.3" cy="339.2" r="4.5"><title>Julia, recursion_quicksort: 1.04× C</title></circle>
-<circle cx="170.3" cy="339.9" r="4.5"><title>Rust, recursion_quicksort: 1.02× C</title></circle>
-<circle cx="212.3" cy="338.0" r="4.5"><title>C#, recursion_quicksort: 1.08× C</title></circle>
-<circle cx="254.3" cy="335.5" r="4.5"><title>Fortran, recursion_quicksort: 1.18× C</title></circle>
-<circle cx="296.3" cy="338.5" r="4.5"><title>Go, recursion_quicksort: 1.06× C</title></circle>
-<circle cx="338.3" cy="334.6" r="4.5"><title>Swift, recursion_quicksort: 1.21× C</title></circle>
-<circle cx="380.3" cy="317.1" r="4.5"><title>LuaJIT, recursion_quicksort: 2.16× C</title></circle>
-<circle cx="422.3" cy="324.8" r="4.5"><title>Scala, recursion_quicksort: 1.68× C</title></circle>
-<circle cx="464.3" cy="334.1" r="4.5"><title>Numba, recursion_quicksort: 1.23× C</title></circle>
-<circle cx="506.3" cy="307.8" r="4.5"><title>Java, recursion_quicksort: 2.94× C</title></circle>
-<circle cx="548.3" cy="328.7" r="4.5"><title>JavaScript, recursion_quicksort: 1.47× C</title></circle>
-<circle cx="590.3" cy="229.0" r="4.5"><title>Python, recursion_quicksort: 39.84× C</title></circle>
-<circle cx="632.3" cy="218.6" r="4.5"><title>R, recursion_quicksort: 56.17× C</title></circle>
-<circle cx="674.3" cy="142.1" r="4.5"><title>Octave, recursion_quicksort: 705.62× C</title></circle>
+<circle cx="128.3" cy="339.3" r="4.5"><title>Julia, recursion_quicksort: 1.04× C</title></circle>
+<circle cx="170.3" cy="339.7" r="4.5"><title>Rust, recursion_quicksort: 1.02× C</title></circle>
+<circle cx="212.3" cy="339.0" r="4.5"><title>C#, recursion_quicksort: 1.05× C</title></circle>
+<circle cx="254.3" cy="339.3" r="4.5"><title>Go, recursion_quicksort: 1.04× C</title></circle>
+<circle cx="296.3" cy="335.9" r="4.5"><title>Fortran, recursion_quicksort: 1.16× C</title></circle>
+<circle cx="338.3" cy="335.0" r="4.5"><title>Swift, recursion_quicksort: 1.20× C</title></circle>
+<circle cx="380.3" cy="316.7" r="4.5"><title>LuaJIT, recursion_quicksort: 2.19× C</title></circle>
+<circle cx="422.3" cy="326.0" r="4.5"><title>Scala, recursion_quicksort: 1.61× C</title></circle>
+<circle cx="464.3" cy="320.9" r="4.5"><title>Java, recursion_quicksort: 1.90× C</title></circle>
+<circle cx="506.3" cy="335.3" r="4.5"><title>Numba, recursion_quicksort: 1.18× C</title></circle>
+<circle cx="548.3" cy="330.1" r="4.5"><title>JavaScript, recursion_quicksort: 1.41× C</title></circle>
+<circle cx="590.3" cy="233.3" r="4.5"><title>Python, recursion_quicksort: 34.59× C</title></circle>
+<circle cx="632.3" cy="224.7" r="4.5"><title>R, recursion_quicksort: 45.99× C</title></circle>
+<circle cx="674.3" cy="147.5" r="4.5"><title>Octave, recursion_quicksort: 591.73× C</title></circle>
 </g>
 <g fill="rgb(0, 170, 170)">
 <circle cx="89.4" cy="340.4" r="4.5"><title>C, parse_integers: 1.00× C</title></circle>
-<circle cx="131.4" cy="332.0" r="4.5"><title>Julia, parse_integers: 1.32× C</title></circle>
-<circle cx="173.4" cy="355.9" r="4.5"><title>Rust, parse_integers: 0.60× C</title></circle>
-<circle cx="215.4" cy="335.4" r="4.5"><title>C#, parse_integers: 1.18× C</title></circle>
-<circle cx="257.4" cy="349.6" r="4.5"><title>Fortran, parse_integers: 0.74× C</title></circle>
-<circle cx="299.4" cy="332.4" r="4.5"><title>Go, parse_integers: 1.30× C</title></circle>
-<circle cx="341.4" cy="320.3" r="4.5"><title>Swift, parse_integers: 1.95× C</title></circle>
-<circle cx="383.4" cy="335.0" r="4.5"><title>LuaJIT, parse_integers: 1.19× C</title></circle>
-<circle cx="425.4" cy="289.9" r="4.5"><title>Scala, parse_integers: 5.32× C</title></circle>
-<circle cx="467.4" cy="264.5" r="4.5"><title>Numba, parse_integers: 12.30× C</title></circle>
-<circle cx="509.4" cy="278.1" r="4.5"><title>Java, parse_integers: 7.85× C</title></circle>
-<circle cx="551.4" cy="311.8" r="4.5"><title>JavaScript, parse_integers: 2.57× C</title></circle>
-<circle cx="593.4" cy="264.5" r="4.5"><title>Python, parse_integers: 12.33× C</title></circle>
-<circle cx="635.4" cy="229.6" r="4.5"><title>R, parse_integers: 39.07× C</title></circle>
-<circle cx="677.4" cy="172.4" r="4.5"><title>Octave, parse_integers: 259.07× C</title></circle>
+<circle cx="131.4" cy="336.5" r="4.5"><title>Julia, parse_integers: 1.14× C</title></circle>
+<circle cx="173.4" cy="355.2" r="4.5"><title>Rust, parse_integers: 0.61× C</title></circle>
+<circle cx="215.4" cy="336.7" r="4.5"><title>C#, parse_integers: 1.13× C</title></circle>
+<circle cx="257.4" cy="339.5" r="4.5"><title>Go, parse_integers: 1.03× C</title></circle>
+<circle cx="299.4" cy="348.0" r="4.5"><title>Fortran, parse_integers: 0.78× C</title></circle>
+<circle cx="341.4" cy="320.3" r="4.5"><title>Swift, parse_integers: 1.94× C</title></circle>
+<circle cx="383.4" cy="335.6" r="4.5"><title>LuaJIT, parse_integers: 1.17× C</title></circle>
+<circle cx="425.4" cy="294.9" r="4.5"><title>Scala, parse_integers: 4.50× C</title></circle>
+<circle cx="467.4" cy="297.6" r="4.5"><title>Java, parse_integers: 4.12× C</title></circle>
+<circle cx="509.4" cy="267.0" r="4.5"><title>Numba, parse_integers: 11.34× C</title></circle>
+<circle cx="551.4" cy="312.4" r="4.5"><title>JavaScript, parse_integers: 2.52× C</title></circle>
+<circle cx="593.4" cy="266.2" r="4.5"><title>Python, parse_integers: 11.63× C</title></circle>
+<circle cx="635.4" cy="233.7" r="4.5"><title>R, parse_integers: 34.17× C</title></circle>
+<circle cx="677.4" cy="178.3" r="4.5"><title>Octave, parse_integers: 213.60× C</title></circle>
 </g>
 <g fill="rgb(170, 140, 210)">
 <circle cx="92.6" cy="340.4" r="4.5"><title>C, print_to_file: 1.00× C</title></circle>
-<circle cx="134.6" cy="335.9" r="4.5"><title>Julia, print_to_file: 1.16× C</title></circle>
-<circle cx="176.6" cy="362.8" r="4.5"><title>Rust, print_to_file: 0.48× C</title></circle>
-<circle cx="218.6" cy="349.6" r="4.5"><title>C#, print_to_file: 0.74× C</title></circle>
-<circle cx="260.6" cy="283.7" r="4.5"><title>Fortran, print_to_file: 6.53× C</title></circle>
-<circle cx="302.6" cy="330.5" r="4.5"><title>Go, print_to_file: 1.39× C</title></circle>
-<circle cx="344.6" cy="326.8" r="4.5"><title>Swift, print_to_file: 1.57× C</title></circle>
-<circle cx="386.6" cy="349.9" r="4.5"><title>LuaJIT, print_to_file: 0.73× C</title></circle>
-<circle cx="428.6" cy="332.6" r="4.5"><title>Scala, print_to_file: 1.29× C</title></circle>
-<circle cx="470.6" cy="294.7" r="4.5"><title>Numba, print_to_file: 4.53× C</title></circle>
-<circle cx="512.6" cy="333.5" r="4.5"><title>Java, print_to_file: 1.25× C</title></circle>
-<circle cx="554.6" cy="347.7" r="4.5"><title>JavaScript, print_to_file: 0.79× C</title></circle>
-<circle cx="596.6" cy="294.6" r="4.5"><title>Python, print_to_file: 4.54× C</title></circle>
-<circle cx="638.6" cy="235.9" r="4.5"><title>R, print_to_file: 31.68× C</title></circle>
-<circle cx="680.6" cy="222.8" r="4.5"><title>Octave, print_to_file: 48.90× C</title></circle>
+<circle cx="134.6" cy="331.8" r="4.5"><title>Julia, print_to_file: 1.33× C</title></circle>
+<circle cx="176.6" cy="357.7" r="4.5"><title>Rust, print_to_file: 0.56× C</title></circle>
+<circle cx="218.6" cy="346.9" r="4.5"><title>C#, print_to_file: 0.81× C</title></circle>
+<circle cx="260.6" cy="327.8" r="4.5"><title>Go, print_to_file: 1.51× C</title></circle>
+<circle cx="302.6" cy="271.9" r="4.5"><title>Fortran, print_to_file: 9.64× C</title></circle>
+<circle cx="344.6" cy="327.2" r="4.5"><title>Swift, print_to_file: 1.55× C</title></circle>
+<circle cx="386.6" cy="345.2" r="4.5"><title>LuaJIT, print_to_file: 0.85× C</title></circle>
+<circle cx="428.6" cy="327.5" r="4.5"><title>Scala, print_to_file: 1.53× C</title></circle>
+<circle cx="470.6" cy="329.6" r="4.5"><title>Java, print_to_file: 1.43× C</title></circle>
+<circle cx="512.6" cy="293.2" r="4.5"><title>Numba, print_to_file: 4.76× C</title></circle>
+<circle cx="554.6" cy="344.8" r="4.5"><title>JavaScript, print_to_file: 0.86× C</title></circle>
+<circle cx="596.6" cy="293.0" r="4.5"><title>Python, print_to_file: 4.79× C</title></circle>
+<circle cx="638.6" cy="234.3" r="4.5"><title>R, print_to_file: 33.42× C</title></circle>
+<circle cx="680.6" cy="220.9" r="4.5"><title>Octave, print_to_file: 52.10× C</title></circle>
 </g>
 <g fill="rgb(230, 130, 180)">
 <circle cx="95.7" cy="340.4" r="4.5"><title>C, matrix_statistics: 1.00× C</title></circle>
-<circle cx="137.7" cy="324.4" r="4.5"><title>Julia, matrix_statistics: 1.70× C</title></circle>
-<circle cx="179.7" cy="335.8" r="4.5"><title>Rust, matrix_statistics: 1.16× C</title></circle>
-<circle cx="221.7" cy="326.4" r="4.5"><title>C#, matrix_statistics: 1.59× C</title></circle>
-<circle cx="263.7" cy="322.6" r="4.5"><title>Fortran, matrix_statistics: 1.80× C</title></circle>
-<circle cx="305.7" cy="316.0" r="4.5"><title>Go, matrix_statistics: 2.24× C</title></circle>
-<circle cx="347.7" cy="319.3" r="4.5"><title>Swift, matrix_statistics: 2.01× C</title></circle>
-<circle cx="389.7" cy="317.6" r="4.5"><title>LuaJIT, matrix_statistics: 2.13× C</title></circle>
-<circle cx="431.7" cy="286.7" r="4.5"><title>Scala, matrix_statistics: 5.90× C</title></circle>
-<circle cx="473.7" cy="273.4" r="4.5"><title>Numba, matrix_statistics: 9.17× C</title></circle>
-<circle cx="515.7" cy="299.9" r="4.5"><title>Java, matrix_statistics: 3.82× C</title></circle>
-<circle cx="557.7" cy="283.1" r="4.5"><title>JavaScript, matrix_statistics: 6.66× C</title></circle>
-<circle cx="599.7" cy="272.9" r="4.5"><title>Python, matrix_statistics: 9.31× C</title></circle>
-<circle cx="641.7" cy="264.6" r="4.5"><title>R, matrix_statistics: 12.27× C</title></circle>
-<circle cx="683.7" cy="251.0" r="4.5"><title>Octave, matrix_statistics: 19.23× C</title></circle>
+<circle cx="137.7" cy="327.6" r="4.5"><title>Julia, matrix_statistics: 1.53× C</title></circle>
+<circle cx="179.7" cy="336.9" r="4.5"><title>Rust, matrix_statistics: 1.12× C</title></circle>
+<circle cx="221.7" cy="328.9" r="4.5"><title>C#, matrix_statistics: 1.46× C</title></circle>
+<circle cx="263.7" cy="317.4" r="4.5"><title>Go, matrix_statistics: 2.14× C</title></circle>
+<circle cx="305.7" cy="323.3" r="4.5"><title>Fortran, matrix_statistics: 1.76× C</title></circle>
+<circle cx="347.7" cy="320.4" r="4.5"><title>Swift, matrix_statistics: 1.94× C</title></circle>
+<circle cx="389.7" cy="319.0" r="4.5"><title>LuaJIT, matrix_statistics: 2.03× C</title></circle>
+<circle cx="431.7" cy="288.5" r="4.5"><title>Scala, matrix_statistics: 5.56× C</title></circle>
+<circle cx="473.7" cy="299.4" r="4.5"><title>Java, matrix_statistics: 3.88× C</title></circle>
+<circle cx="515.7" cy="278.5" r="4.5"><title>Numba, matrix_statistics: 7.76× C</title></circle>
+<circle cx="557.7" cy="283.1" r="4.5"><title>JavaScript, matrix_statistics: 6.67× C</title></circle>
+<circle cx="599.7" cy="278.0" r="4.5"><title>Python, matrix_statistics: 7.88× C</title></circle>
+<circle cx="641.7" cy="268.9" r="4.5"><title>R, matrix_statistics: 10.65× C</title></circle>
+<circle cx="683.7" cy="255.5" r="4.5"><title>Octave, matrix_statistics: 16.57× C</title></circle>
 </g>
 <g fill="rgb(220, 200, 50)">
 <circle cx="98.9" cy="340.4" r="4.5"><title>C, matrix_multiply: 1.00× C</title></circle>
-<circle cx="140.9" cy="344.0" r="4.5"><title>Julia, matrix_multiply: 0.89× C</title></circle>
-<circle cx="182.9" cy="338.3" r="4.5"><title>Rust, matrix_multiply: 1.07× C</title></circle>
-<circle cx="224.9" cy="340.8" r="4.5"><title>C#, matrix_multiply: 0.99× C</title></circle>
-<circle cx="266.9" cy="336.5" r="4.5"><title>Fortran, matrix_multiply: 1.14× C</title></circle>
-<circle cx="308.9" cy="342.4" r="4.5"><title>Go, matrix_multiply: 0.94× C</title></circle>
-<circle cx="350.9" cy="333.4" r="4.5"><title>Swift, matrix_multiply: 1.26× C</title></circle>
-<circle cx="392.9" cy="338.8" r="4.5"><title>LuaJIT, matrix_multiply: 1.05× C</title></circle>
-<circle cx="434.9" cy="331.2" r="4.5"><title>Scala, matrix_multiply: 1.36× C</title></circle>
-<circle cx="476.9" cy="340.7" r="4.5"><title>Numba, matrix_multiply: 0.99× C</title></circle>
-<circle cx="518.9" cy="312.3" r="4.5"><title>Java, matrix_multiply: 2.53× C</title></circle>
-<circle cx="560.9" cy="248.6" r="4.5"><title>JavaScript, matrix_multiply: 20.85× C</title></circle>
-<circle cx="602.9" cy="340.6" r="4.5"><title>Python, matrix_multiply: 0.99× C</title></circle>
-<circle cx="644.9" cy="335.0" r="4.5"><title>R, matrix_multiply: 1.20× C</title></circle>
-<circle cx="686.9" cy="339.1" r="4.5"><title>Octave, matrix_multiply: 1.04× C</title></circle>
+<circle cx="140.9" cy="344.3" r="4.5"><title>Julia, matrix_multiply: 0.88× C</title></circle>
+<circle cx="182.9" cy="339.0" r="4.5"><title>Rust, matrix_multiply: 1.05× C</title></circle>
+<circle cx="224.9" cy="341.8" r="4.5"><title>C#, matrix_multiply: 0.95× C</title></circle>
+<circle cx="266.9" cy="343.0" r="4.5"><title>Go, matrix_multiply: 0.92× C</title></circle>
+<circle cx="308.9" cy="337.1" r="4.5"><title>Fortran, matrix_multiply: 1.12× C</title></circle>
+<circle cx="350.9" cy="333.5" r="4.5"><title>Swift, matrix_multiply: 1.26× C</title></circle>
+<circle cx="392.9" cy="338.2" r="4.5"><title>LuaJIT, matrix_multiply: 1.08× C</title></circle>
+<circle cx="434.9" cy="332.2" r="4.5"><title>Scala, matrix_multiply: 1.31× C</title></circle>
+<circle cx="476.9" cy="316.4" r="4.5"><title>Java, matrix_multiply: 2.21× C</title></circle>
+<circle cx="518.9" cy="341.1" r="4.5"><title>Numba, matrix_multiply: 0.98× C</title></circle>
+<circle cx="560.9" cy="248.1" r="4.5"><title>JavaScript, matrix_multiply: 21.17× C</title></circle>
+<circle cx="602.9" cy="341.0" r="4.5"><title>Python, matrix_multiply: 0.98× C</title></circle>
+<circle cx="644.9" cy="336.4" r="4.5"><title>R, matrix_multiply: 1.14× C</title></circle>
+<circle cx="686.9" cy="339.8" r="4.5"><title>Octave, matrix_multiply: 1.02× C</title></circle>
 </g>
 <g fill="rgb(80, 180, 80)">
 <circle cx="102.0" cy="340.4" r="4.5"><title>C, userfunc_mandelbrot: 1.00× C</title></circle>
-<circle cx="144.0" cy="342.2" r="4.5"><title>Julia, userfunc_mandelbrot: 0.94× C</title></circle>
-<circle cx="186.0" cy="329.8" r="4.5"><title>Rust, userfunc_mandelbrot: 1.42× C</title></circle>
-<circle cx="228.0" cy="341.5" r="4.5"><title>C#, userfunc_mandelbrot: 0.96× C</title></circle>
-<circle cx="270.0" cy="342.4" r="4.5"><title>Fortran, userfunc_mandelbrot: 0.94× C</title></circle>
-<circle cx="312.0" cy="342.8" r="4.5"><title>Go, userfunc_mandelbrot: 0.92× C</title></circle>
-<circle cx="354.0" cy="343.0" r="4.5"><title>Swift, userfunc_mandelbrot: 0.92× C</title></circle>
-<circle cx="396.0" cy="313.3" r="4.5"><title>LuaJIT, userfunc_mandelbrot: 2.45× C</title></circle>
-<circle cx="438.0" cy="311.5" r="4.5"><title>Scala, userfunc_mandelbrot: 2.61× C</title></circle>
-<circle cx="480.0" cy="343.5" r="4.5"><title>Numba, userfunc_mandelbrot: 0.90× C</title></circle>
-<circle cx="522.0" cy="309.7" r="4.5"><title>Java, userfunc_mandelbrot: 2.76× C</title></circle>
-<circle cx="564.0" cy="287.3" r="4.5"><title>JavaScript, userfunc_mandelbrot: 5.79× C</title></circle>
-<circle cx="606.0" cy="207.5" r="4.5"><title>Python, userfunc_mandelbrot: 81.29× C</title></circle>
-<circle cx="648.0" cy="167.1" r="4.5"><title>R, userfunc_mandelbrot: 309.33× C</title></circle>
-<circle cx="690.0" cy="93.7" r="4.5"><title>Octave, userfunc_mandelbrot: 3498.14× C</title></circle>
+<circle cx="144.0" cy="340.9" r="4.5"><title>Julia, userfunc_mandelbrot: 0.98× C</title></circle>
+<circle cx="186.0" cy="335.9" r="4.5"><title>Rust, userfunc_mandelbrot: 1.16× C</title></circle>
+<circle cx="228.0" cy="339.9" r="4.5"><title>C#, userfunc_mandelbrot: 1.02× C</title></circle>
+<circle cx="270.0" cy="341.5" r="4.5"><title>Go, userfunc_mandelbrot: 0.96× C</title></circle>
+<circle cx="312.0" cy="339.3" r="4.5"><title>Fortran, userfunc_mandelbrot: 1.04× C</title></circle>
+<circle cx="354.0" cy="339.8" r="4.5"><title>Swift, userfunc_mandelbrot: 1.02× C</title></circle>
+<circle cx="396.0" cy="311.4" r="4.5"><title>LuaJIT, userfunc_mandelbrot: 2.61× C</title></circle>
+<circle cx="438.0" cy="313.4" r="4.5"><title>Scala, userfunc_mandelbrot: 2.44× C</title></circle>
+<circle cx="480.0" cy="320.8" r="4.5"><title>Java, userfunc_mandelbrot: 1.91× C</title></circle>
+<circle cx="522.0" cy="342.1" r="4.5"><title>Numba, userfunc_mandelbrot: 0.94× C</title></circle>
+<circle cx="564.0" cy="306.5" r="4.5"><title>JavaScript, userfunc_mandelbrot: 3.07× C</title></circle>
+<circle cx="606.0" cy="203.4" r="4.5"><title>Python, userfunc_mandelbrot: 93.08× C</title></circle>
+<circle cx="648.0" cy="173.8" r="4.5"><title>R, userfunc_mandelbrot: 247.71× C</title></circle>
+<circle cx="690.0" cy="96.7" r="4.5"><title>Octave, userfunc_mandelbrot: 3174.73× C</title></circle>
 </g>
 <circle cx="724" cy="70" r="5" fill="rgb(0, 190, 210)"/>
 <text x="736" y="70" dominant-baseline="middle">iteration_pi_sum</text>
