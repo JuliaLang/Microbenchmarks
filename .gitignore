@@ -15,11 +15,16 @@
 /benchmarks.html
 /gh_action_benchmarks.*
 /gh_action_versions.csv
+/gh_action_cpu.txt
 /versions.csv
 
 # Documenter build output
 /docs/build/
 /docs/Manifest.toml
+/docs/src/benchmarks.md
+/docs/src/benchmarks.svg
+/docs/src/benchmarks.csv
+/docs/src/versions.csv
 
 # C#
 /csharp/bin/

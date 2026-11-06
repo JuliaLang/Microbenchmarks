@@ -28,11 +28,11 @@ Times are normalized relative to C.
 ## Methodology
 
 - Each language's benchmark script internally runs each benchmark 5 times and records the minimum time
-- The Makefile invokes each script 3 times; `collect.jl` takes the overall minimum across all runs
+- The whole suite runs 3 times back-to-back (each pass runs every language once); `collect.jl` takes the overall minimum across all runs
 - Julia and Numba run an explicit untimed warm-up pass so that compilation is excluded. The other JIT-compiled languages (C#, Java, JavaScript, LuaJIT, Scala) have no separate warm-up; their first timed repetition includes JIT compilation, and taking the minimum of 5 repetitions mostly discards it
 - Most languages time each repetition of a benchmark separately. Some (C, C#, Fortran, JavaScript, Rust, Swift) time a batch of calls for the shortest benchmarks and report the average per call
 - Single-threaded execution enforced via environment variables (`OMP_NUM_THREADS=1`, `OPENBLAS_NUM_THREADS=1`, `MKL_NUM_THREADS=1`, `GOMAXPROCS=1`, `JULIA_NUM_THREADS=1`, `NUMBA_NUM_THREADS=1`)
-- Runs on GitHub Actions `ubuntu-latest` (x86_64, single core used)
+- All languages run on the same GitHub Actions `ubuntu-24.04` runner (x86_64, single core used), so every time comes from the same CPU
 - Benchmarks test equivalent code patterns, not peak-optimized implementations
 
 See [Notes](notes.md) for more details.
