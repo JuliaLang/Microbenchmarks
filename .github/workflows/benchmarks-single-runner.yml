@@ -46,7 +46,7 @@ jobs:
     # https://github.com/swift-actions/setup-swift/issues/798 and .../issues/805
     # A fixed image also keeps the OS, compilers and system libraries stable.
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 30
     permissions:
       contents: read
     defaults:
