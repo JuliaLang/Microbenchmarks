@@ -37,6 +37,7 @@ jobs:
 
   bench-c:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -73,6 +74,7 @@ jobs:
 
   bench-csharp:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -107,6 +109,7 @@ jobs:
 
   bench-fortran:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -134,6 +137,7 @@ jobs:
 
   bench-go:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -167,6 +171,7 @@ jobs:
 
   bench-java:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -200,6 +205,7 @@ jobs:
 
   bench-javascript:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -229,6 +235,7 @@ jobs:
 
   bench-julia:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -258,6 +265,7 @@ jobs:
 
   bench-lua:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -288,6 +296,7 @@ jobs:
 
   bench-octave:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -315,6 +324,7 @@ jobs:
 
   bench-numba:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -346,6 +356,7 @@ jobs:
 
   bench-python:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -377,6 +388,7 @@ jobs:
 
   bench-r:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -406,6 +418,7 @@ jobs:
 
   bench-rust:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -441,6 +454,7 @@ jobs:
 
   bench-scala:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash
@@ -480,6 +494,7 @@ jobs:
     # option yet: it is still a beta whose GPG verification fails on GitHub-hosted runners.
     # See https://github.com/swift-actions/setup-swift/issues/798 and .../issues/805
     runs-on: ubuntu-24.04
+    timeout-minutes: 5
     defaults:
       run:
         shell: bash

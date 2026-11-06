@@ -46,7 +46,7 @@ jobs:
     # https://github.com/swift-actions/setup-swift/issues/798 and .../issues/805
     # A fixed image also keeps the OS, compilers and system libraries stable.
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 30
     permissions:
       contents: read
     defaults:
@@ -71,10 +71,14 @@ jobs:
           mv dSFMT-*/* ./
           cd ..
 
+      # A stalled package mirror once hung this step for the whole job
+      # timeout; retry slow fetches and give up long before that.
       - name: "Set up system packages (OpenBLAS, LuaJIT, Octave)"
+        timeout-minutes: 10
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq libopenblas-dev luajit luarocks octave
+          APT_OPTS="-o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30"
+          sudo apt-get $APT_OPTS update -qq
+          sudo apt-get $APT_OPTS install -y -qq libopenblas-dev luajit luarocks octave
           sudo luarocks install sci
 
       # Swift first: later setup steps put their tools earlier on PATH, so
