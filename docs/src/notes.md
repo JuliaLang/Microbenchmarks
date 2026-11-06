@@ -43,7 +43,7 @@ languages this means calling BLAS (via OpenBLAS):
 
 **Using BLAS/optimized libraries:** C, C# (P/Invoke), Fortran, Julia, Numba (NumPy),
 Python (NumPy), Go (Gonum), Java (jBLAS), Rust (ndarray), Scala (Breeze),
-R, Octave, Swift (Accelerate)
+R, Octave, Swift (OpenBLAS `cblas_dgemm`)
 
 **Pure implementation:** JavaScript, LuaJIT
 
