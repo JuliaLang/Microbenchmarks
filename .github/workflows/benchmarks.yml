@@ -36,7 +36,7 @@ env:
 jobs:
 
   bench-c:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -73,7 +73,7 @@ jobs:
             cpu.csv
 
   bench-csharp:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -108,7 +108,7 @@ jobs:
             cpu.csv
 
   bench-fortran:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -136,7 +136,7 @@ jobs:
             cpu.csv
 
   bench-go:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -170,7 +170,7 @@ jobs:
             cpu.csv
 
   bench-java:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -204,7 +204,7 @@ jobs:
             cpu.csv
 
   bench-javascript:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -234,7 +234,7 @@ jobs:
             cpu.csv
 
   bench-julia:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -264,7 +264,7 @@ jobs:
             cpu.csv
 
   bench-lua:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -295,7 +295,7 @@ jobs:
             cpu.csv
 
   bench-octave:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -323,7 +323,7 @@ jobs:
             cpu.csv
 
   bench-numba:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -355,7 +355,7 @@ jobs:
             cpu.csv
 
   bench-python:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -387,7 +387,7 @@ jobs:
             cpu.csv
 
   bench-r:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -417,7 +417,7 @@ jobs:
             cpu.csv
 
   bench-rust:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
@@ -453,7 +453,7 @@ jobs:
             cpu.csv
 
   bench-scala:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     defaults:
       run:
