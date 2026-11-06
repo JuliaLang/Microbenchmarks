@@ -1,0 +1,15 @@
+c,gcc 13.3.0
+csharp,.NET 10.0.14
+fortran,gcc 13.3.0
+go,go1.24.13
+java,25.0.5
+javascript,V8 13.6.233.17-node.63
+julia,1.13.3
+lua,2.1.1703358377
+numba,0.68.1
+octave,8.4.0
+python,3.13.18
+r,4.5.1
+rust,1.99.1
+scala,3.3.4
+swift,6.1.3
