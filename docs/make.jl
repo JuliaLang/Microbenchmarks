@@ -90,129 +90,130 @@ function sorted_languages(benchmarks::Dict{String, Dict{String, Float64}})
     sort!(collect(keys(benchmarks)); by=sortkey)
 end
 
-"""
-    make_chart(benchfile) -> writes docs/src/benchmarks.md
+xml_escape(s) = replace(string(s), "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
 
-Generate a Documenter-compatible Markdown page with a Chart.js scatter plot
-in the style of julialang.org/benchmarks (colored dots, log scale, languages
-on x-axis).
+# Value of a log-axis tick at 10^k, e.g. "0.1", "1", "1000"
+tick_label(k::Integer) = k < 0 ? rstrip(@sprintf("%.*f", -k, 10.0^k), '0') : string(10^k)
+
 """
-function make_chart(benchfile::String, versions::Dict{String, String}=Dict{String, String}())
+    make_svg(benchmarks, langs, c_times; cpu="", standalone=true) -> String
+
+Render the benchmark scatter plot as a static SVG: languages on the x-axis, time
+relative to C on a log-scale y-axis, one colored dot per benchmark. Each dot has a
+`<title>`, which browsers show as a tooltip on hover.
+
+Text and grid lines use `currentColor`, so the inline SVG on the docs page follows
+the page's light or dark theme. A `standalone` SVG (the downloadable file, which
+can be embedded with `<img>`) sets its own color, with a dark-mode variant.
+"""
+function make_svg(benchmarks, langs, c_times; cpu::AbstractString="", standalone::Bool=true)
+    W, H = 900, 500
+    left, right, top, bottom = 70, 200, isempty(cpu) ? 44 : 62, 90
+    plot_w, plot_h = W - left - right, H - top - bottom
+    n = length(langs)
+    band = plot_w / n
+
+    # Relative times, and the log-axis range in whole decades
+    rels = Dict((lang, bench) => benchmarks[lang][bench] / c_times[bench]
+                for lang in langs for bench in BENCHMARK_ORDER
+                if haskey(benchmarks[lang], bench))
+    lo = min(-1, floor(Int, log10(minimum(values(rels)))))
+    hi = max(1, ceil(Int, log10(maximum(values(rels)))))
+    yof(v) = top + (hi - log10(v)) / (hi - lo) * plot_h
+    xof(j) = left + (j - 0.5) * band
+    # Spread the benchmarks of one language across part of its column so dots overlap less
+    dx(i) = (i - (length(BENCHMARK_ORDER) + 1) / 2) * band * 0.6 / length(BENCHMARK_ORDER)
+
+    io = IOBuffer()
+    println(io, """<svg xmlns="http://www.w3.org/2000/svg" class="mb-chart" viewBox="0 0 $W $H" """ *
+                """role="img" aria-labelledby="mb-chart-title" font-family="Helvetica, Arial, sans-serif" font-size="13" """ *
+                """style="width:100%;height:auto;max-width:$(W)px">""")
+    println(io, "<title id=\"mb-chart-title\">Benchmark times relative to C (lower is better)</title>")
+    println(io, "<style>")
+    if standalone
+        println(io, "  .mb-chart { color: #333; }")
+        println(io, "  @media (prefers-color-scheme: dark) { .mb-chart { color: #ddd; } }")
+    end
+    println(io, "  .mb-chart text { fill: currentColor; }")
+    println(io, "  .mb-chart .grid { stroke: currentColor; stroke-opacity: 0.12; }")
+    println(io, "  .mb-chart .grid.one { stroke-opacity: 0.45; }")
+    println(io, "  .mb-chart .axis { stroke: currentColor; stroke-opacity: 0.5; }")
+    println(io, "  .mb-chart .muted { fill-opacity: 0.7; }")
+    println(io, "</style>")
+
+    # Title and (optional) CPU line
+    cx = left + plot_w / 2
+    println(io, @sprintf("""<text x="%.1f" y="22" text-anchor="middle" font-size="16">Benchmark times relative to C (lower is better)</text>""", cx))
+    isempty(cpu) || println(io, @sprintf("""<text class="muted" x="%.1f" y="42" text-anchor="middle" font-size="12">All languages run on one machine: %s</text>""", cx, xml_escape(cpu)))
+
+    # Horizontal grid lines and y tick labels, one per decade
+    for k in lo:hi
+        y = yof(10.0^k)
+        cls = k == 0 ? "grid one" : "grid"
+        println(io, @sprintf("""<line class="%s" x1="%d" x2="%d" y1="%.1f" y2="%.1f"/>""", cls, left, left + plot_w, y, y))
+        println(io, @sprintf("""<text x="%d" y="%.1f" text-anchor="end" dominant-baseline="middle">%s</text>""", left - 8, y, tick_label(k)))
+    end
+    println(io, @sprintf("""<text transform="translate(18,%.1f) rotate(-90)" text-anchor="middle">Time relative to C (log scale)</text>""", top + plot_h / 2))
+    println(io, @sprintf("""<line class="axis" x1="%d" x2="%d" y1="%d" y2="%d"/>""", left, left + plot_w, top + plot_h, top + plot_h))
+
+    # Language labels under each column
+    for (j, lang) in enumerate(langs)
+        x, y = xof(j), top + plot_h + 14
+        println(io, @sprintf("""<text transform="translate(%.1f,%d) rotate(-40)" text-anchor="end" dominant-baseline="middle">%s</text>""",
+                             x, y, xml_escape(get(LANG_LABELS, lang, lang))))
+    end
+
+    # One dot per (language, benchmark)
+    for (i, bench) in enumerate(BENCHMARK_ORDER)
+        println(io, "<g fill=\"$(COLORS[i])\">")
+        for (j, lang) in enumerate(langs)
+            rel = get(rels, (lang, bench), nothing)
+            rel === nothing && continue
+            label = xml_escape(get(LANG_LABELS, lang, lang))
+            println(io, @sprintf("""<circle cx="%.1f" cy="%.1f" r="4.5"><title>%s, %s: %.2f× C</title></circle>""",
+                                 xof(j) + dx(i), yof(rel), label, bench, rel))
+        end
+        println(io, "</g>")
+    end
+
+    # Legend
+    lx, ly = left + plot_w + 24, top + 8
+    for (i, bench) in enumerate(BENCHMARK_ORDER)
+        y = ly + (i - 1) * 22
+        println(io, @sprintf("""<circle cx="%d" cy="%d" r="5" fill="%s"/>""", lx, y, COLORS[i]))
+        println(io, @sprintf("""<text x="%d" y="%d" dominant-baseline="middle">%s</text>""", lx + 12, y, bench))
+    end
+
+    println(io, "</svg>")
+    return String(take!(io))
+end
+
+"""
+    make_chart(benchfile, versions; cpu="") -> writes docs/src/benchmarks.md and docs/src/benchmarks.svg
+
+Generate the Benchmarks page: a static SVG scatter plot in the style of
+julialang.org/benchmarks (inline, so it follows the page theme), followed by a
+table per language. The plot is also written to `benchmarks.svg` for download
+and embedding elsewhere.
+"""
+function make_chart(benchfile::String, versions::Dict{String, String}=Dict{String, String}(); cpu::AbstractString="")
     benchmarks = parse_benchmarks(benchfile)
     langs = sorted_languages(benchmarks)
     c_times = benchmarks["c"]
 
-    labels_json = "[" * join(["\"$(get(LANG_LABELS, l, l))\"" for l in langs], ",") * "]"
-
-    # Each benchmark becomes a scatter dataset with {x: lang_index, y: relative_time}
-    datasets = String[]
-    for (i, bench) in enumerate(BENCHMARK_ORDER)
-        points = String[]
-        for (j, lang) in enumerate(langs)
-            t = get(get(benchmarks, lang, Dict()), bench, NaN)
-            rel = t / c_times[bench]
-            isnan(rel) && continue
-            push!(points, @sprintf("{x:%d,y:%.4f}", j - 1, rel))
-        end
-        push!(datasets, """{
-                label: "$bench",
-                data: [$(join(points, ","))],
-                backgroundColor: "$(COLORS[i])",
-                borderColor: "$(COLORS[i])",
-                pointRadius: 3.5,
-                pointHoverRadius: 5,
-                pointStyle: "circle"
-            }""")
-    end
-
-    datasets_json = join(datasets, ",\n            ")
-
-    html = """
-    Each dot represents one benchmark for a given language, with time normalized to C (lower is better).
-
-    ```@raw html
-    <canvas id="benchChart" style="max-height:550px;"></canvas>
-    <script>
-    // Use require() to load Chart.js so it works with Documenter.jl's RequireJS
-    require.config({ paths: { chartjs: "https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min" } });
-    require(["chartjs"], function(Chart) {
-        var langLabels = $labels_json;
-        new Chart(document.getElementById("benchChart"), {
-            type: "scatter",
-            data: {
-                datasets: [
-                $datasets_json
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "Benchmark times relative to C (lower is better)",
-                        font: { size: 15 }
-                    },
-                    legend: {
-                        position: "right",
-                        labels: { usePointStyle: true, pointStyle: "circle", padding: 14 }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            title: function(items) {
-                                return langLabels[items[0].parsed.x];
-                            },
-                            label: function(item) {
-                                return item.dataset.label + ": " + item.parsed.y.toFixed(2) + "x";
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        type: "linear",
-                        min: -0.5,
-                        max: $(length(langs) - 1).5,
-                        afterBuildTicks: function(axis) {
-                            axis.ticks = langLabels.map(function(_, i) { return { value: i }; });
-                        },
-                        ticks: {
-                            autoSkip: false,
-                            maxRotation: 45,
-                            callback: function(value) {
-                                return langLabels[value] || "";
-                            }
-                        },
-                        grid: { display: false }
-                    },
-                    y: {
-                        type: "logarithmic",
-                        title: { display: true, text: "Time relative to C (log scale)" },
-                        min: 0.1,
-                        grid: { color: "rgba(0,0,0,0.08)" },
-                        ticks: {
-                            callback: function(value) {
-                                if ([0.1, 1, 10, 100, 1000, 10000].indexOf(value) >= 0)
-                                    return value.toString();
-                                return "";
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    });
-    </script>
-    ```
-    """
-
-    # Generate per-language tables
-    lang_tables = make_language_tables(benchmarks, langs, c_times, versions)
+    write("docs/src/benchmarks.svg", make_svg(benchmarks, langs, c_times; cpu, standalone=true))
 
     open("docs/src/benchmarks.md", "w") do io
-        print(io, html)
+        println(io, "Each dot represents one benchmark for a given language, with time normalized to C (lower is better). Hover over a dot to see its value.")
         println(io)
+        println(io, "```@raw html")
+        print(io, make_svg(benchmarks, langs, c_times; cpu, standalone=false))
+        println(io, "```")
         println(io)
-        print(io, lang_tables)
+        isempty(cpu) || (println(io, "All languages were run on the same machine: `$cpu`."); println(io))
+        println(io, "Download the chart as [SVG](benchmarks.svg) and the language versions as [CSV](versions.csv).")
+        println(io)
+        print(io, make_language_tables(benchmarks, langs, c_times, versions))
     end
 end
 
@@ -249,12 +250,15 @@ end
 
 benchmarks_csv = get(ARGS, 1, "gh_action_benchmarks.csv")
 versions_csv   = get(ARGS, 2, "gh_action_versions.csv")
+cpu_file       = get(ARGS, 3, "gh_action_cpu.txt")
 
 versions = parse_versions(versions_csv)
-make_chart(benchmarks_csv, versions)
+cpu = isfile(cpu_file) ? strip(read(cpu_file, String)) : ""
+make_chart(benchmarks_csv, versions; cpu)
 
-# Copy CSV into docs/src/ so it is available for download in the built site
+# Copy the CSVs into docs/src/ so they are available for download in the built site
 cp(benchmarks_csv, "docs/src/benchmarks.csv"; force=true)
+cp(versions_csv, "docs/src/versions.csv"; force=true)
 
 makedocs(
     format = Documenter.HTML(collapselevel = 1),

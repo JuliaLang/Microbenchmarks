@@ -269,7 +269,9 @@ jobs:
           path: bench-all
 
       - name: "Collect results"
-        run: cp bench-all/gh_action_benchmarks.csv bench-all/gh_action_versions.csv .
+        run: |
+          cp bench-all/gh_action_benchmarks.csv bench-all/gh_action_versions.csv .
+          cp bench-all/cpu.txt gh_action_cpu.txt
 
       - name: "Print versions"
         run: cat gh_action_versions.csv
