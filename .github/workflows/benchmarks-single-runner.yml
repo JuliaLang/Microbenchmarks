@@ -1,0 +1,234 @@
+name: Benchmarks (single runner)
+
+# Runs every language on ONE runner, so all times (and every ratio to C) come
+# from the same CPU. The per-language jobs in benchmarks.yml each get their own
+# runner, whose CPU can differ from job to job.
+#
+# All toolchains are installed and all code is compiled first; the benchmarks
+# then run back-to-back with nothing else happening on the machine. The suite
+# runs PASSES times, with each pass running every language once, and the best
+# time per benchmark is kept across passes.
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+permissions:
+  contents: read
+
+# Force single-threaded execution for all benchmarks
+env:
+  OMP_NUM_THREADS: 1
+  OPENBLAS_NUM_THREADS: 1
+  MKL_NUM_THREADS: 1
+  GOMAXPROCS: 1
+  JULIA_NUM_THREADS: 1
+  NUMBA_NUM_THREADS: 1
+  DOTNET_NOLOGO: 1
+  DOTNET_CLI_TELEMETRY_OPTOUT: 1
+  LANGUAGES: c csharp fortran go java javascript julia lua numba octave python r rust scala swift
+  PASSES: 3
+
+jobs:
+  bench-all:
+    # Pinned to 24.04 for Swift: setup-swift@v2 rejects Ubuntu 26.04, which
+    # `ubuntu-latest` is moving to, and v3 is still a beta whose GPG verification
+    # fails on GitHub-hosted runners. See
+    # https://github.com/swift-actions/setup-swift/issues/798 and .../issues/805
+    # A fixed image also keeps the OS, compilers and system libraries stable.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # -----------------------------------------------------------------------
+      # 1. Install every toolchain
+      # -----------------------------------------------------------------------
+
+      - name: "Set up dSFMT"
+        run: |
+          mkdir -p dSFMT
+          cd dSFMT
+          wget -q https://github.com/MersenneTwister-Lab/dSFMT/archive/refs/tags/v2.2.4.tar.gz
+          echo "39682961ecfba621a98dbb6610b6ae2b7d6add450d4f08d8d4edd0e10abd8174 v2.2.4.tar.gz" | sha256sum --check --status
+          tar -xzf v2.2.4.tar.gz
+          mv dSFMT-*/* ./
+          cd ..
+
+      - name: "Set up system packages (OpenBLAS, LuaJIT, Octave)"
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq libopenblas-dev luajit luarocks octave
+          sudo luarocks install sci
+
+      # Swift first: later setup steps put their tools earlier on PATH, so
+      # nothing in the Swift toolchain can shadow them.
+      - name: "Set up Swift"
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: '6.1'
+
+      - name: "Set up .NET"
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0'
+
+      - name: "Set up Go"
+        uses: actions/setup-go@v7
+        with:
+          go-version: '1.24'
+          cache-dependency-path: go/go.mod
+
+      # Java and Scala share one JDK (the current LTS), so both run on the same JVM.
+      - name: "Set up Java"
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          cache: 'maven'
+
+      - name: "Set up sbt"
+        uses: sbt/setup-sbt@v1
+
+      - name: "Set up JavaScript"
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+
+      - name: "Set up Julia"
+        uses: julia-actions/setup-julia@v3
+        with:
+          version: 'v1'
+
+      # One Python for both the Python and Numba benchmarks.
+      - name: "Set up Python"
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: "Set up NumPy and Numba"
+        run: pip install numpy==2.3 numba
+
+      - name: "Set up R"
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.5.1'
+
+      - name: "Set up Rust"
+        uses: dtolnay/rust-toolchain@stable
+
+      # -----------------------------------------------------------------------
+      # 2. Download dependencies and compile everything
+      # -----------------------------------------------------------------------
+
+      - name: "Build C and Fortran"
+        run: make bin/perf2 bin/fperf2
+
+      - name: "Build C#"
+        run: cd csharp && dotnet build -c Release
+
+      - name: "Download Go modules"
+        run: cd go && go mod download
+
+      - name: "Build Java"
+        run: cd java && mvn -q dependency:resolve compile
+
+      - name: "Build Rust"
+        run: cd rust && cargo build --release
+
+      - name: "Check the Rust direct_blas variant"
+        # The Makefile benchmarks the default ndarray build. Run the direct
+        # BLAS build once so its asserts are exercised too.
+        run: cd rust && cargo run --release -q --features direct_blas > /dev/null
+
+      - name: "Build Scala"
+        run: cd scala && sbt --batch compile
+
+      - name: "Build Swift"
+        run: cd swift && swift build -c release -Xlinker -lopenblas
+
+      - name: "Capture versions and CPU"
+        run: |
+          bash bin/versions.sh "${LANGUAGES// /:}" > gh_action_versions.csv
+          cat gh_action_versions.csv
+          for lang in $LANGUAGES; do
+            if ! grep -Eq "^${lang},.+" gh_action_versions.csv; then
+              echo "::error::No version recorded for ${lang}"
+              exit 1
+            fi
+          done
+          grep -m1 'model name' /proc/cpuinfo | cut -d: -f2 | xargs > cpu.txt
+          echo "CPU: $(cat cpu.txt)"
+          lscpu
+
+      # -----------------------------------------------------------------------
+      # 3. Run every benchmark back-to-back
+      # -----------------------------------------------------------------------
+
+      - name: "Run benchmarks"
+        run: |
+          for pass in $(seq 1 "$PASSES"); do
+            mkdir -p "results/pass${pass}"
+            for lang in $LANGUAGES; do
+              echo "::group::Pass ${pass}/${PASSES}: ${lang}"
+              # Remove last pass's output so make reruns the benchmark. C and Fortran
+              # also have an intermediate per-optimization-level file (c2.csv).
+              rm -f "benchmarks/${lang}.csv" "benchmarks/${lang}2.csv"
+              make "benchmarks/${lang}.csv" ITERATIONS=1
+              cp "benchmarks/${lang}.csv" "results/pass${pass}/${lang}.csv"
+              echo "::endgroup::"
+            done
+          done
+
+      # -----------------------------------------------------------------------
+      # 4. Collect and report
+      # -----------------------------------------------------------------------
+
+      - name: "Merge benchmarks"
+        run: |
+          julia bin/collect.jl results/pass*/*.csv > gh_action_benchmarks.csv
+          expected=$(( $(wc -w <<< "$LANGUAGES") * 8 ))
+          actual=$(wc -l < gh_action_benchmarks.csv)
+          if [ "$actual" -ne "$expected" ]; then
+            echo "::error::Expected ${expected} benchmark results, got ${actual}"
+            exit 1
+          fi
+
+      - name: "Generate HTML table"
+        run: julia bin/table.jl gh_action_versions.csv gh_action_benchmarks.csv > gh_action_benchmarks.html
+
+      - name: "Print benchmark data"
+        run: cat gh_action_benchmarks.csv
+
+      - name: "Write job summary"
+        run: |
+          {
+            echo "## Benchmarks on a single runner"
+            echo
+            echo "CPU: \`$(cat cpu.txt)\` · passes: ${PASSES} · best time per benchmark across passes"
+            echo
+            cat gh_action_benchmarks.html
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: "Upload results"
+        uses: actions/upload-artifact@v7
+        with:
+          name: bench-all
+          path: |
+            gh_action_benchmarks.csv
+            gh_action_versions.csv
+            gh_action_benchmarks.html
+            cpu.txt
+            results/

@@ -1,6 +1,7 @@
 # Microbenchmarks
 
 [![Benchmarks](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml/badge.svg)](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks.yml)
+[![Benchmarks (single runner)](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks-single-runner.yml/badge.svg)](https://github.com/JuliaLang/Microbenchmarks/actions/workflows/benchmarks-single-runner.yml)
 
 A collection of micro-benchmarks comparing Julia's performance against other languages.
 
@@ -41,3 +42,10 @@ Times are normalized relative to C.
 * [Swift](swift/Sources/perf/main.swift)
 
 Mathematica and Matlab benchmarks are available but not run in CI.
+
+## CI
+
+Two workflows run the benchmarks:
+
+* [`benchmarks.yml`](.github/workflows/benchmarks.yml) runs each language in its own job and publishes the results site. Jobs can land on runners with different CPUs, so ratios between languages mix hardware.
+* [`benchmarks-single-runner.yml`](.github/workflows/benchmarks-single-runner.yml) runs every language on one runner. It installs and compiles everything first, then runs the whole suite three times back-to-back and keeps the best time per benchmark. Results are attached to the run as the `bench-all` artifact and shown in the job summary.
